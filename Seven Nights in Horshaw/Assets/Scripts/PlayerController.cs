@@ -11,38 +11,40 @@ public class PlayerController : MonoBehaviour
     private PlayerInput playerInput = null;
 
     [Header("Cinemachine")]
+    public float currRotationSpeed = 2.0f;
+    public float rotationSpeed = 0.0f;
+    public GameObject cinemachineCameraTarget;
+    public Transform cam = null;
     private float rotationVelocity;
     private float verticalVelocity;
     private float topClamp = 90.0f;
     private float bottomClamp = -90.0f;
     private float cinemachineTargetPitch;
     private const float threshold = 0.01f;
-    public float currRotationSpeed = 2.0f;
-    public float rotationSpeed = 0.0f;
-    public GameObject cinemachineCameraTarget;
 
     [Header("Game Properties")]
+    public LayerMask interactableLayer;
     public bool lockInput = false;
     public bool analogMovement;
     public bool isPaused = false;
     public float gravityValue = -15.0f;
 
     [Header("Player Properties")]
-    private float pushPower = 2.0f;
-    private float moveSpeed = 9f;
     public float speedChangeRate = 10.0f;
-    private float slopeForce = 40;
-    private float slopeForceRayLength = 5;
     public bool grounded = true;
     public float groundedOffset = -0.14f;
     public float groundedRadius = 0.5f;
     public LayerMask groundLayers;
-    private float fallMultiplier = 2.5f;
     public float fallTimeout = 0.15f;
-    private float fallTimeoutDelta;
     public bool jump;
     public float jumpTimeout = 0.1f;
     public float jumpHeight = 1.2f;
+    private float pushPower = 2.0f;
+    private float moveSpeed = 9f;
+    private float slopeForce = 40;
+    private float slopeForceRayLength = 5;
+    private float fallMultiplier = 2.5f;
+    private float fallTimeoutDelta;
     private float jumpTimeoutDelta;
     private Vector3 playerVelocity = Vector3.zero;
     private float terminalVelocity = 53.0f;
@@ -80,6 +82,7 @@ public class PlayerController : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         playerInput = GetComponent<PlayerInput>();
+        cam = Camera.main.transform;
 
         // lock state
         Cursor.lockState = CursorLockMode.Locked;
@@ -92,7 +95,8 @@ public class PlayerController : MonoBehaviour
         GroundCheck();
 
         // Player Inputs
-        PlayerJump();
+        Jump();
+        Interaction();
     }
 
     void FixedUpdate()
@@ -158,7 +162,7 @@ public class PlayerController : MonoBehaviour
             #region Slope & Jumping
 
             // Slope movement
-            if (GetPlayerMovement() != Vector2.zero && OnSlope())
+            if (GetPlayerMovement() != Vector2.zero && SlopeCheck())
             {
                 characterController.Move(Vector3.down * characterController.height / 2 * slopeForce * Time.fixedDeltaTime);
             }
@@ -208,7 +212,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public bool OnSlope()
+    public bool SlopeCheck()
     {
         if (jump) { return false; }
 
@@ -223,7 +227,7 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-    public void PlayerJump()
+    public void Jump()
     {
         if (grounded && !lockInput && !isPaused)
         {
@@ -270,7 +274,36 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    
+    public void Interaction()
+    {
+        RaycastHit hit;
+        const float rayLength = 3;
+
+        Debug.DrawRay(cam.position, cam.forward.normalized * rayLength, Color.cyan);
+        if (Physics.Raycast(cam.position, cam.forward.normalized, out hit, rayLength, interactableLayer))
+        {
+            if (hit.transform.CompareTag("AccessPoint") && hit.transform.name == "Grandfather Clock")
+            {
+                //InteractionUI(true, "TOUCH");
+                if (InteractionInput())
+                {
+                    AccessPoint accessPoint = hit.transform.GetComponent<AccessPoint>();
+                    accessPoint.isGamePaused = !accessPoint.isGamePaused;
+                }
+            }
+        }
+        else
+        {
+            //InteractionUI(false);
+        }
+    }
+
+    //public void InteractionUI(bool state, string text = null)
+    //{
+    //    interactionBox.SetActive(state);
+    //    interactionText.text = text;
+    //}
+
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
         Rigidbody body = hit.collider.attachedRigidbody;
@@ -329,6 +362,10 @@ public class PlayerController : MonoBehaviour
     public bool JumpInput()
     {
         return playerControls.Player.Jump.triggered;
+    }
+    public bool InteractionInput()
+    {
+        return playerControls.Player.Interaction.triggered;
     }
 
     #endregion

@@ -26,6 +26,9 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private Light moonlight = null;
     [SerializeField] private float maxMoonlightIntensity = 0f;
 
+    [Header("Game Features")]
+    public AccessPoint accessPoint = null;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,9 +40,12 @@ public class TimeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateTimeOfDay();
-        RotateSun();
-        UpdateLightSettings();
+        if (!accessPoint.isGamePaused)
+        {
+            UpdateTimeOfDay();
+            RotateSun();
+            UpdateLightSettings();
+        }
     }
 
     private void UpdateTimeOfDay()
