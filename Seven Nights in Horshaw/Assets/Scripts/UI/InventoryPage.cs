@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +17,39 @@ public class InventoryPage : MonoBehaviour
             InventoryItem item = Instantiate(itemPrefab, Vector3.zero, Quaternion.identity);
             item.transform.SetParent(contentPanel, false);
             items.Add(item);
+
+            // subscribing to events
+            item.OnItemClicked += HandleItemSelection;
+            item.OnItemBeginDrag += HandleBeginDrag;
+            item.OnItemDropped += HandleSwap;
+            item.OnItemEndDrag += HandleEndDrag;
+            item.OnRMBClick += HandleShowItemActions;
         }
+    }
+
+    private void HandleItemSelection(InventoryItem obj)
+    {
+        Debug.Log(obj.name);
+    }
+
+    private void HandleBeginDrag(InventoryItem obj)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void HandleSwap(InventoryItem obj)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void HandleEndDrag(InventoryItem obj)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void HandleShowItemActions(InventoryItem obj)
+    {
+        throw new NotImplementedException();
     }
 
     public void Show()

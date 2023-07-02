@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 playerVelocity = Vector3.zero;
     private float terminalVelocity = 53.0f;
 
-    [Header("Inventory Settings")]
+    [Header("Inventory Settings")] // consider creating a 'PlayerInventory' script
     [SerializeField] private InventoryPage inventoryPage = null;
     public int inventorySize = 10;
 
