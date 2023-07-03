@@ -7,8 +7,19 @@ public class InventoryPage : MonoBehaviour
 {
     [SerializeField] private InventoryItem itemPrefab = null;
     [SerializeField] private RectTransform contentPanel = null;
+    [SerializeField] private InventoryDescription itemDescription = null;
 
     private List<InventoryItem> items = new List<InventoryItem>();
+
+    public Sprite image = null;
+    public int count = 0;
+    public string title, description;
+
+    private void Awake()
+    {
+        Hide();
+        itemDescription.ResetDescription();
+    }
 
     public void InitialiseInventoryUI(int inventorySize)
     {
@@ -29,7 +40,8 @@ public class InventoryPage : MonoBehaviour
 
     private void HandleItemSelection(InventoryItem obj)
     {
-        Debug.Log(obj.name);
+        itemDescription.SetDescription(image, title, description);
+        items[0].Select();
     }
 
     private void HandleBeginDrag(InventoryItem obj)
@@ -55,6 +67,9 @@ public class InventoryPage : MonoBehaviour
     public void Show()
     {
         gameObject.SetActive(true);
+        itemDescription.ResetDescription();
+
+        items[0].SetData(image, count);
     }
 
     public void Hide()

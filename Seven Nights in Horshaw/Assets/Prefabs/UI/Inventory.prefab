@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1737342585946200306}
   - component: {fileID: 1737342585946200301}
   - component: {fileID: 1737342585946200304}
+  - component: {fileID: 140273709118219606}
   m_Layer: 5
   m_Name: Description
   m_TagString: Untagged
@@ -126,6 +127,21 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &140273709118219606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1737342585946200303}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 818720c9594fbb548997358001044394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemImage: {fileID: 1737342587881100837}
+  title: {fileID: 1737342586827647416}
+  description: {fileID: 1737342586495239331}
 --- !u!1 &1737342586453039094
 GameObject:
   m_ObjectHideFlags: 0
@@ -773,6 +789,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemPrefab: {fileID: 7651333386300200903, guid: b0df6068f3e83474c9d22a3245911f05, type: 3}
   contentPanel: {fileID: 1737342587313667677}
+  itemDescription: {fileID: 140273709118219606}
+  image: {fileID: -2413806693520163455, guid: 7d61d01be2a84134d9c8949a4b202c73, type: 3}
+  count: 1
+  title: Gun
+  description: This is a gun.
 --- !u!1 &1737342587313667676
 GameObject:
   m_ObjectHideFlags: 0
