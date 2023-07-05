@@ -1,3 +1,4 @@
+using Inventory.Model;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -49,6 +50,9 @@ public class PlayerController : MonoBehaviour
     private float jumpTimeoutDelta;
     private Vector3 playerVelocity = Vector3.zero;
     private float terminalVelocity = 53.0f;
+
+    [Header("Inventory Settings")]
+    [SerializeField] private InventorySO inventorySO = null;
 
     private bool isCurrentDeviceMouse
     {
@@ -290,6 +294,25 @@ public class PlayerController : MonoBehaviour
                 {
                     AccessPoint accessPoint = hit.transform.GetComponent<AccessPoint>();
                     accessPoint.isGamePaused = !accessPoint.isGamePaused;
+                }
+            }
+            if (hit.transform.CompareTag("Item"))
+            {
+                if (InteractionInput())
+                {
+                    Item item = hit.transform.GetComponent<Item>();
+                    if (item != null)
+                    {
+                        int remainder = inventorySO.AddItem(item.InventoryItem, item.Count);
+                        if (remainder == 0)
+                        {
+                            item.DestroyItem();
+                        }
+                        else
+                        {
+                            item.Count = remainder;
+                        }
+                    }
                 }
             }
         }

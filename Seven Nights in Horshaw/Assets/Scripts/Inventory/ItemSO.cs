@@ -15,5 +15,6 @@ namespace Inventory.Model
         [field: TextArea]
         [field: SerializeField] public string ItemDescription { get; set; }
         [field: SerializeField] public Sprite ItemImage { get; set; }
+        [field: SerializeField] public Mesh ItemMesh { get; set; }
     }
 }

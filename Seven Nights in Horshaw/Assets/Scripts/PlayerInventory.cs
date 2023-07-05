@@ -9,8 +9,10 @@ namespace Inventory
     public class PlayerInventory : MonoBehaviour
     {
         [SerializeField] private PlayerController playerController = null;
-        [SerializeField] private InventoryPage inventoryPage = null;
+        [SerializeField] private InventoryPage inventoryUI = null;
         [SerializeField] private InventorySO inventorySO = null;
+
+        public List<InventoryObj> initialItems = new List<InventoryObj>();
 
         // Start is called before the first frame update
         void Start()
@@ -19,7 +21,28 @@ namespace Inventory
 
             // set the size of the player's inventory
             PrepareInventoryUI();
-            //inventorySO.Initialise();
+            PrepareInventoryData();
+        }
+
+        private void PrepareInventoryData()
+        {
+            inventorySO.Initialise();
+            inventorySO.OnInventoryChanged += UpdateInventoryUI;
+            foreach (InventoryObj item in initialItems)
+            {
+                if (item.IsEmpty)
+                    continue;
+                inventorySO.AddItem(item);
+            }
+        }
+
+        private void UpdateInventoryUI(Dictionary<int, InventoryObj> inventoryState)
+        {
+            inventoryUI.ResetAllItems();
+            foreach (var item in inventoryState)
+            {
+                inventoryUI.UpdateData(item.Key, item.Value.itemSO.ItemImage, item.Value.count);
+            }
         }
 
         // Update is called once per frame
@@ -30,33 +53,36 @@ namespace Inventory
 
         private void PrepareInventoryUI()
         {
-            inventoryPage.InitialiseInventoryUI(inventorySO.Size);
-            inventoryPage.OnDescriptionRequested += HandleDescriptionRequest;
-            inventoryPage.OnSwapItems += HandleSwapItems;
-            inventoryPage.OnStartDragging += HandleDragging;
-            inventoryPage.OnItemActionRequested += HandleItemActionRequest;
+            inventoryUI.InitialiseInventoryUI(inventorySO.Size);
+            inventoryUI.OnDescriptionRequested += HandleDescriptionRequest;
+            inventoryUI.OnSwapItems += HandleSwapItems;
+            inventoryUI.OnStartDragging += HandleDragging;
+            inventoryUI.OnItemActionRequested += HandleItemActionRequest;
         }
 
         private void HandleDescriptionRequest(int itemIndex)
         {
-            InvItem invItem = inventorySO.GetItem(itemIndex);
+            InventoryObj invItem = inventorySO.GetItem(itemIndex);
             if (invItem.IsEmpty)
             {
-                inventoryPage.ResetSelection();
+                inventoryUI.ResetSelection();
                 return;
             }
             ItemSO itemSO = invItem.itemSO;
-            inventoryPage.UpdateDescription(itemIndex, itemSO.ItemImage, itemSO.ItemName, itemSO.ItemDescription);
+            inventoryUI.UpdateDescription(itemIndex, itemSO.ItemImage, itemSO.ItemName, itemSO.ItemDescription);
         }
 
         private void HandleSwapItems(int itemIndex1, int itemIndex2)
         {
-
+            inventorySO.SwapItems(itemIndex1, itemIndex2);
         }
 
         private void HandleDragging(int itemIndex)
         {
-
+            InventoryObj inventoryItem = inventorySO.GetItem(itemIndex);
+            if (inventoryItem.IsEmpty)
+                return;
+            inventoryUI.CreateDraggedItem(inventoryItem.itemSO.ItemImage, inventoryItem.count);
         }
 
         private void HandleItemActionRequest(int itemIndex)
@@ -68,17 +94,17 @@ namespace Inventory
         {
             if (playerController.InventoryInput())
             {
-                if (inventoryPage.isActiveAndEnabled == false)
+                if (inventoryUI.isActiveAndEnabled == false)
                 {
-                    inventoryPage.Show();
+                    inventoryUI.Show();
                     foreach (var item in inventorySO.GetCurrInventoryState()) // returns a dictionary
                     {
-                        inventoryPage.UpdateData(item.Key, item.Value.itemSO.ItemImage, item.Value.count);
+                        inventoryUI.UpdateData(item.Key, item.Value.itemSO.ItemImage, item.Value.count);
                     }
                 }
                 else
                 {
-                    inventoryPage.Hide();
+                    inventoryUI.Hide();
                 }
             }
         }
