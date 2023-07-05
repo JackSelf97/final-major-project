@@ -4,29 +4,32 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
-public class InventoryDescription : MonoBehaviour
+namespace Inventory.UI
 {
-    [SerializeField] private Image itemImage = null;
-    [SerializeField] private Text title = null;
-    [SerializeField] private Text description = null;
-
-    private void Awake()
+    public class InventoryDescription : MonoBehaviour
     {
-        ResetDescription();
-    }
+        [SerializeField] private Image itemImage = null;
+        [SerializeField] private Text title = null;
+        [SerializeField] private Text description = null;
 
-    public void ResetDescription()
-    {
-        itemImage.gameObject.SetActive(false);
-        title.text = "";
-        description.text = "";
-    }
+        private void Awake()
+        {
+            ResetDescription();
+        }
 
-    public void SetDescription(Sprite sprite, string itemName, string itemDescription)
-    {
-        itemImage.gameObject.SetActive(true);
-        itemImage.sprite = sprite;
-        title.text = itemName;
-        description.text = itemDescription;
+        public void ResetDescription()
+        {
+            itemImage.gameObject.SetActive(false);
+            title.text = "";
+            description.text = "";
+        }
+
+        public void SetDescription(Sprite sprite, string itemName, string itemDescription)
+        {
+            itemImage.gameObject.SetActive(true);
+            itemImage.sprite = sprite;
+            title.text = itemName;
+            description.text = itemDescription;
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -49,10 +50,6 @@ public class PlayerController : MonoBehaviour
     private Vector3 playerVelocity = Vector3.zero;
     private float terminalVelocity = 53.0f;
 
-    [Header("Inventory Settings")] // consider creating a 'PlayerInventory' script
-    [SerializeField] private InventoryPage inventoryPage = null;
-    public int inventorySize = 10;
-
     private bool isCurrentDeviceMouse
     {
         get
@@ -90,9 +87,6 @@ public class PlayerController : MonoBehaviour
 
         // lock state
         //Cursor.lockState = CursorLockMode.Locked;
-
-        // set the size of the player's inventory
-        inventoryPage.InitialiseInventoryUI(inventorySize);
     }
 
     // Update is called once per frame
@@ -104,7 +98,6 @@ public class PlayerController : MonoBehaviour
         // Player Inputs
         Jump();
         Interaction();
-        Inventory();
     }
 
     void FixedUpdate()
@@ -311,21 +304,6 @@ public class PlayerController : MonoBehaviour
     //    interactionBox.SetActive(state);
     //    interactionText.text = text;
     //}
-
-    public void Inventory()
-    {
-        if (InventoryInput())
-        {
-            if (inventoryPage.isActiveAndEnabled == false)
-            {
-                inventoryPage.Show();
-            }
-            else
-            {
-                inventoryPage.Hide();
-            }
-        }
-    }
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {

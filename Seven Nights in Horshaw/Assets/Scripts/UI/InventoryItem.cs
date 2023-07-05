@@ -5,76 +5,79 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventoryItem : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEndDragHandler, IDropHandler, IDragHandler
+namespace Inventory.UI
 {
-    [SerializeField] private Image itemImage = null;
-    [SerializeField] private Text countText = null;
-    [SerializeField] private Image borderImage = null;
-
-    // works as a delegate - does not call certain events if the item is empty
-    public event Action<InventoryItem> OnItemClicked, OnItemDropped, OnItemBeginDrag, OnItemEndDrag, OnRMBClick;
-    private bool empty = true;
-
-    public void Awake()
+    public class InventoryItem : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IEndDragHandler, IDropHandler, IDragHandler
     {
-        ResetData();
-        Deselect();
-    }
+        [SerializeField] private Image itemImage = null;
+        [SerializeField] private Text countText = null;
+        [SerializeField] private Image borderImage = null;
 
-    public void ResetData()
-    {
-        itemImage.gameObject.SetActive(false);
-        empty = true;
-    }
+        // works as a delegate - does not call certain events if the item is empty
+        public event Action<InventoryItem> OnItemClicked, OnItemDropped, OnItemBeginDrag, OnItemEndDrag, OnRMBClick;
+        private bool empty = true;
 
-    public void Deselect()
-    {
-        borderImage.enabled = false;
-    }
-
-    public void SetData(Sprite sprite, int count)
-    {
-        itemImage.gameObject.SetActive(true);
-        itemImage.sprite = sprite;
-        countText.text = count.ToString();
-        empty = false;
-    }
-
-    public void Select()
-    {
-        borderImage.enabled = true;
-    }
-
-    public void OnPointerClick(PointerEventData pointerData)
-    {
-        if (pointerData.button == PointerEventData.InputButton.Right)
+        public void Awake()
         {
-            OnRMBClick?.Invoke(this);
+            ResetData();
+            Deselect();
         }
-        else
+
+        public void ResetData()
         {
-            OnItemClicked?.Invoke(this);
+            itemImage.gameObject.SetActive(false);
+            empty = true;
         }
-    }
 
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        if (empty) { return; }
-        OnItemBeginDrag?.Invoke(this);
-    }
+        public void Deselect()
+        {
+            borderImage.enabled = false;
+        }
 
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        OnItemEndDrag?.Invoke(this);
-    }
+        public void SetData(Sprite sprite, int count)
+        {
+            itemImage.gameObject.SetActive(true);
+            itemImage.sprite = sprite;
+            countText.text = count.ToString();
+            empty = false;
+        }
 
-    public void OnDrop(PointerEventData eventData)
-    {
-        OnItemDropped?.Invoke(this);
-    }
+        public void Select()
+        {
+            borderImage.enabled = true;
+        }
 
-    public void OnDrag(PointerEventData eventData)
-    {
-        // function required for BeginDrag and EndDrag to work and receive callbacks - refer to documentation
+        public void OnPointerClick(PointerEventData pointerData)
+        {
+            if (pointerData.button == PointerEventData.InputButton.Right)
+            {
+                OnRMBClick?.Invoke(this);
+            }
+            else
+            {
+                OnItemClicked?.Invoke(this);
+            }
+        }
+
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            if (empty) { return; }
+            OnItemBeginDrag?.Invoke(this);
+        }
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            OnItemEndDrag?.Invoke(this);
+        }
+
+        public void OnDrop(PointerEventData eventData)
+        {
+            OnItemDropped?.Invoke(this);
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            // function required for BeginDrag and EndDrag to work and receive callbacks - refer to documentation
+        }
     }
 }
