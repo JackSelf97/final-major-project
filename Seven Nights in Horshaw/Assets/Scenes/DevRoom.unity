@@ -731,6 +731,7 @@ GameObject:
   - component: {fileID: 521870579}
   - component: {fileID: 521870578}
   - component: {fileID: 521870580}
+  - component: {fileID: 521870581}
   - component: {fileID: 521870577}
   m_Layer: 0
   m_Name: Player
@@ -855,14 +856,20 @@ MonoBehaviour:
   inventoryUI: {fileID: 1541582401}
   inventorySO: {fileID: 11400000, guid: 9b23519eed6bcb540a79198f1735cffc, type: 2}
   initialItems:
-  - count: 5
-    itemSO: {fileID: 11400000, guid: 57e6c7ec6df533d48a194f3974c3cd87, type: 2}
-  - count: 0
-    itemSO: {fileID: 0}
-  - count: 1
-    itemSO: {fileID: 11400000, guid: 24fffbee843d5c445bb2e96558ece448, type: 2}
   - count: 2
-    itemSO: {fileID: 11400000, guid: 57e6c7ec6df533d48a194f3974c3cd87, type: 2}
+    itemSO: {fileID: 11400000, guid: 18def35b2f4c82643a3950b09106910f, type: 2}
+--- !u!114 &521870581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 521870572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cf8d0cd2afad20449aa002621efbbad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &598415106
 GameObject:
   m_ObjectHideFlags: 0
@@ -2990,6 +2997,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8330657324471480490, guid: 7c57633da54dca446ad3b6ceebbed03a, type: 3}
+      propertyPath: <InventoryItem>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 18def35b2f4c82643a3950b09106910f, type: 2}
     - target: {fileID: 8330657324471480496, guid: 7c57633da54dca446ad3b6ceebbed03a, type: 3}
       propertyPath: m_Name
       value: Item

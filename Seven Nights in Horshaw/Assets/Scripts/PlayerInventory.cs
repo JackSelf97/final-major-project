@@ -87,7 +87,19 @@ namespace Inventory
 
         private void HandleItemActionRequest(int itemIndex)
         {
-
+            InventoryObj inventoryItem = inventorySO.GetItem(itemIndex);
+            if (inventoryItem.IsEmpty)
+                return;
+            IItemAction itemAction = inventoryItem.itemSO as IItemAction;
+            if (itemAction != null) // selected a consumable item because we have no other items in the game so far...
+            {
+                itemAction.PerformAction(gameObject);
+            }
+            IDestroyableItem destroyableItem = inventoryItem.itemSO as IDestroyableItem;
+            if (destroyableItem != null)
+            {
+                inventorySO.RemoveItem(itemIndex, 1);
+            }
         }
 
         public void Inventory()

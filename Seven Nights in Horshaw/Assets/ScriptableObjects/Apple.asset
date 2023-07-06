@@ -9,12 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66f7013e70d6c2e48a25e64bcb235a66, type: 3}
+  m_Script: {fileID: 11500000, guid: a6651c6830461bf4286d027530389546, type: 3}
   m_Name: Apple
   m_EditorClassIdentifier: 
   <IsStackable>k__BackingField: 1
   <MaxStackSize>k__BackingField: 99
   <ItemName>k__BackingField: Apple
-  <ItemDescription>k__BackingField: Pink Lady apples, no less!
-  <ItemImage>k__BackingField: {fileID: 21300000, guid: 3494dc956dfd7174abc07060940a2848, type: 3}
+  <ItemDescription>k__BackingField: Restores health
+  <ItemImage>k__BackingField: {fileID: 21300000, guid: 02800fb9cff14da47a04572790384d8b, type: 3}
   <ItemMesh>k__BackingField: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  modifierData:
+  - statModifierSO: {fileID: 11400000, guid: 0b259c737fa87e447aafeb23265d664e, type: 2}
+    value: 1

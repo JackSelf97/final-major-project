@@ -98,7 +98,12 @@ namespace Inventory.UI
 
         private void HandleShowItemActions(InventoryItem inventoryItem)
         {
-
+            int index = items.IndexOf(inventoryItem);
+            if (index == -1)
+            {
+                return;
+            }
+            OnItemActionRequested?.Invoke(index);
         }
 
         public void Show()
