@@ -12,9 +12,9 @@ namespace Inventory.Model
 
         public string ActionName => "Consume";
 
-        public AudioClip actionSFX { get; private set; }
+        [field: SerializeField] public AudioClip actionSFX { get; private set; }
 
-        public bool PerformAction(GameObject character)
+        public bool PerformAction(GameObject character, List<ItemParameter> itemState = null)
         {
             foreach (ModifierData data in modifierData)
             {
@@ -29,11 +29,11 @@ namespace Inventory.Model
 
     }
 
-    public interface IItemAction
+    public interface IItemAction // reusable across multiple actions
     {
         public string ActionName { get; }
         public AudioClip actionSFX { get; }
-        bool PerformAction(GameObject character);
+        bool PerformAction(GameObject character, List<ItemParameter> itemState); // include parameters
     }
 
     [Serializable]

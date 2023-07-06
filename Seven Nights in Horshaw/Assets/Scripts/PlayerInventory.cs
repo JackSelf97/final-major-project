@@ -1,8 +1,12 @@
 using Inventory.Model;
 using Inventory.UI;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace Inventory
 {
@@ -13,6 +17,9 @@ namespace Inventory
         [SerializeField] private InventorySO inventorySO = null;
 
         public List<InventoryObj> initialItems = new List<InventoryObj>();
+
+        [SerializeField] private AudioClip dropClip;
+        [SerializeField] private AudioSource audioSource;
 
         // Start is called before the first frame update
         void Start()
@@ -62,14 +69,29 @@ namespace Inventory
 
         private void HandleDescriptionRequest(int itemIndex)
         {
-            InventoryObj invItem = inventorySO.GetItem(itemIndex);
-            if (invItem.IsEmpty)
+            InventoryObj inventoryItem = inventorySO.GetItem(itemIndex);
+            if (inventoryItem.IsEmpty)
             {
                 inventoryUI.ResetSelection();
                 return;
             }
-            ItemSO itemSO = invItem.itemSO;
-            inventoryUI.UpdateDescription(itemIndex, itemSO.ItemImage, itemSO.ItemName, itemSO.ItemDescription);
+            ItemSO itemSO = inventoryItem.itemSO;
+            string description = PrepareDescription(inventoryItem);
+            inventoryUI.UpdateDescription(itemIndex, itemSO.ItemImage, itemSO.ItemName, description);
+        }
+
+        private string PrepareDescription(InventoryObj inventoryItem)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(inventoryItem.itemSO.ItemDescription);
+            sb.AppendLine();
+            for (int i = 0; i < inventoryItem.itemState.Count; i++)
+            {
+                sb.Append($"{inventoryItem.itemState[i].itemParameter.ParameterName} : " +
+                    $"{inventoryItem.itemState[i].value} / {inventoryItem.itemSO.DefaultParametersList[i].value}"); // e.g. Durability : 60 / 100
+                sb.AppendLine();
+            }
+            return sb.ToString();
         }
 
         private void HandleSwapItems(int itemIndex1, int itemIndex2)
@@ -93,12 +115,40 @@ namespace Inventory
             IItemAction itemAction = inventoryItem.itemSO as IItemAction;
             if (itemAction != null) // selected a consumable item because we have no other items in the game so far...
             {
-                itemAction.PerformAction(gameObject);
+                inventoryUI.ShowItemAction(itemIndex);
+                inventoryUI.AddAction(itemAction.ActionName, () => PerformAction(itemIndex)); // call the method when the button is pressed using a =>
             }
             IDestroyableItem destroyableItem = inventoryItem.itemSO as IDestroyableItem;
             if (destroyableItem != null)
             {
+                inventoryUI.AddAction("Drop", () => DropItem(itemIndex, inventoryItem.count));
+            }
+        }
+
+        private void DropItem(int itemIndex, int count)
+        {
+            inventorySO.RemoveItem(itemIndex, count);
+            inventoryUI.ResetSelection();
+            audioSource.PlayOneShot(dropClip);
+        }
+
+        public void PerformAction(int itemIndex)
+        {
+            InventoryObj inventoryItem = inventorySO.GetItem(itemIndex);
+            if (inventoryItem.IsEmpty)
+                return;
+            IDestroyableItem destroyableItem = inventoryItem.itemSO as IDestroyableItem;
+            if (destroyableItem != null)
+            {
                 inventorySO.RemoveItem(itemIndex, 1);
+            }
+            IItemAction itemAction = inventoryItem.itemSO as IItemAction;
+            if (itemAction != null) // selected a consumable item because we have no other items in the game so far...
+            {
+                itemAction.PerformAction(gameObject, inventoryItem.itemState);
+                audioSource.PlayOneShot(itemAction.actionSFX);
+                if (inventorySO.GetItem(itemIndex).IsEmpty)
+                    inventoryUI.ResetSelection();
             }
         }
 

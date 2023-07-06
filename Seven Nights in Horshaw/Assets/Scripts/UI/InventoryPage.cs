@@ -20,6 +20,8 @@ namespace Inventory.UI
         public event Action<int> OnDescriptionRequested, OnItemActionRequested, OnStartDragging;
         public event Action<int, int> OnSwapItems; // dragged item and the item you want to swap with
 
+        [SerializeField] private ItemActionPanel actionPanel = null;
+
         private void Awake()
         {
             Hide();
@@ -118,16 +120,29 @@ namespace Inventory.UI
             DeselectAllItems();
         }
 
+        public void AddAction(string actionName, Action performAction)
+        {
+            actionPanel.AddButton(actionName, performAction);
+        }
+
+        public void ShowItemAction(int itemIndex)
+        {
+            actionPanel.Toggle(true);
+            actionPanel.transform.position = items[itemIndex].transform.position;
+        }
+
         private void DeselectAllItems()
         {
             foreach (InventoryItem item in items)
             {
                 item.Deselect();
             }
+            actionPanel.Toggle(false);
         }
 
         public void Hide()
         {
+            actionPanel.Toggle(false);
             gameObject.SetActive(false);
             ResetDraggedItem();
         }
