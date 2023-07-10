@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
         cam = Camera.main.transform;
 
         // lock state
-        //Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
