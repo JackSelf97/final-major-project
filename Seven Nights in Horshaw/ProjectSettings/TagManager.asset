@@ -6,6 +6,7 @@ TagManager:
   tags:
   - AccessPoint
   - Item
+  - Waypoint
   layers:
   - Default
   - TransparentFX
