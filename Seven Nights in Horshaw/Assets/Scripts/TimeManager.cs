@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,7 +27,8 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private Light moonlight = null;
     [SerializeField] private float maxMoonlightIntensity = 0f;
 
-    [Header("Game Features")]
+    [Header("Game Mechanics")]
+    [SerializeField] private GameObject enemy = null;
     public AccessPoint accessPoint = null;
 
     // Start is called before the first frame update
@@ -35,6 +37,7 @@ public class TimeManager : MonoBehaviour
         currentTime = DateTime.Now.Date + TimeSpan.FromHours(startHour);
         sunriseTime = TimeSpan.FromHours(sunriseHour);
         sunsetTime = TimeSpan.FromHours(sunsetHour);
+        enemy.SetActive(false);
     }
 
     // Update is called once per frame
@@ -45,6 +48,7 @@ public class TimeManager : MonoBehaviour
             UpdateTimeOfDay();
             RotateSun();
             UpdateLightSettings();
+            EnemyState();
         }
     }
 
@@ -100,5 +104,20 @@ public class TimeManager : MonoBehaviour
             difference += TimeSpan.FromHours(24);
         }
         return difference;
+    }
+
+    private void EnemyState()
+    {
+        // Spawning the enemy
+        if (currentTime.Hour.Equals((int)sunsetHour) && !enemy.activeSelf) // consider using greater than rather than equals
+        {
+            Debug.Log("Enable the enemy!");
+            enemy.SetActive(true);
+        }
+        else if (currentTime.Hour.Equals((int)sunriseHour) && enemy.activeSelf)
+        {
+            Debug.Log("Disable the enemy!");
+            enemy.SetActive(false);
+        }
     }
 }
