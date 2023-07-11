@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     private PlayerController playerController = null;
+    private CharacterController characterController = null;
     [SerializeField] private GameObject playerCorpse = null;
     [SerializeField] private int currHP = 0, maxHP = 100;
 
@@ -12,12 +13,21 @@ public class PlayerStats : MonoBehaviour
     void Start()
     {
         playerController = GetComponent<PlayerController>();
+        characterController = GetComponent<CharacterController>();
         currHP = maxHP;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TakeDamage(int damage)
     {
-        
+        if (!playerController.lockInput)
+        {
+            currHP -= damage;
+            if (currHP <= 0)
+            {
+                var corpsePos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+                Instantiate(playerCorpse, corpsePos, Quaternion.identity);
+                transform.position = GameManager.gMan.GetPlayerSpawnPoint();
+            }
+        }
     }
 }

@@ -109,7 +109,7 @@ public class TimeManager : MonoBehaviour
     private void EnemyState()
     {
         // Spawning the enemy
-        if (currentTime.Hour.Equals((int)sunsetHour) && !enemy.activeSelf) // consider using greater than rather than equals
+        if (currentTime.Hour.Equals(13) && !enemy.activeSelf) // consider using greater than rather than equals
         {
             Debug.Log("Enable the enemy!");
             enemy.SetActive(true);
