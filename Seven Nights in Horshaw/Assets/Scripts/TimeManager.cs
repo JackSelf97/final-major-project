@@ -7,7 +7,8 @@ using UnityEngine.UI;
 public class TimeManager : MonoBehaviour
 {
     [Header("Time")]
-    [SerializeField] private float timeMultiplier = 0f;
+    public float timeMultiplier = 0f;
+    [NonSerialized] public float timeScale = 1000;
     [SerializeField] private float startHour = 0f;
     [SerializeField] private Text timeText = null;
     private DateTime currentTime;

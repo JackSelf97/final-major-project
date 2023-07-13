@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     private CharacterController characterController = null;
+    private PlayerStats playerStats = null;
     private PlayerControls playerControls = null;
     private PlayerInput playerInput = null;
 
@@ -89,6 +90,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        playerStats = GetComponent<PlayerStats>();
         playerInput = GetComponent<PlayerInput>();
         cam = Camera.main.transform;
 
@@ -327,6 +329,7 @@ public class PlayerController : MonoBehaviour
                     {
                         gameObject.transform.position = hit.transform.position;
                         Destroy(target.gameObject);
+                        playerStats.ToggleSpiritRealm(false, -1);
                     }
                     break;
                 default:

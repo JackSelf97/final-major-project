@@ -7,7 +7,8 @@ public class EnemyController : MonoBehaviour
     [Header("Properties")]
     [SerializeField] private Transform target = null;
     [SerializeField] private float lookRadius = 8f;
-    [SerializeField] private int chaseSpeed = 4;
+    [SerializeField] private int chaseSpeed = 7;
+    [SerializeField] private int patrolSpeed = 4;
     private NavMeshAgent navMeshAgent = null;
     private EnemyStats enemyStats = null;
 
@@ -78,6 +79,10 @@ public class EnemyController : MonoBehaviour
                     //animator.SetBool("IsAttacking", true);
                     FaceTarget();
                 }
+            }
+            else
+            {
+                chasing = false;
             }
         }
     }
@@ -201,6 +206,7 @@ public class EnemyController : MonoBehaviour
         Vector3 target = currWaypoint.transform.position;
         navMeshAgent.SetDestination(target);
         travelling = true;
+        navMeshAgent.speed = patrolSpeed;
         //animator.SetBool("IsWalking", true);
     }
 
