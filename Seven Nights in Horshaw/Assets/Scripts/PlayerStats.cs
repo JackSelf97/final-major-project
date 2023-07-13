@@ -8,6 +8,7 @@ public class PlayerStats : MonoBehaviour
     private CharacterController characterController = null;
     [SerializeField] private GameObject playerCorpse = null;
     public int currHP = 0, maxHP = 100;
+    public bool spiritRealm = false;
 
     // Start is called before the first frame update
     void Start()
@@ -24,16 +25,21 @@ public class PlayerStats : MonoBehaviour
             currHP -= damage;
             if (currHP <= 0)
             {
-                if (GameObject.Find("Player's Body"))
+                if (GameObject.Find("Player's Corpse"))
                 {
-                    GameObject instance = GameObject.Find("Player's Body");
+                    GameObject instance = GameObject.Find("Player's Corpse");
                     Destroy(instance);
                 }
                 var corpsePos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
                 GameObject corpseObj = Instantiate(playerCorpse, corpsePos, Quaternion.identity);
-                corpseObj.name = "Player's Body";
+                corpseObj.name = "Player's Corpse";
                 transform.position = GameManager.gMan.GetPlayerSpawnPoint();
             }
         }
+    }
+
+    public void InitiateSpiritRealm()
+    {
+        spiritRealm = true;
     }
 }

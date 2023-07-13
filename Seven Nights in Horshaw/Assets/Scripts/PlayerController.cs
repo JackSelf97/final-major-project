@@ -1,9 +1,9 @@
 using Inventory.Model;
-using System;
 using System.Collections;
-using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -53,7 +53,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Interaction Properties")]
     [SerializeField] private InventorySO inventorySO = null;
-    [SerializeField] private Sprite touchSprite = null;
+    [SerializeField] private Image crosshair = null;
+    [SerializeField] private Image interactionImage = null;
+    [SerializeField] private Sprite[] interactionSprite = new Sprite[0];
 
     private bool isCurrentDeviceMouse
     {
@@ -283,51 +285,66 @@ public class PlayerController : MonoBehaviour
     public void Interaction()
     {
         RaycastHit hit;
-        const float rayLength = 3;
+        const float rayLength = 5;
+        const int touchSpriteIndex = 0, grabSpriteIndex = 1;
 
         Debug.DrawRay(cam.position, cam.forward.normalized * rayLength, Color.cyan);
         if (Physics.Raycast(cam.position, cam.forward.normalized, out hit, rayLength, interactableLayer))
         {
-            if (hit.transform.CompareTag("AccessPoint") && hit.transform.name == "Grandfather Clock")
+            var target = hit.transform;
+            switch (target.tag)
             {
-                //InteractionUI(true, "TOUCH");
-                if (InteractionInput())
-                {
-                    AccessPoint accessPoint = hit.transform.GetComponent<AccessPoint>();
-                    accessPoint.isGamePaused = !accessPoint.isGamePaused;
-                }
-            }
-            if (hit.transform.CompareTag("Item"))
-            {
-                if (InteractionInput())
-                {
-                    Item item = hit.transform.GetComponent<Item>();
-                    if (item != null)
+                case "AccessPoint":
+                    InteractionUI(true, interactionSprite[touchSpriteIndex]);
+                    if (InteractionInput())
                     {
-                        int remainder = inventorySO.AddItem(item.InventoryItem, item.Count);
-                        if (remainder == 0)
+                        AccessPoint accessPoint = hit.transform.GetComponent<AccessPoint>();
+                        accessPoint.isGamePaused = !accessPoint.isGamePaused;
+                    }
+                    break;
+                case "Item":
+                    InteractionUI(true, interactionSprite[grabSpriteIndex]);
+                    if (InteractionInput())
+                    {
+                        Item item = hit.transform.GetComponent<Item>();
+                        if (item != null)
                         {
-                            item.DestroyItem();
-                        }
-                        else
-                        {
-                            item.Count = remainder;
+                            int remainder = inventorySO.AddItem(item.InventoryItem, item.Count);
+                            if (remainder == 0)
+                            {
+                                item.DestroyItem();
+                            }
+                            else
+                            {
+                                item.Count = remainder;
+                            }
                         }
                     }
-                }
+                    break;
+                case "Corpse":
+                    InteractionUI(true, interactionSprite[touchSpriteIndex]);
+                    if (InteractionInput())
+                    {
+                        gameObject.transform.position = hit.transform.position;
+                        Destroy(target.gameObject);
+                    }
+                    break;
+                default:
+                    break;
             }
         }
         else
         {
-            //InteractionUI(false);
+            InteractionUI(false, null);
         }
     }
 
-    //public void InteractionUI(bool state, Sprite sprite, string text = null)
-    //{
-    //    interactionBox.SetActive(state);
-    //    interactionText.text = text;
-    //}
+    public void InteractionUI(bool state, Sprite sprite)
+    {
+        interactionImage.sprite = sprite;
+        interactionImage.enabled = state;
+        crosshair.enabled = !state;
+    }
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
