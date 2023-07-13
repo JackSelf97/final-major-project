@@ -71,7 +71,7 @@ public class Spawner : MonoBehaviour
             {
                 case EnemyType.Zombie_Runner:
                     GameObject enemy = Instantiate(zombieRunner[Random.Range(zero, zombieRunner.Length)], transform.position, Quaternion.identity);
-                    enemy.GetComponent<EnemyPatrol>().parentSpawner = this;
+                    enemy.GetComponent<EnemyController>().parentSpawner = this;
                     break;
                 default:
                     break;

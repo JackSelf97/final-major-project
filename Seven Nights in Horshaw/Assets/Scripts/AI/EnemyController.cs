@@ -4,13 +4,24 @@ using UnityEngine.AI;
 // https://www.youtube.com/watch?v=xppompv1DBg&ab_channel=Brackeys
 public class EnemyController : MonoBehaviour
 {
-
-    [Header("Enemy Properties")]
-    private float lookRadius = 5f;
+    [Header("Properties")]
+    [SerializeField] private Transform target = null;
+    [SerializeField] private float lookRadius = 8f;
     [SerializeField] private int chaseSpeed = 4;
-    public Transform target = null;
     private NavMeshAgent navMeshAgent = null;
-    private bool isChasing = false;
+    private EnemyStats enemyStats = null;
+
+    [Header("States")]
+    [SerializeField] private bool patrolWaiting = false; 
+    [SerializeField] private float totalWaitTime = 3f; 
+    [SerializeField] private float switchProbability = 0.2f;
+    public bool chasing = false;
+    [SerializeField] private bool travelling = false;
+    [SerializeField] private bool waiting = false;
+    public Spawner parentSpawner = null;
+    private ConnectedWaypoint currWaypoint = null, prevWaypoint = null;
+    private float waitTimer = 0f;
+    private int waypointsVisited = 0;
 
     //[Header("Ragdoll Physics")]
     //private Animator animator = null;
@@ -28,25 +39,39 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         //animator = GetComponent<Animator>();
-        //target = PlayerManager.pMan.player.transform;
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        //enemyStats = GetComponent<EnemyStats>();
-
         //SetRagdollParts();
         //TurnOffRagdoll();
+
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        enemyStats = GetComponent<EnemyStats>();
+        navMeshAgent.speed = 2;
+        if (currWaypoint == null)
+        {
+            // Set it at random
+            // Grab all the waypoint objects in the scene
+            if (parentSpawner == null) // meaning if the enemy was NOT instantiated
+            {
+                GameObject[] allWaypointsInScene = GameObject.FindGameObjectsWithTag("Waypoint"); // then have the freedom to move with every waypoint
+                GetWaypoints(allWaypointsInScene);
+            }
+            else
+            {
+                GetWaypoints(parentSpawner.allWaypoints);
+            }
+        }
+
+        SetDestination();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        //if (enemyStats.isAlive)
-        //{
+        if (!enemyStats.isDead)
+        {
             float distance = Vector3.Distance(target.position, transform.position);
             if (distance <= lookRadius)
             {
-                // chase target
                 ChaseTarget();
-
                 if (distance <= navMeshAgent.stoppingDistance)
                 {
                     // attack and face the target
@@ -54,13 +79,47 @@ public class EnemyController : MonoBehaviour
                     FaceTarget();
                 }
             }
-        //}
+        }
+    }
+
+    private void Update()
+    {
+        if (chasing) { return; }
+        // Check if we're close to the destination
+        if (travelling && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance) // has to match the stopping distance
+        {
+            travelling = false;
+            waypointsVisited++;
+
+            // If we're going to wait, then wait
+            if (patrolWaiting)
+            {
+                waiting = true;
+                //animator.SetBool("IsWalking", false);
+                waitTimer = 0f;
+            }
+            else
+            {
+                SetDestination();
+            }
+        }
+
+        // Instead if we're waiting
+        if (waiting)
+        {
+            waitTimer += Time.fixedDeltaTime;
+            if (waitTimer >= totalWaitTime)
+            {
+                waiting = false;
+                SetDestination();
+            }
+        }
     }
 
     void ChaseTarget()
     {
         // Set the bool
-        isChasing = true;
+        chasing = true;
 
         // Set the animation
         //animator.SetBool("IsWalking", false);
@@ -71,8 +130,7 @@ public class EnemyController : MonoBehaviour
         navMeshAgent.speed = chaseSpeed;
 
         // Set the target
-        navMeshAgent.SetDestination(target.position); // error?
-        Destroy(GetComponent<EnemyPatrol>());
+        navMeshAgent.SetDestination(target.position);
     }
 
     void FaceTarget()
@@ -130,6 +188,43 @@ public class EnemyController : MonoBehaviour
     //}
 
     #endregion
+
+    private void SetDestination()
+    {
+        if (waypointsVisited > 0)
+        {
+            ConnectedWaypoint nextWaypoint = currWaypoint.NextWaypoint(prevWaypoint);
+            prevWaypoint = currWaypoint;
+            currWaypoint = nextWaypoint;
+        }
+
+        Vector3 target = currWaypoint.transform.position;
+        navMeshAgent.SetDestination(target);
+        travelling = true;
+        //animator.SetBool("IsWalking", true);
+    }
+
+    private void GetWaypoints(GameObject[] allWaypoints)
+    {
+        if (allWaypoints.Length > 0)
+        {
+            while (currWaypoint == null)
+            {
+                int random = Random.Range(0, allWaypoints.Length);
+                ConnectedWaypoint startingWaypoint = allWaypoints[random].GetComponent<ConnectedWaypoint>();
+
+                // We found a waypoint
+                if (startingWaypoint != null)
+                {
+                    currWaypoint = startingWaypoint;
+                }
+            }
+        }
+        else
+        {
+            Debug.LogError("Failed to find any waypoints for use in the scene!");
+        }
+    }
 
     private void OnCollisionEnter(Collision collision) 
     {

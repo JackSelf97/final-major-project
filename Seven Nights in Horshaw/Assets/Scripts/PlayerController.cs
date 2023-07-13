@@ -51,8 +51,9 @@ public class PlayerController : MonoBehaviour
     private Vector3 playerVelocity = Vector3.zero;
     private float terminalVelocity = 53.0f;
 
-    [Header("Inventory Settings")]
+    [Header("Interaction Properties")]
     [SerializeField] private InventorySO inventorySO = null;
+    [SerializeField] private Sprite touchSprite = null;
 
     private bool isCurrentDeviceMouse
     {
@@ -322,7 +323,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //public void InteractionUI(bool state, string text = null)
+    //public void InteractionUI(bool state, Sprite sprite, string text = null)
     //{
     //    interactionBox.SetActive(state);
     //    interactionText.text = text;
