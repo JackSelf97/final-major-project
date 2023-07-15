@@ -22,7 +22,7 @@ public class PlayerStats : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (!playerController.lockInput)
+        if (!playerController.locked)
         {
             currHP -= damage;
             if (currHP <= 0)

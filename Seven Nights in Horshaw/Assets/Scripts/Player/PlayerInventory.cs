@@ -154,10 +154,12 @@ namespace Inventory
 
         public void Inventory()
         {
+            if (GameManager.gMan.mainMenu) { return; }
             if (playerController.InventoryInput())
             {
                 if (inventoryUI.isActiveAndEnabled == false)
                 {
+                    playerController.LockUser(true);
                     inventoryUI.Show();
                     foreach (var item in inventorySO.GetCurrInventoryState()) // returns a dictionary
                     {
@@ -166,6 +168,7 @@ namespace Inventory
                 }
                 else
                 {
+                    playerController.LockUser(false);
                     inventoryUI.Hide();
                 }
             }

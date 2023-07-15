@@ -12,7 +12,7 @@ public class ConnectedWaypoint : MonoBehaviour
     void Start()
     {
         // Grab all the waypoint objects in the scene
-        GameObject[] allWaypoints = GameObject.FindGameObjectsWithTag("Waypoint"); // ?
+        GameObject[] allWaypoints = GameObject.FindGameObjectsWithTag("Waypoint");
 
         // Check if they're a connected waypoint
         for (int i = 0; i < allWaypoints.Length; i++)

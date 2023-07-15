@@ -1,6 +1,5 @@
 using Inventory.Model;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -27,7 +26,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Game Properties")]
     public LayerMask interactableLayer;
-    public bool lockInput = false;
+    public bool locked = false;
     public bool analogMovement;
     public bool isPaused = false;
     public float gravityValue = -15.0f;
@@ -93,9 +92,6 @@ public class PlayerController : MonoBehaviour
         playerStats = GetComponent<PlayerStats>();
         playerInput = GetComponent<PlayerInput>();
         cam = Camera.main.transform;
-
-        // lock state
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
     // Update is called once per frame
@@ -121,94 +117,90 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        if (!lockInput)
+        if (locked) { return; }
+        // set target speed based on move speed, sprint speed and if sprint is pressed
+        float targetSpeed = moveSpeed;
+
+        // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
+
+        // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+        // if there is no input, set the target speed to 0
+        if (GetPlayerMovement() == Vector2.zero) targetSpeed = 0.0f;
+
+        // a reference to the players current horizontal velocity
+        float currentHorizontalSpeed = new Vector3(characterController.velocity.x, 0.0f, characterController.velocity.z).magnitude;
+
+        float speedOffset = 0.1f;
+        float inputMagnitude = analogMovement ? GetPlayerMovement().magnitude : 1f;
+
+        float tempSpeed;
+        float thousand = 1000;
+        // accelerate or decelerate to target speed
+        if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
         {
-            // set target speed based on move speed, sprint speed and if sprint is pressed
-            float targetSpeed = moveSpeed;
+            // creates curved result rather than a linear one giving a more organic speed change
+            // note T in Lerp is clamped, so we don't need to clamp our speed
+            tempSpeed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * speedChangeRate);
 
-            // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
-
-            // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-            // if there is no input, set the target speed to 0
-            if (GetPlayerMovement() == Vector2.zero) targetSpeed = 0.0f;
-
-            // a reference to the players current horizontal velocity
-            float currentHorizontalSpeed = new Vector3(characterController.velocity.x, 0.0f, characterController.velocity.z).magnitude;
-
-            float speedOffset = 0.1f;
-            float inputMagnitude = analogMovement ? GetPlayerMovement().magnitude : 1f;
-
-            float tempSpeed;
-            float thousand = 1000;
-            // accelerate or decelerate to target speed
-            if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
-            {
-                // creates curved result rather than a linear one giving a more organic speed change
-                // note T in Lerp is clamped, so we don't need to clamp our speed
-                tempSpeed = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * speedChangeRate);
-
-                // round speed to 3 decimal places
-                tempSpeed = Mathf.Round(tempSpeed * thousand) / thousand;
-            }
-            else
-            {
-                tempSpeed = targetSpeed;
-            }
-
-            // normalise input direction
-            Vector3 inputDirection = new Vector3(GetPlayerMovement().x, 0.0f, GetPlayerMovement().y).normalized;
-
-            // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
-            // if there is a move input rotate player when the player is moving
-            if (GetPlayerMovement() != Vector2.zero)
-            {
-                // move
-                inputDirection = transform.right * GetPlayerMovement().x + transform.forward * GetPlayerMovement().y;
-            }
-
-            // Move the player
-            characterController.Move(inputDirection.normalized * (moveSpeed * Time.deltaTime) + new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
-
-            #region Slope & Jumping
-
-            // Slope movement
-            if (GetPlayerMovement() != Vector2.zero && SlopeCheck())
-            {
-                characterController.Move(Vector3.down * characterController.height / 2 * slopeForce * Time.fixedDeltaTime);
-            }
-
-            // Jump effect
-            if (playerVelocity.y < 0f) // if player is falling
-            {
-                playerVelocity += Vector3.up * gravityValue * (fallMultiplier - 1) * Time.fixedDeltaTime; // for a 'non-floaty' jump
-            }
-
-            #endregion
+            // round speed to 3 decimal places
+            tempSpeed = Mathf.Round(tempSpeed * thousand) / thousand;
         }
+        else
+        {
+            tempSpeed = targetSpeed;
+        }
+
+        // normalise input direction
+        Vector3 inputDirection = new Vector3(GetPlayerMovement().x, 0.0f, GetPlayerMovement().y).normalized;
+
+        // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
+        // if there is a move input rotate player when the player is moving
+        if (GetPlayerMovement() != Vector2.zero)
+        {
+            // move
+            inputDirection = transform.right * GetPlayerMovement().x + transform.forward * GetPlayerMovement().y;
+        }
+
+        // Move the player
+        characterController.Move(inputDirection.normalized * (moveSpeed * Time.deltaTime) + new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
+
+        #region Slope & Jumping
+
+        // Slope movement
+        if (GetPlayerMovement() != Vector2.zero && SlopeCheck())
+        {
+            characterController.Move(Vector3.down * characterController.height / 2 * slopeForce * Time.fixedDeltaTime);
+        }
+
+        // Jump effect
+        if (playerVelocity.y < 0f) // if player is falling
+        {
+            playerVelocity += Vector3.up * gravityValue * (fallMultiplier - 1) * Time.fixedDeltaTime; // for a 'non-floaty' jump
+        }
+
+        #endregion
     }
 
     private void CameraRotation()
     {
-        if (!lockInput)
+        if (locked) { return; }
+        // if there is an input
+        if (GetMouseDelta().sqrMagnitude >= threshold)
         {
-            // if there is an input
-            if (GetMouseDelta().sqrMagnitude >= threshold)
-            {
-                //Don't multiply mouse input by Time.deltaTime
-                float deltaTimeMultiplier = isCurrentDeviceMouse ? 1.0f : Time.deltaTime;
+            //Don't multiply mouse input by Time.deltaTime
+            float deltaTimeMultiplier = isCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
-                cinemachineTargetPitch += GetMouseDelta().y * currRotationSpeed * deltaTimeMultiplier;
-                rotationVelocity = GetMouseDelta().x * currRotationSpeed * deltaTimeMultiplier;
+            cinemachineTargetPitch += GetMouseDelta().y * currRotationSpeed * deltaTimeMultiplier;
+            rotationVelocity = GetMouseDelta().x * currRotationSpeed * deltaTimeMultiplier;
 
-                // clamp our pitch rotation
-                cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, bottomClamp, topClamp);
+            // clamp our pitch rotation
+            cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, bottomClamp, topClamp);
 
-                // Update Cinemachine camera target pitch
-                cinemachineCameraTarget.transform.localRotation = Quaternion.Euler(cinemachineTargetPitch, 0.0f, 0.0f);
+            // Update Cinemachine camera target pitch
+            cinemachineCameraTarget.transform.localRotation = Quaternion.Euler(cinemachineTargetPitch, 0.0f, 0.0f);
 
-                // rotate the player left and right
-                transform.Rotate(Vector3.up * rotationVelocity);
-            }
+            // rotate the player left and right
+            transform.Rotate(Vector3.up * rotationVelocity);
         }
     }
 
@@ -225,7 +217,6 @@ public class PlayerController : MonoBehaviour
     public bool SlopeCheck()
     {
         if (jump) { return false; }
-
         RaycastHit hit;
         if (Physics.Raycast(transform.position, Vector3.down, out hit, characterController.height / 2 * slopeForceRayLength))
         {
@@ -239,7 +230,7 @@ public class PlayerController : MonoBehaviour
 
     public void Jump()
     {
-        if (grounded && !lockInput && !isPaused)
+        if (grounded && !locked && !isPaused)
         {
             jump = true;
 
@@ -347,6 +338,15 @@ public class PlayerController : MonoBehaviour
         interactionImage.sprite = sprite;
         interactionImage.enabled = state;
         crosshair.enabled = !state;
+    }
+
+    public void LockUser(bool state)
+    {
+        locked = state;
+        if (state)
+            Cursor.lockState = CursorLockMode.None;
+        else
+            Cursor.lockState = CursorLockMode.Locked;
     }
 
     void OnControllerColliderHit(ControllerColliderHit hit)
