@@ -3,7 +3,7 @@ using UnityEngine;
 public class AccessPoint : MonoBehaviour
 {
     public TimeManager timeManager = null;
-    public bool isGamePaused = false;
+    public bool isTimePaused = false;
 
     // Start is called before the first frame update
     void Start()

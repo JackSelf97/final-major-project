@@ -66,4 +66,9 @@ public class GameManager : MonoBehaviour
         }
         mainMenu = !mainMenu;
     }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }

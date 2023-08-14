@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     public bool analogMovement;
     public bool isPaused = false;
     public float gravityValue = -15.0f;
+    public GameObject pauseScreen = null;
 
     [Header("Player Properties")]
     public float speedChangeRate = 10.0f;
@@ -92,6 +93,7 @@ public class PlayerController : MonoBehaviour
         playerStats = GetComponent<PlayerStats>();
         playerInput = GetComponent<PlayerInput>();
         cam = Camera.main.transform;
+        pauseScreen.SetActive(false);
     }
 
     // Update is called once per frame
@@ -102,6 +104,7 @@ public class PlayerController : MonoBehaviour
 
         // Player Inputs
         Jump();
+        Pause();
         Interaction();
     }
 
@@ -292,7 +295,7 @@ public class PlayerController : MonoBehaviour
                     if (InteractionInput())
                     {
                         AccessPoint accessPoint = hit.transform.GetComponent<AccessPoint>();
-                        accessPoint.isGamePaused = !accessPoint.isGamePaused;
+                        accessPoint.isTimePaused = !accessPoint.isTimePaused;
                     }
                     break;
                 case "Item":
@@ -338,6 +341,24 @@ public class PlayerController : MonoBehaviour
         interactionImage.sprite = sprite;
         interactionImage.enabled = state;
         crosshair.enabled = !state;
+    }
+
+    public void Pause()
+    {
+        if (PauseInput())
+        {
+            isPaused = !isPaused;
+            if (isPaused)
+            {
+                Time.timeScale = 0f;
+                pauseScreen.SetActive(true);
+            }
+            else
+            {
+                Time.timeScale = 1f;
+                pauseScreen.SetActive(false);
+            }
+        }
     }
 
     public void LockUser(bool state)
@@ -415,6 +436,10 @@ public class PlayerController : MonoBehaviour
     public bool InventoryInput()
     {
         return playerControls.Player.Inventory.triggered;
+    }
+    public bool PauseInput()
+    {
+        return playerControls.Player.Pause.triggered;
     }
 
     #endregion
