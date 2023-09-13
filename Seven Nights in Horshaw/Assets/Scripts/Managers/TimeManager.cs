@@ -29,6 +29,7 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private float maxMoonlightIntensity = 0f;
 
     [Header("Game Mechanics")]
+    [SerializeField] private UIManager UIMan = null;
     [SerializeField] private GameObject enemy = null;
     public AccessPoint accessPoint = null;
 
@@ -44,7 +45,7 @@ public class TimeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!accessPoint.isTimePaused && !GameManager.gMan.mainMenu)
+        if (!accessPoint.isTimePaused && !UIMan.mainMenu)
         {
             UpdateTimeOfDay();
             RotateSun();

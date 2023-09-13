@@ -13,6 +13,7 @@ namespace Inventory
     public class PlayerInventory : MonoBehaviour
     {
         [SerializeField] private PlayerController playerController = null;
+        [SerializeField] private UIManager UIMan = null;
         [SerializeField] private InventoryPage inventoryUI = null;
         [SerializeField] private InventorySO inventorySO = null;
 
@@ -154,7 +155,7 @@ namespace Inventory
 
         public void Inventory()
         {
-            if (GameManager.gMan.mainMenu) { return; }
+            if (UIMan.mainMenu) { return; }
             if (playerController.InventoryInput())
             {
                 if (inventoryUI.isActiveAndEnabled == false)
