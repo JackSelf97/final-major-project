@@ -4,9 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace Inventory
 {
