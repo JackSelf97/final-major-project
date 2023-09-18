@@ -23,11 +23,15 @@ public class UIManager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private GameObject settingsPanel = null;
 
-    [Header("Game")]
-    [SerializeField] private GameObject respiteMechanicsPanel = null;
+    [Header("Settings/Game")]
+    [SerializeField] private GameObject respitePanel = null;
+    [SerializeField] private Toggle[] respiteToggles = new Toggle[0];
+    [SerializeField] private GameObject defaultButton = null;
 
-    [Header("Quit")]
+    [Header("Prompt")]
     [SerializeField] private GameObject promptPanel = null;
+    [SerializeField] private Text promptText = null;
+    [SerializeField] private Button promptYes = null;
 
     // Start is called before the first frame update
     void Start()
@@ -36,22 +40,7 @@ public class UIManager : MonoBehaviour
         title.enabled = false;
     }
 
-    //public void SwitchState()
-    //{
-    //    if (mainMenu)
-    //    {
-            
-    //    }
-    //    else
-    //    {
-    //        stateDrivenCameraAnimator.Play("Main Menu");
-    //        playerCanvas.SetActive(false);
-    //        menuCanvas.SetActive(true);
-    //        player.GetComponent<PlayerController>().LockUser(true);
-    //    }
-    //    mainMenu = !mainMenu;
-    //}
-
+    // Anything regarding "Prompts" will not be used inside the switch statement.
     public void SwitchMenu(string menuName)
     {
         switch (menuName)
@@ -83,18 +72,12 @@ public class UIManager : MonoBehaviour
                     ShowSettings("Settings", true, -1);
                 }
                 break;
-            case "Quit":
-                promptPanel.SetActive(true);
-                break;
             case "No":
-                promptPanel.SetActive(false);
-                break;
-            case "Yes":
-                Application.Quit();
+                ShowPrompt(false);
                 break;
             case "Game":
                 ShowSettings("Game", false);
-                respiteMechanicsPanel.SetActive(true);
+                respitePanel.SetActive(true);
                 break;
             case "Controls":
                 ShowSettings("Controls", false);
@@ -118,7 +101,45 @@ public class UIManager : MonoBehaviour
         backButtonIndex += index;
 
         // Game
-        if (respiteMechanicsPanel.activeSelf)
-            respiteMechanicsPanel.SetActive(false);
+        if (respitePanel.activeSelf)
+            respitePanel.SetActive(false);
     }
+
+    #region Functions w/ Prompts
+
+    private void ShowPrompt(bool state, string prompt = "")
+    {
+        promptPanel.SetActive(state);
+        promptText.text = prompt;
+        promptYes.onClick.RemoveAllListeners();
+    }
+
+    public void P_ResetToDefault()
+    {
+        ShowPrompt(true, "Reset to Default?");
+        promptYes.onClick.AddListener(() => ResetRespiteMechanics());
+    }
+
+    private void ResetRespiteMechanics()
+    {
+        for (int i = 0; i < respiteToggles.Length; i++)
+        {
+            respiteToggles[i].isOn = true;
+        }
+        ShowPrompt(false);
+    }
+
+    public void P_QuitGame()
+    {
+        ShowPrompt(true, "Are you sure you want to quit the game?");
+        promptYes.onClick.AddListener(() => QuitGame());
+    }
+
+    private void QuitGame()
+    {
+        Application.Quit();
+        ShowPrompt(false);
+    }
+
+    #endregion
 }
