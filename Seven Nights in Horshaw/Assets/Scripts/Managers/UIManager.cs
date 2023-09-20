@@ -25,8 +25,10 @@ public class UIManager : MonoBehaviour
 
     [Header("Settings/Game")]
     [SerializeField] private GameObject respitePanel = null;
-    [SerializeField] private Toggle[] respiteToggles = new Toggle[0];
     [SerializeField] private GameObject defaultButton = null;
+
+    [Header("Settings/Controls")]
+    [SerializeField] private GameObject controlsPanel = null;
 
     [Header("Prompt")]
     [SerializeField] private GameObject promptPanel = null;
@@ -81,6 +83,7 @@ public class UIManager : MonoBehaviour
                 break;
             case "Controls":
                 ShowSettings("Controls", false);
+                controlsPanel.SetActive(true);
                 break;
             case "Display":
                 ShowSettings("Display", false);
@@ -103,6 +106,10 @@ public class UIManager : MonoBehaviour
         // Game
         if (respitePanel.activeSelf)
             respitePanel.SetActive(false);
+
+        // Controls
+        if (controlsPanel.activeSelf)
+            controlsPanel.SetActive(false);
     }
 
     #region Functions w/ Prompts
@@ -122,6 +129,7 @@ public class UIManager : MonoBehaviour
 
     private void ResetRespiteMechanics()
     {
+        Toggle[] respiteToggles = GetComponent<ToggleController>().respiteToggles;
         for (int i = 0; i < respiteToggles.Length; i++)
         {
             respiteToggles[i].isOn = true;
@@ -139,6 +147,16 @@ public class UIManager : MonoBehaviour
     {
         Application.Quit();
         ShowPrompt(false);
+    }
+
+    public void ShowInfo(GameObject infoPanel)
+    {
+        infoPanel.SetActive(true);
+    }
+
+    public void HideInfo(GameObject infoPanel)
+    {
+        infoPanel.SetActive(false);
     }
 
     #endregion

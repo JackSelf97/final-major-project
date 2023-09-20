@@ -8,17 +8,17 @@ public class GameManager : MonoBehaviour
 
     [Header("Respite Mechanics")]
     public bool cutscenes = true;
-    public bool healthRecovery = true;
+    public bool health = true;
     public bool hints = true;
-    public bool interactiveDialogue = true;
-    public bool loadingScreens = true;
-    public bool pauseScreen = true;
-    public bool playerDeath = true;
+    public bool dialogue = true;
+    public bool load = true;
+    public bool pause = true;
+    public bool death = true;
     public bool quickTimeEvents = true;
     public bool safeRooms = true;
     public bool savePoints = true;
     public bool staticInventory = true;
-    public bool tutorialSections = true;
+    public bool tutorial = true;
 
     #region Singleton & Awake
     public static GameManager gMan = null; // should always initilize
