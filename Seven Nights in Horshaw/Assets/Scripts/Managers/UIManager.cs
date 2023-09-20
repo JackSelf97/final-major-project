@@ -11,14 +11,17 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject playerCanvas = null; 
     [SerializeField] private GameObject menuCanvas = null;
     [SerializeField] private GameObject gameTitle = null;
-    [SerializeField] private GameObject buttonPanel = null;
+    [SerializeField] private GameObject mainPanel = null;
     private GameObject player = null;
     public bool mainMenu = true;
 
     [Header("General Menu Properties")]
     [SerializeField] private GameObject backButton = null;
     [SerializeField] private int backButtonIndex = 0;
-    [SerializeField] private Text title = null;
+    [SerializeField] private Text header = null;
+
+    [Header("Testing")]
+    [SerializeField] private GameObject testingPanel = null;
 
     [Header("Settings")]
     [SerializeField] private GameObject settingsPanel = null;
@@ -35,11 +38,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text promptText = null;
     [SerializeField] private Button promptYes = null;
 
+    private readonly int subsettingsIndex = 2;
+
     // Start is called before the first frame update
     void Start()
     {
         player = FindObjectOfType<PlayerController>().gameObject;
-        title.enabled = false;
+        SubmenuTemplate(string.Empty, null, false, 0);
     }
 
     // Anything regarding "Prompts" will not be used inside the switch statement.
@@ -54,62 +59,82 @@ public class UIManager : MonoBehaviour
                 player.GetComponent<PlayerController>().LockUser(false);
                 break;
             case "Settings":
-                backButton.SetActive(true);
-                title.enabled = true;
-                gameTitle.SetActive(false);
-                buttonPanel.SetActive(false);
-                ShowSettings("Settings", true);
+                SubmenuTemplate("Settings", settingsPanel, true, 1);
+                break;
+            case "Testing":
+                SubmenuTemplate("Testing", testingPanel, true, 1);
                 break;
             case "Back":
                 if (backButtonIndex == 1)
                 {
-                    backButton.SetActive(false);
-                    title.enabled = false;
-                    gameTitle.SetActive(true);
-                    buttonPanel.SetActive(true);
-                    ShowSettings(string.Empty, false, -1);
+                    // MainMenu/Testing
+                    if (testingPanel.activeSelf)
+                    {
+                        SubmenuTemplate(string.Empty, testingPanel, false, -1);
+                        return;
+                    }
+                    // MainMenu/Settings
+                    if (settingsPanel.activeSelf)
+                    {
+                        SubmenuTemplate(string.Empty, settingsPanel, false, -1);
+                        return;
+                    }
                 }
-                if (backButtonIndex == 2)
+                if (backButtonIndex == subsettingsIndex)
                 {
-                    ShowSettings("Settings", true, -1);
+                    // Settings
+                    SubmenuTemplate("Settings", settingsPanel, true, -1);
+
+                    // Settings/Game
+                    if (respitePanel.activeSelf)
+                        respitePanel.SetActive(false);
+
+                    // Settings/Controls
+                    if (controlsPanel.activeSelf)
+                        controlsPanel.SetActive(false);
                 }
                 break;
             case "No":
                 ShowPrompt(false);
                 break;
             case "Game":
-                ShowSettings("Game", false);
-                respitePanel.SetActive(true);
+                SubmenuTemplate(string.Empty, settingsPanel, false, 0);
+                SubmenuTemplate("Game", respitePanel, true, 1);
                 break;
             case "Controls":
-                ShowSettings("Controls", false);
-                controlsPanel.SetActive(true);
+                SubmenuTemplate(string.Empty, settingsPanel, false, 0);
+                SubmenuTemplate("Controls", controlsPanel, true, 1);
                 break;
             case "Display":
-                ShowSettings("Display", false);
+                SubmenuTemplate(string.Empty, settingsPanel, false, 0);
+                SubmenuTemplate("Display", null, true, 1);
                 break;
             case "Graphics":
-                ShowSettings("Graphics", false);
+                SubmenuTemplate(string.Empty, settingsPanel, false, 0);
+                SubmenuTemplate("Graphics", null, true, 1);
                 break;
             case "Audio":
-                ShowSettings("Audio", false);
+                SubmenuTemplate(string.Empty, settingsPanel, false, 0);
+                SubmenuTemplate("Audio", null, true, 1);
                 break;
         }
     }
 
-    private void ShowSettings(string name, bool state, int index = 1)
+    private void SubmenuTemplate(string headerName, GameObject panel, bool state, int index)
     {
-        settingsPanel.SetActive(state);
-        title.text = name;
+        // Control the header, back button and title. 
+        header.enabled = state;
+        header.text = headerName;
+        backButton.SetActive(state);
+        gameTitle.SetActive(!state);
+        mainPanel.SetActive(!state);
+
+        // When navigating through the menu, increment or decrement the 'backButtonIndex'
         backButtonIndex += index;
 
-        // Game
-        if (respitePanel.activeSelf)
-            respitePanel.SetActive(false);
-
-        // Controls
-        if (controlsPanel.activeSelf)
-            controlsPanel.SetActive(false);
+        // If there is no panel to change then this should be null.
+        if (panel != null)
+            panel.SetActive(state);
     }
 
     #region Functions w/ Prompts
