@@ -346,7 +346,7 @@ public class PlayerController : MonoBehaviour
 
     public void Pause()
     {
-        if (PauseInput())
+        if (PauseInput() && GameManager.gMan.pause)
         {
             isPaused = !isPaused;
             if (isPaused)

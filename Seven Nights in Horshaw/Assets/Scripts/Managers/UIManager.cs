@@ -168,9 +168,18 @@ public class UIManager : MonoBehaviour
         promptYes.onClick.AddListener(() => RestartGame());
     }
 
-    private void RestartGame()
+    private void RestartGame() // Currently does not reset positions or time
     {
+        Time.timeScale = 1f;
+        PlayerController playerController = player.GetComponent<PlayerController>();
+        playerController.isPaused = false;
+        playerController.pauseScreen.SetActive(false);
+        stateDrivenCameraAnimator.Play("Main Menu");
+        playerCanvas.SetActive(false);
+        menuCanvas.SetActive(true);
+        GameManager.gMan.mainMenu = true;
 
+        ShowPrompt(false);
     }
 
     public void P_QuitGame()
