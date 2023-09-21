@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SpawnPointSO spawnPointSO = null;
     [SerializeField] private UIManager UIMan = null;
     [SerializeField] private GameObject player = null;
+    public bool mainMenu = true;
 
     [Header("Respite Mechanics")]
     public bool cutscenes = true;

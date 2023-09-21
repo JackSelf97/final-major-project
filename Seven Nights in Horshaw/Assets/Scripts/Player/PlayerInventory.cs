@@ -153,7 +153,7 @@ namespace Inventory
 
         public void Inventory()
         {
-            if (UIMan.mainMenu) { return; }
+            if (GameManager.gMan.mainMenu) { return; }
             if (playerController.InventoryInput())
             {
                 if (inventoryUI.isActiveAndEnabled == false)

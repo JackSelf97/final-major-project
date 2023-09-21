@@ -13,7 +13,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject gameTitle = null;
     [SerializeField] private GameObject mainPanel = null;
     private GameObject player = null;
-    public bool mainMenu = true;
 
     [Header("General Menu Properties")]
     [SerializeField] private GameObject backButton = null;
@@ -33,7 +32,7 @@ public class UIManager : MonoBehaviour
     [Header("Settings/Controls")]
     [SerializeField] private GameObject controlsPanel = null;
 
-    [Header("Prompt")]
+    [Header("Prompt")] // Move out of main menu to use with player -> own canvas
     [SerializeField] private GameObject promptPanel = null;
     [SerializeField] private Text promptText = null;
     [SerializeField] private Button promptYes = null;
@@ -57,6 +56,7 @@ public class UIManager : MonoBehaviour
                 menuCanvas.SetActive(false);
                 playerCanvas.SetActive(true);
                 player.GetComponent<PlayerController>().LockUser(false);
+                GameManager.gMan.mainMenu = false;
                 break;
             case "Settings":
                 SubmenuTemplate("Settings", settingsPanel, true, 1);
@@ -123,7 +123,7 @@ public class UIManager : MonoBehaviour
     private void SubmenuTemplate(string headerName, GameObject panel, bool state, int index)
     {
         // Control the header, back button and title. 
-        header.enabled = state;
+        header.enabled = state; // Consider individual headers for different anchor points
         header.text = headerName;
         backButton.SetActive(state);
         gameTitle.SetActive(!state);
@@ -160,6 +160,17 @@ public class UIManager : MonoBehaviour
             respiteToggles[i].isOn = true;
         }
         ShowPrompt(false);
+    }
+
+    public void P_RestartGame()
+    {
+        ShowPrompt(true, "Are you sure you want to restart the game?");
+        promptYes.onClick.AddListener(() => RestartGame());
+    }
+
+    private void RestartGame()
+    {
+
     }
 
     public void P_QuitGame()

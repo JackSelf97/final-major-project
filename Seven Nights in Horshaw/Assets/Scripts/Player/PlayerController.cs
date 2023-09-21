@@ -103,6 +103,7 @@ public class PlayerController : MonoBehaviour
         GroundCheck();
 
         // Player Inputs
+        if (GameManager.gMan.mainMenu) { return; }
         Jump();
         Pause();
         Interaction();
@@ -352,11 +353,13 @@ public class PlayerController : MonoBehaviour
             {
                 Time.timeScale = 0f;
                 pauseScreen.SetActive(true);
+                LockUser(true);
             }
             else
             {
                 Time.timeScale = 1f;
                 pauseScreen.SetActive(false);
+                LockUser(false);
             }
         }
     }
