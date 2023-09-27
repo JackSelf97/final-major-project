@@ -26,13 +26,22 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject settingsPanel = null;
 
     [Header("Settings/Game")]
-    [SerializeField] private GameObject respitePanel = null;
+    [SerializeField] private GameObject gamePanel = null;
     [SerializeField] private GameObject defaultButton = null;
 
     [Header("Settings/Controls")]
     [SerializeField] private GameObject controlsPanel = null;
 
-    [Header("Prompt")] // Move out of main menu to use with player -> own canvas
+    [Header("Settings/Display")]
+    [SerializeField] private GameObject displayPanel = null;
+
+    [Header("Settings/Graphics")]
+    [SerializeField] private GameObject graphicsPanel = null;
+
+    [Header("Settings/Audio")]
+    [SerializeField] private GameObject audioPanel = null;
+
+    [Header("Prompt")] 
     [SerializeField] private GameObject promptPanel = null;
     [SerializeField] private Text promptText = null;
     [SerializeField] private Button promptYes = null;
@@ -43,7 +52,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         player = FindObjectOfType<PlayerController>().gameObject;
-        SubmenuTemplate(string.Empty, null, false, 0);
+        SubmenuTemplate(null, false, 0);
     }
 
     // Anything regarding "Prompts" will not be used inside the switch statement.
@@ -59,10 +68,10 @@ public class UIManager : MonoBehaviour
                 GameManager.gMan.mainMenu = false;
                 break;
             case "Settings":
-                SubmenuTemplate("Settings", settingsPanel, true, 1);
+                SubmenuTemplate(settingsPanel, true, 1);
                 break;
             case "Testing":
-                SubmenuTemplate("Testing", testingPanel, true, 1);
+                SubmenuTemplate(testingPanel, true, 1);
                 break;
             case "Back":
                 if (backButtonIndex == 1)
@@ -70,57 +79,59 @@ public class UIManager : MonoBehaviour
                     // MainMenu/Testing
                     if (testingPanel.activeSelf)
                     {
-                        SubmenuTemplate(string.Empty, testingPanel, false, -1);
+                        SubmenuTemplate(testingPanel, false, -1);
                         return;
                     }
                     // MainMenu/Settings
                     if (settingsPanel.activeSelf)
                     {
-                        SubmenuTemplate(string.Empty, settingsPanel, false, -1);
+                        SubmenuTemplate(settingsPanel, false, -1);
                         return;
                     }
                 }
                 if (backButtonIndex == subsettingsIndex)
                 {
                     // Settings
-                    SubmenuTemplate("Settings", settingsPanel, true, -1);
+                    SubmenuTemplate(settingsPanel, true, -1);
 
-                    // Settings/Game
-                    if (respitePanel.activeSelf)
-                        respitePanel.SetActive(false);
+                    // List of panels to toggle
+                    GameObject[] panelsToToggle = { gamePanel, controlsPanel, displayPanel, graphicsPanel, audioPanel };
 
-                    // Settings/Controls
-                    if (controlsPanel.activeSelf)
-                        controlsPanel.SetActive(false);
+                    // Toggle panels
+                    foreach (var panel in panelsToToggle)
+                    {
+                        if (panel.activeSelf)
+                            panel.SetActive(false);
+                    }
                 }
                 break;
             case "No":
                 ShowPrompt(false);
                 break;
             case "Game":
-                SubmenuTemplate(string.Empty, settingsPanel, false, 0);
-                SubmenuTemplate("Game", respitePanel, true, 1);
+                SubmenuTemplate(settingsPanel, false, 0);
+                SubmenuTemplate(gamePanel, true, 1);
                 break;
             case "Controls":
-                SubmenuTemplate(string.Empty, settingsPanel, false, 0);
-                SubmenuTemplate("Controls", controlsPanel, true, 1);
+                SubmenuTemplate(settingsPanel, false, 0);
+                SubmenuTemplate(controlsPanel, true, 1);
                 break;
             case "Display":
-                SubmenuTemplate(string.Empty, settingsPanel, false, 0);
-                SubmenuTemplate("Display", null, true, 1);
+                SubmenuTemplate(settingsPanel, false, 0);
+                SubmenuTemplate(displayPanel, true, 1);
                 break;
             case "Graphics":
-                SubmenuTemplate(string.Empty, settingsPanel, false, 0);
-                SubmenuTemplate("Graphics", null, true, 1);
+                SubmenuTemplate(settingsPanel, false, 0);
+                SubmenuTemplate(graphicsPanel, true, 1);
                 break;
             case "Audio":
-                SubmenuTemplate(string.Empty, settingsPanel, false, 0);
-                SubmenuTemplate("Audio", null, true, 1);
+                SubmenuTemplate(settingsPanel, false, 0);
+                SubmenuTemplate(audioPanel, true, 1);
                 break;
         }
     }
 
-    private void SubmenuTemplate(string headerName, GameObject panel, bool state, int index)
+    private void SubmenuTemplate(GameObject panel, bool state, int index)
     {
         // Control back button and title. 
         backButton.SetActive(state);
