@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -17,7 +18,6 @@ public class UIManager : MonoBehaviour
     [Header("General Menu Properties")]
     [SerializeField] private GameObject backButton = null;
     [SerializeField] private int backButtonIndex = 0;
-    [SerializeField] private Text header = null;
 
     [Header("Testing")]
     [SerializeField] private GameObject testingPanel = null;
@@ -122,9 +122,7 @@ public class UIManager : MonoBehaviour
 
     private void SubmenuTemplate(string headerName, GameObject panel, bool state, int index)
     {
-        // Control the header, back button and title. 
-        header.enabled = state; // Consider individual headers for different anchor points
-        header.text = headerName;
+        // Control back button and title. 
         backButton.SetActive(state);
         gameTitle.SetActive(!state);
         mainPanel.SetActive(!state);
