@@ -158,7 +158,12 @@ public class UIManager : MonoBehaviour
     public void P_ResetToDefault()
     {
         ShowPrompt(true, "Reset to Default?");
-        promptYes.onClick.AddListener(() => ResetRespiteMechanics());
+
+        if (gamePanel.activeSelf)
+            promptYes.onClick.AddListener(() => ResetRespiteMechanics());
+
+        if (audioPanel.activeSelf)
+            promptYes.onClick.AddListener(() => ResetAudioValues());
     }
 
     private void ResetRespiteMechanics()
@@ -167,6 +172,17 @@ public class UIManager : MonoBehaviour
         for (int i = 0; i < respiteToggles.Length; i++)
         {
             respiteToggles[i].isOn = true;
+        }
+        ShowPrompt(false);
+    }
+
+    private void ResetAudioValues()
+    {
+        Settings settings = FindObjectOfType<Settings>();
+        Slider[] volumes = { settings.masterVolumeSlider, settings.musicVolumeSlider, settings.ambientVolumeSlider, settings.SFXVolumeSlider };
+        for (int i = 0; i < volumes.Length; i++)
+        {
+            volumes[i].value = 100f;
         }
         ShowPrompt(false);
     }
