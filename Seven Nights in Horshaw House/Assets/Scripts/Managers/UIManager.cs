@@ -157,7 +157,7 @@ public class UIManager : MonoBehaviour
 
     public void P_ResetToDefault()
     {
-        ShowPrompt(true, "Reset to Default?");
+        ShowPrompt(true, "RESET TO DEFAULT?");
 
         if (gamePanel.activeSelf)
             promptYes.onClick.AddListener(() => ResetRespiteMechanics());
@@ -189,7 +189,7 @@ public class UIManager : MonoBehaviour
 
     public void P_RestartGame()
     {
-        ShowPrompt(true, "Are you sure you want to restart the game?");
+        ShowPrompt(true, "ARE YOU SURE YOU WANT TO RESTART THE GAME?");
         promptYes.onClick.AddListener(() => RestartGame());
     }
 
@@ -209,7 +209,7 @@ public class UIManager : MonoBehaviour
 
     public void P_QuitGame()
     {
-        ShowPrompt(true, "Are you sure you want to quit the game?");
+        ShowPrompt(true, "ARE YOU SURE YOU WANT TO QUIT THE GAME?");
         promptYes.onClick.AddListener(() => QuitGame());
     }
 
