@@ -33,7 +33,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Interaction",
+                    "name": "Interact",
                     "type": "Button",
                     "id": "69d8c9ad-4412-43de-b90b-d7eca495968a",
                     "expectedControlType": "Button",
@@ -133,7 +133,7 @@
                     "path": "<Pointer>/delta",
                     "interactions": "",
                     "processors": "InvertVector2(invertX=false),ScaleVector2(x=0.05,y=0.05)",
-                    "groups": "M&K",
+                    "groups": "",
                     "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -142,10 +142,10 @@
                     "name": "",
                     "id": "e7150cc3-dbdd-4700-9180-04728cd90874",
                     "path": "<Keyboard>/e",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
-                    "action": "Interaction",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -174,17 +174,5 @@
             ]
         }
     ],
-    "controlSchemes": [
-        {
-            "name": "M&K",
-            "bindingGroup": "M&K",
-            "devices": [
-                {
-                    "devicePath": "<Mouse>",
-                    "isOptional": true,
-                    "isOR": false
-                }
-            ]
-        }
-    ]
+    "controlSchemes": []
 }

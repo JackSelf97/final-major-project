@@ -58,32 +58,37 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Image interactionImage = null;
     [SerializeField] private Sprite[] interactionSprite = new Sprite[0];
 
-    private bool isCurrentDeviceMouse
-    {
-        get
-        {
-        #if ENABLE_INPUT_SYSTEM
-            return playerInput.currentControlScheme == "M&K";
-        #else
-				return false;
-        #endif
-        }
-    }
+    //private bool isCurrentDeviceMouse
+    //{
+    //    get
+    //    {
+    //    #if ENABLE_INPUT_SYSTEM
+    //        return playerInput.currentControlScheme == "M&K";
+    //    #else
+    //return false;
+    //    #endif
+    //    }
+    //}
+
+    public bool interact = false;
 
     private void Awake()
     {
         Application.targetFrameRate = 120;
+        playerInput = GetComponent<PlayerInput>();
         playerControls = new PlayerControls();
     }
 
     private void OnEnable()
     {
         playerControls.Enable();
+        playerInput.actions["Interact"].performed += Interact;
     }
 
     private void OnDisable()
     {
         playerControls.Disable();
+        playerInput.actions["Interact"].performed -= Interact;
     }
 
     // Start is called before the first frame update
@@ -91,7 +96,6 @@ public class PlayerController : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
         playerStats = GetComponent<PlayerStats>();
-        playerInput = GetComponent<PlayerInput>();
         cam = Camera.main.transform;
         pauseScreen.SetActive(false);
     }
@@ -106,7 +110,7 @@ public class PlayerController : MonoBehaviour
         if (GameManager.gMan.mainMenu) { return; }
         Jump();
         Pause();
-        Interaction();
+        InteractionUI();
     }
 
     void FixedUpdate()
@@ -192,10 +196,10 @@ public class PlayerController : MonoBehaviour
         if (GetMouseDelta().sqrMagnitude >= threshold)
         {
             //Don't multiply mouse input by Time.deltaTime
-            float deltaTimeMultiplier = isCurrentDeviceMouse ? 1.0f : Time.deltaTime;
+            //float deltaTimeMultiplier = isCurrentDeviceMouse ? 1.0f : Time.deltaTime;
 
-            cinemachineTargetPitch += GetMouseDelta().y * currRotationSpeed * deltaTimeMultiplier;
-            rotationVelocity = GetMouseDelta().x * currRotationSpeed * deltaTimeMultiplier;
+            cinemachineTargetPitch += GetMouseDelta().y * currRotationSpeed/* * deltaTimeMultiplier*/;
+            rotationVelocity = GetMouseDelta().x * currRotationSpeed/* * deltaTimeMultiplier*/;
 
             // clamp our pitch rotation
             cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, bottomClamp, topClamp);
@@ -279,65 +283,82 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void Interaction()
+    public void Interact(InputAction.CallbackContext callbackContext) // currently used on 'HOLD' 
+    {
+        RaycastHit hit;
+        const float rayLength = 5;
+
+        Debug.DrawRay(cam.position, cam.forward.normalized * rayLength, Color.cyan);
+        if (Physics.Raycast(cam.position, cam.forward.normalized, out hit, rayLength, interactableLayer))
+        {
+            Debug.Log("Interacting with " + hit.collider.name);
+            var target = hit.transform;
+            switch (target.tag)
+            {
+                case "AccessPoint":
+                    AccessPoint accessPoint = hit.transform.GetComponent<AccessPoint>();
+                    accessPoint.Interact();
+                    break;
+                case "Item":
+                    Item item = hit.transform.GetComponent<Item>();
+                    if (item != null)
+                    {
+                        int remainder = inventorySO.AddItem(item.InventoryItem, item.Count);
+                        if (remainder == 0)
+                        {
+                            item.DestroyItem();
+                        }
+                        else
+                        {
+                            item.Count = remainder;
+                        }
+                    }
+                    break;
+                case "Corpse":
+                    gameObject.transform.position = hit.transform.position;
+                    Destroy(target.gameObject);
+                    playerStats.ToggleSpiritRealm(false, -1);
+                    break;
+            }
+            interact = true;
+        }
+    }
+
+    private void InteractionUI()
     {
         RaycastHit hit;
         const float rayLength = 5;
         const int touchSpriteIndex = 0, grabSpriteIndex = 1;
 
-        Debug.DrawRay(cam.position, cam.forward.normalized * rayLength, Color.cyan);
+        Debug.DrawRay(cam.position, cam.forward.normalized * rayLength, Color.yellow);
         if (Physics.Raycast(cam.position, cam.forward.normalized, out hit, rayLength, interactableLayer))
         {
+            Debug.Log("Examining " + hit.collider.name);
             var target = hit.transform;
+
+            bool shouldChangeSprite = !interact; // Determine whether sprite should change
+            Sprite sprite = null;
+
             switch (target.tag)
             {
                 case "AccessPoint":
-                    InteractionUI(true, interactionSprite[touchSpriteIndex]);
-                    if (InteractionInput())
-                    {
-                        AccessPoint accessPoint = hit.transform.GetComponent<AccessPoint>();
-                        accessPoint.isTimePaused = !accessPoint.isTimePaused;
-                    }
+                case "Corpse":
+                    sprite = interactionSprite[touchSpriteIndex];
                     break;
                 case "Item":
-                    InteractionUI(true, interactionSprite[grabSpriteIndex]);
-                    if (InteractionInput())
-                    {
-                        Item item = hit.transform.GetComponent<Item>();
-                        if (item != null)
-                        {
-                            int remainder = inventorySO.AddItem(item.InventoryItem, item.Count);
-                            if (remainder == 0)
-                            {
-                                item.DestroyItem();
-                            }
-                            else
-                            {
-                                item.Count = remainder;
-                            }
-                        }
-                    }
-                    break;
-                case "Corpse":
-                    InteractionUI(true, interactionSprite[touchSpriteIndex]);
-                    if (InteractionInput())
-                    {
-                        gameObject.transform.position = hit.transform.position;
-                        Destroy(target.gameObject);
-                        playerStats.ToggleSpiritRealm(false, -1);
-                    }
-                    break;
-                default:
+                    sprite = interactionSprite[grabSpriteIndex];
                     break;
             }
+            SpriteChange(shouldChangeSprite, sprite);
         }
         else
         {
-            InteractionUI(false, null);
+            SpriteChange(false, null);
+            interact = false;
         }
     }
 
-    public void InteractionUI(bool state, Sprite sprite)
+    private void SpriteChange(bool state, Sprite sprite)
     {
         interactionImage.sprite = sprite;
         interactionImage.enabled = state;
@@ -431,10 +452,6 @@ public class PlayerController : MonoBehaviour
     public bool JumpInput()
     {
         return playerControls.Player.Jump.triggered;
-    }
-    public bool InteractionInput()
-    {
-        return playerControls.Player.Interaction.triggered;
     }
     public bool InventoryInput()
     {
