@@ -52,6 +52,7 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         player = FindObjectOfType<PlayerController>().gameObject;
+        player.GetComponent<PlayerController>().LockUser(true);
         SubmenuTemplate(null, false, 0);
     }
 

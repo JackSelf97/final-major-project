@@ -25,7 +25,6 @@ public class PlayerController : MonoBehaviour
     private const float threshold = 0.01f;
 
     [Header("Game Properties")]
-    public LayerMask interactableLayer;
     public bool locked = false;
     public bool analogMovement;
     public bool isPaused = false;
@@ -53,10 +52,16 @@ public class PlayerController : MonoBehaviour
     private float terminalVelocity = 53.0f;
 
     [Header("Interaction Properties")]
-    [SerializeField] private InventorySO inventorySO = null;
+    [SerializeField] private LayerMask interactableLayer;
     [SerializeField] private Image crosshair = null;
     [SerializeField] private Image interactionImage = null;
     [SerializeField] private Sprite[] interactionSprite = new Sprite[0];
+    [SerializeField] private bool interact = false;
+    [SerializeField] private GameObject interactableTarget = null;
+    [SerializeField] private Transform interactableDestination;
+
+    [Header("Inventory")]
+    [SerializeField] private InventorySO inventorySO = null;
 
     //private bool isCurrentDeviceMouse
     //{
@@ -69,8 +74,6 @@ public class PlayerController : MonoBehaviour
     //    #endif
     //    }
     //}
-
-    public bool interact = false;
 
     private void Awake()
     {

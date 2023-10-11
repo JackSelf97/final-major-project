@@ -30,15 +30,6 @@ public class ConnectedWaypoint : MonoBehaviour
         }
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.white;
-    //    Gizmos.DrawWireSphere(transform.position, debugDrawRadius);
-
-    //    Gizmos.color = Color.yellow;
-    //    Gizmos.DrawWireSphere(transform.position, connectivityRadius);
-    //}
-
     public ConnectedWaypoint NextWaypoint(ConnectedWaypoint previousWaypoint)
     {
         if (connections.Count == 0)
@@ -66,4 +57,13 @@ public class ConnectedWaypoint : MonoBehaviour
             return nextWaypoint;
         }
     }
+
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.white;
+    //    Gizmos.DrawWireSphere(transform.position, debugDrawRadius);
+
+    //    Gizmos.color = Color.yellow;
+    //    Gizmos.DrawWireSphere(transform.position, connectivityRadius);
+    //}
 }
