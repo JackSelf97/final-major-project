@@ -8051,14 +8051,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7325756979ba936428a4a6efb0f337aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currRotationSpeed: 2
-  rotationSpeed: 0
-  cinemachineCameraTarget: {fileID: 889895514}
-  cam: {fileID: 0}
+  camPos: {fileID: 889895514}
   locked: 0
   analogMovement: 0
   isPaused: 0
-  gravityValue: -9.81
   pauseScreen: {fileID: 555955669}
   speedChangeRate: 10
   grounded: 1

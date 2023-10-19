@@ -7,16 +7,16 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
+    // Player Components
     private CharacterController characterController = null;
     private PlayerStats playerStats = null;
     private PlayerControls playerControls = null;
     private PlayerInput playerInput = null;
 
     [Header("Cinemachine")]
-    public float currRotationSpeed = 2.0f;
-    public float rotationSpeed = 0.0f;
-    public GameObject cinemachineCameraTarget;
-    public Transform cam = null;
+    [SerializeField] private GameObject camPos = null;
+    private Transform cam = null;
+    private float currRotationSpeed = 2.0f;
     private float rotationVelocity;
     private float verticalVelocity;
     private float topClamp = 90.0f;
@@ -25,22 +25,22 @@ public class PlayerController : MonoBehaviour
     private const float threshold = 0.01f;
 
     [Header("Game Properties")]
-    public bool locked = false;
-    public bool analogMovement;
-    public bool isPaused = false;
-    public float gravityValue = -15.0f;
     public GameObject pauseScreen = null;
+    public bool locked = false;
+    public bool isPaused = false;
+    private bool analogMovement;
+    private float gravityValue = -9.81f;
 
     [Header("Player Properties")]
-    public float speedChangeRate = 10.0f;
-    public bool grounded = true;
-    public float groundedOffset = -0.14f;
-    public float groundedRadius = 0.5f;
-    public LayerMask groundLayers;
-    public float fallTimeout = 0.15f;
-    public bool jump;
-    public float jumpTimeout = 0.1f;
-    public float jumpHeight = 1.2f;
+    [SerializeField] private LayerMask groundLayers;
+    [SerializeField] private float speedChangeRate = 10.0f;
+    [SerializeField] private float groundedOffset = -0.14f;
+    [SerializeField] private float groundedRadius = 0.5f;
+    [SerializeField] private float fallTimeout = 0.15f;
+    [SerializeField] private float jumpTimeout = 0.1f;
+    [SerializeField] private float jumpHeight = 1.2f;
+    private bool jump;
+    private bool grounded = true;
     private float pushPower = 2.0f;
     private float moveSpeed = 9f;
     private float slopeForce = 40;
@@ -48,17 +48,17 @@ public class PlayerController : MonoBehaviour
     private float fallMultiplier = 2.5f;
     private float fallTimeoutDelta;
     private float jumpTimeoutDelta;
-    private Vector3 playerVelocity = Vector3.zero;
     private float terminalVelocity = 53.0f;
+    private Vector3 playerVelocity = Vector3.zero;
 
-    [Header("Interaction Properties")]
+    [Header("Interaction")]
     [SerializeField] private LayerMask interactableLayer;
+    [SerializeField] private Sprite[] interactionSprite = new Sprite[0];
     [SerializeField] private Image crosshair = null;
     [SerializeField] private Image interactionImage = null;
-    [SerializeField] private Sprite[] interactionSprite = new Sprite[0];
+    [SerializeField] private GameObject objectTarget = null;
+    [SerializeField] private Transform objectDestination;
     [SerializeField] private bool interact = false;
-    [SerializeField] private GameObject interactableTarget = null;
-    [SerializeField] private Transform interactableDestination;
 
     [Header("Inventory")]
     [SerializeField] private InventorySO inventorySO = null;
@@ -208,7 +208,7 @@ public class PlayerController : MonoBehaviour
             cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, bottomClamp, topClamp);
 
             // Update Cinemachine camera target pitch
-            cinemachineCameraTarget.transform.localRotation = Quaternion.Euler(cinemachineTargetPitch, 0.0f, 0.0f);
+            camPos.transform.localRotation = Quaternion.Euler(cinemachineTargetPitch, 0.0f, 0.0f);
 
             // rotate the player left and right
             transform.Rotate(Vector3.up * rotationVelocity);
@@ -322,6 +322,10 @@ public class PlayerController : MonoBehaviour
                     Destroy(target.gameObject);
                     playerStats.ToggleSpiritRealm(false, -1);
                     break;
+                case "Object":
+                    objectTarget = hit.transform.gameObject;
+                    objectTarget.transform.position = objectDestination.position;
+                    break;
             }
             interact = true;
         }
@@ -349,6 +353,7 @@ public class PlayerController : MonoBehaviour
                     sprite = interactionSprite[touchSpriteIndex];
                     break;
                 case "Item":
+                case "Object":
                     sprite = interactionSprite[grabSpriteIndex];
                     break;
             }
