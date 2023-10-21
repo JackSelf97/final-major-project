@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -14,6 +15,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject gameTitle = null;
     [SerializeField] private GameObject mainPanel = null;
     private GameObject player = null;
+    private PlayerController playerController = null;
 
     [Header("General Menu Properties")]
     [SerializeField] private GameObject backButton = null;
@@ -51,9 +53,12 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = FindObjectOfType<PlayerController>().gameObject;
-        player.GetComponent<PlayerController>().LockUser(true);
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerController = player.GetComponent<PlayerController>();
+        
+        playerController.LockUser(true);
         SubmenuTemplate(null, false, 0);
+        GameManager.gMan.PlayerActionMap(false);
     }
 
     // Anything regarding "Prompts" will not be used inside the switch statement.
@@ -65,8 +70,9 @@ public class UIManager : MonoBehaviour
                 stateDrivenCameraAnimator.Play("Player");
                 menuCanvas.SetActive(false);
                 playerCanvas.SetActive(true);
-                player.GetComponent<PlayerController>().LockUser(false);
+                playerController.LockUser(false);
                 GameManager.gMan.mainMenu = false;
+                GameManager.gMan.PlayerActionMap(true);
                 break;
             case "Settings":
                 SubmenuTemplate(settingsPanel, true, 1);
@@ -197,13 +203,13 @@ public class UIManager : MonoBehaviour
     private void RestartGame() // Currently does not reset positions or time
     {
         Time.timeScale = 1f;
-        PlayerController playerController = player.GetComponent<PlayerController>();
         playerController.isPaused = false;
         playerController.pauseScreen.SetActive(false);
         stateDrivenCameraAnimator.Play("Main Menu");
         playerCanvas.SetActive(false);
         menuCanvas.SetActive(true);
         GameManager.gMan.mainMenu = true;
+        GameManager.gMan.PlayerActionMap(false);
 
         ShowPrompt(false);
     }

@@ -8052,33 +8052,43 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camPos: {fileID: 889895514}
-  locked: 0
-  analogMovement: 0
-  isPaused: 0
   pauseScreen: {fileID: 555955669}
-  speedChangeRate: 10
-  grounded: 1
-  groundedOffset: -0.14
-  groundedRadius: 0.5
+  locked: 0
+  isPaused: 0
   groundLayers:
     serializedVersion: 2
     m_Bits: 0
+  speedChangeRate: 10
+  groundedOffset: -0.14
+  groundedRadius: 0.5
   fallTimeout: 0.15
-  jump: 0
   jumpTimeout: 0.1
   jumpHeight: 1.2
   interactableLayer:
     serializedVersion: 2
     m_Bits: 64
-  crosshair: {fileID: 929914188}
-  interactionImage: {fileID: 1618602808}
   interactionSprite:
   - {fileID: 21300000, guid: 1bed7a295e3292b45a594b28b67101e5, type: 3}
   - {fileID: 21300000, guid: 26171780b814f7f428820ee597464046, type: 3}
+  crosshair: {fileID: 929914188}
+  interactionImage: {fileID: 1618602808}
+  objectDestination: {fileID: 1309010043}
+  objectTarget: {fileID: 0}
   interact: 0
-  interactableTarget: {fileID: 0}
-  interactableDestination: {fileID: 0}
+  grabbing: 0
   inventorySO: {fileID: 11400000, guid: 9b23519eed6bcb540a79198f1735cffc, type: 2}
+  playerMap:
+    m_Name: Player Map
+    m_Id: f2f6c98e-cf7b-463d-90c0-aa2b7d78c0c0
+    m_Asset: {fileID: 0}
+    m_Actions: []
+    m_Bindings: []
+  userInterfaceMap:
+    m_Name: User Interface Map
+    m_Id: 93f37dbb-a68d-47c2-84ee-9af1e3a93cff
+    m_Asset: {fileID: 0}
+    m_Actions: []
+    m_Bindings: []
 --- !u!143 &521870579
 CharacterController:
   m_ObjectHideFlags: 0
@@ -12477,7 +12487,7 @@ GameObject:
   - component: {fileID: 957453502}
   m_Layer: 6
   m_Name: Cube (2)
-  m_TagString: Untagged
+  m_TagString: Object
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12494,21 +12504,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75da21253adb92f49a8a73846ff0d5b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _onInteract:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!65 &957453503
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12585,7 +12580,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 29
+  m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &957453507
 Rigidbody:
@@ -12602,7 +12597,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!1001 &960674607
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13076,7 +13071,7 @@ GameObject:
   - component: {fileID: 1016888946}
   m_Layer: 6
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Object
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13157,7 +13152,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 27
+  m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1016888946
 MonoBehaviour:
@@ -13171,21 +13166,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75da21253adb92f49a8a73846ff0d5b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _onInteract:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!54 &1016888947
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -13194,14 +13174,14 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1016888940}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 5
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!1 &1037648125
 GameObject:
   m_ObjectHideFlags: 0
@@ -13584,7 +13564,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1072728744}
   - component: {fileID: 1072728743}
-  - component: {fileID: 1072728742}
+  - component: {fileID: 1072728745}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -13592,26 +13572,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1072728742
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1072728741}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
 --- !u!114 &1072728743
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13640,8 +13600,38 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 26
+  m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1072728745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1072728741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_MoveRepeatDelay: 0.5
+  m_MoveRepeatRate: 0.1
+  m_XRTrackingOrigin: {fileID: 0}
+  m_ActionsAsset: {fileID: -944628639613478452, guid: 3bb0339c87f4fae4fb1203fce42ffeb4, type: 3}
+  m_PointAction: {fileID: 1261725367056723634, guid: 3bb0339c87f4fae4fb1203fce42ffeb4, type: 3}
+  m_MoveAction: {fileID: -7909841539541279301, guid: 3bb0339c87f4fae4fb1203fce42ffeb4, type: 3}
+  m_SubmitAction: {fileID: -8576042443359084623, guid: 3bb0339c87f4fae4fb1203fce42ffeb4, type: 3}
+  m_CancelAction: {fileID: -7012765931468434613, guid: 3bb0339c87f4fae4fb1203fce42ffeb4, type: 3}
+  m_LeftClickAction: {fileID: -1132020817273844910, guid: 3bb0339c87f4fae4fb1203fce42ffeb4, type: 3}
+  m_MiddleClickAction: {fileID: 7239090033196574223, guid: 3bb0339c87f4fae4fb1203fce42ffeb4, type: 3}
+  m_RightClickAction: {fileID: 142678818416452665, guid: 3bb0339c87f4fae4fb1203fce42ffeb4, type: 3}
+  m_ScrollWheelAction: {fileID: 1295684178015962244, guid: 3bb0339c87f4fae4fb1203fce42ffeb4, type: 3}
+  m_TrackedDevicePositionAction: {fileID: 3690194745822746257, guid: 3bb0339c87f4fae4fb1203fce42ffeb4, type: 3}
+  m_TrackedDeviceOrientationAction: {fileID: 62413379110375625, guid: 3bb0339c87f4fae4fb1203fce42ffeb4, type: 3}
+  m_DeselectOnBackgroundClick: 1
+  m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
 --- !u!1001 &1074070402
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15730,7 +15720,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1309010043}
   m_Layer: 0
-  m_Name: ItemPos
+  m_Name: ObjectPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15744,7 +15734,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1309010042}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -22727,7 +22717,7 @@ GameObject:
   - component: {fileID: 2075234103}
   m_Layer: 6
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: Object
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22744,21 +22734,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75da21253adb92f49a8a73846ff0d5b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _onInteract:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!65 &2075234104
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -22835,7 +22810,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 28
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &2075234108
 Rigidbody:
@@ -22845,14 +22820,14 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2075234102}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!1001 &2077027848
 PrefabInstance:
   m_ObjectHideFlags: 0

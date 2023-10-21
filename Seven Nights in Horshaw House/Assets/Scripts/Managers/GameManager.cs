@@ -5,10 +5,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SpawnPointSO spawnPointSO = null;
     [SerializeField] private UIManager UIMan = null;
     [SerializeField] private GameObject player = null;
+    private PlayerController playerController = null;
     public bool mainMenu = true;
 
     [Header("Respite Mechanics")]
-    public bool cutscenes = true;
+    public bool cutscenes = true; // rename to 'CHECK'
     public bool health = true;
     public bool hints = true;
     public bool dialogue = true;
@@ -41,8 +42,11 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        player = FindObjectOfType<PlayerController>().gameObject;
+        player = GameObject.FindWithTag("Player");
+        playerController = player.GetComponent<PlayerController>();
     }
+
+    #region Player Functions
 
     public Vector3 GetPlayerSpawnPoint()
     {
@@ -50,4 +54,20 @@ public class GameManager : MonoBehaviour
         Debug.Log("Spawn point: " + ranNo);
         return spawnPointSO.playerSpawnPoint[ranNo];
     }
+
+    public void PlayerActionMap(bool active)
+    {
+        if (active)
+        {
+            playerController.userInterfaceMap.Disable();
+            playerController.playerMap.Enable();
+        }
+        else
+        {
+            playerController.playerMap.Disable();
+            playerController.userInterfaceMap.Enable();
+        }
+    }
+
+    #endregion
 }

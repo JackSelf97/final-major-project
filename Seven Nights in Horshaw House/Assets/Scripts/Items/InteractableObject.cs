@@ -7,5 +7,4 @@ public class InteractableObject : MonoBehaviour, IInteractable
     UnityEvent IInteractable.onInteract { get => _onInteract; set => _onInteract = value; }
 
     public void Interact() => _onInteract.Invoke();
-
 }

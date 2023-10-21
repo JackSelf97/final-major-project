@@ -11,12 +11,11 @@ public class PlayerController : MonoBehaviour
     private CharacterController characterController = null;
     private PlayerStats playerStats = null;
     private PlayerControls playerControls = null;
-    private PlayerInput playerInput = null;
 
     [Header("Cinemachine")]
     [SerializeField] private GameObject camPos = null;
     private Transform cam = null;
-    private float currRotationSpeed = 2.0f;
+    private float currRotationSpeed = 3.0f;
     private float rotationVelocity;
     private float verticalVelocity;
     private float topClamp = 90.0f;
@@ -56,42 +55,69 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Sprite[] interactionSprite = new Sprite[0];
     [SerializeField] private Image crosshair = null;
     [SerializeField] private Image interactionImage = null;
-    [SerializeField] private GameObject objectTarget = null;
+
     [SerializeField] private Transform objectDestination;
+    [SerializeField] private GameObject objectTarget = null;
+    private Rigidbody objectRb = null;
+    private float pickUpRange = 5f;
+    private float pickUpForce = 150f;
+
     [SerializeField] private bool interact = false;
+    [SerializeField] private bool grabbing = false;
 
     [Header("Inventory")]
     [SerializeField] private InventorySO inventorySO = null;
 
-    //private bool isCurrentDeviceMouse
-    //{
-    //    get
-    //    {
-    //    #if ENABLE_INPUT_SYSTEM
-    //        return playerInput.currentControlScheme == "M&K";
-    //    #else
-    //return false;
-    //    #endif
-    //    }
-    //}
+    // Actions
+    private PlayerInput playerInput = null;
+    private InputAction jumpAction = null;
+    private InputAction interactAction = null;
+    private InputAction pauseAction = null;
+    private InputAction pickUpAction = null;
+
+    // Action Maps
+    public InputActionMap playerMap = null;
+    public InputActionMap userInterfaceMap = null;
 
     private void Awake()
     {
         Application.targetFrameRate = 120;
+
+        // Input Actions & Maps
         playerInput = GetComponent<PlayerInput>();
         playerControls = new PlayerControls();
+        playerMap = playerInput.actions.FindActionMap("Player");
+        userInterfaceMap = playerInput.actions.FindActionMap("UI");
     }
 
     private void OnEnable()
     {
         playerControls.Enable();
-        playerInput.actions["Interact"].performed += Interact;
+
+        // String assignment
+        jumpAction = playerInput.actions["Jump"];
+        interactAction = playerInput.actions["Interact"];
+        pauseAction = playerInput.actions["Pause"];
+        pickUpAction = playerInput.actions["PickUp"];
+
+        // Subscribing to functions
+        jumpAction.performed += Jump;
+        interactAction.performed += Interact;
+        pauseAction.performed += Pause;
+        pickUpAction.performed += context => grabbing = true;
+        pickUpAction.canceled += context => grabbing = false;
     }
 
     private void OnDisable()
     {
         playerControls.Disable();
-        playerInput.actions["Interact"].performed -= Interact;
+
+        // Unsubscribing to functions
+        jumpAction.performed -= Jump;
+        interactAction.performed -= Interact;
+        pauseAction.performed -= Pause;
+        pickUpAction.performed -= context => grabbing = true;
+        pickUpAction.canceled -= context => grabbing = false;
     }
 
     // Start is called before the first frame update
@@ -106,24 +132,22 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Run-time Checks
-        GroundCheck();
-
         // Player Inputs
         if (GameManager.gMan.mainMenu) { return; }
-        Jump();
-        Pause();
         InteractionUI();
+        GroundCheck();
+        JumpCheck();
+        ObjectCheck();
     }
 
     void FixedUpdate()
     {
         Move();
-    }
-
-    void LateUpdate()
-    {
         CameraRotation();
+
+        // Picking up objects
+        if (objectTarget != null)
+            MoveObject();
     }
 
     private void Move()
@@ -215,7 +239,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void GroundCheck()
+    private void GroundCheck()
     {
         grounded = characterController.isGrounded;
         if (grounded && playerVelocity.y < 0)
@@ -225,7 +249,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public bool SlopeCheck()
+    private bool SlopeCheck()
     {
         if (jump) { return false; }
         RaycastHit hit;
@@ -239,7 +263,17 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
-    public void Jump()
+    private void Jump(InputAction.CallbackContext callbackContext)
+    {
+        // Jump
+        if (jumpTimeoutDelta <= 0.0f && jump)
+        {
+            // the square root of H * -2 * G = how much velocity needed to reach desired height
+            verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravityValue);
+        }
+    }
+
+    private void JumpCheck()
     {
         if (grounded && !locked && !isPaused)
         {
@@ -252,13 +286,6 @@ public class PlayerController : MonoBehaviour
             if (verticalVelocity < 0.0f)
             {
                 verticalVelocity = -2f;
-            }
-
-            // Jump
-            if (JumpInput() && jumpTimeoutDelta <= 0.0f && jump)
-            {
-                // the square root of H * -2 * G = how much velocity needed to reach desired height
-                verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravityValue);
             }
 
             // jump timeout
@@ -286,7 +313,61 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void Interact(InputAction.CallbackContext callbackContext) // currently used on 'HOLD' 
+    #region Item & Object Interaction
+
+    private void ObjectCheck() // World Items
+    {
+        if (grabbing)
+        {
+            if (objectTarget == null)
+            {
+                RaycastHit hit;
+                if (Physics.Raycast(cam.position, cam.forward.normalized, out hit, pickUpRange, interactableLayer))
+                {
+                    PickUpObject(hit.transform.gameObject);
+                }
+            }
+        }
+        else if (!grabbing && objectTarget != null)
+        {
+            DropObject();
+        }
+    }
+
+    private void MoveObject()
+    {
+        if (Vector3.Distance(objectTarget.transform.position, objectDestination.position) > 0.1f)
+        {
+            Vector3 moveDirection = (objectDestination.position - objectTarget.transform.position);
+            objectRb.AddForce(moveDirection * pickUpForce);
+        }
+    }
+
+    private void PickUpObject(GameObject obj)
+    {
+        if (obj.GetComponent<Rigidbody>())
+        {
+            objectRb = obj.GetComponent<Rigidbody>();
+            objectRb.useGravity = false;
+            objectRb.drag = 10;
+            objectRb.constraints = RigidbodyConstraints.FreezeRotation;
+
+            objectRb.transform.parent = objectDestination;
+            objectTarget = obj;
+        }
+    }
+
+    private void DropObject()
+    {
+        objectRb.useGravity = true;
+        objectRb.drag = 1;
+        objectRb.constraints = RigidbodyConstraints.None;
+
+        objectTarget.transform.parent = null;
+        objectTarget = null;
+    }
+
+    private void Interact(InputAction.CallbackContext callbackContext) // Inventory Items
     {
         RaycastHit hit;
         const float rayLength = 5;
@@ -322,10 +403,6 @@ public class PlayerController : MonoBehaviour
                     Destroy(target.gameObject);
                     playerStats.ToggleSpiritRealm(false, -1);
                     break;
-                case "Object":
-                    objectTarget = hit.transform.gameObject;
-                    objectTarget.transform.position = objectDestination.position;
-                    break;
             }
             interact = true;
         }
@@ -352,8 +429,13 @@ public class PlayerController : MonoBehaviour
                 case "Corpse":
                     sprite = interactionSprite[touchSpriteIndex];
                     break;
-                case "Item":
                 case "Object":
+                    if (!grabbing)
+                        sprite = interactionSprite[touchSpriteIndex];
+                    else
+                        sprite = interactionSprite[grabSpriteIndex];
+                    break;
+                case "Item":
                     sprite = interactionSprite[grabSpriteIndex];
                     break;
             }
@@ -373,9 +455,11 @@ public class PlayerController : MonoBehaviour
         crosshair.enabled = !state;
     }
 
-    public void Pause()
+    #endregion
+
+    private void Pause(InputAction.CallbackContext callbackContext)
     {
-        if (PauseInput() && GameManager.gMan.pause)
+        if (GameManager.gMan.pause)
         {
             isPaused = !isPaused;
             if (isPaused)
@@ -383,12 +467,14 @@ public class PlayerController : MonoBehaviour
                 Time.timeScale = 0f;
                 pauseScreen.SetActive(true);
                 LockUser(true);
+                GameManager.gMan.PlayerActionMap(false);
             }
             else
             {
                 Time.timeScale = 1f;
                 pauseScreen.SetActive(false);
                 LockUser(false);
+                GameManager.gMan.PlayerActionMap(true);
             }
         }
     }
@@ -402,7 +488,7 @@ public class PlayerController : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
     }
 
-    void OnControllerColliderHit(ControllerColliderHit hit)
+    private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         Rigidbody body = hit.collider.attachedRigidbody;
 
@@ -457,17 +543,9 @@ public class PlayerController : MonoBehaviour
     {
         return playerControls.Player.Look.ReadValue<Vector2>();
     }
-    public bool JumpInput()
-    {
-        return playerControls.Player.Jump.triggered;
-    }
     public bool InventoryInput()
     {
         return playerControls.Player.Inventory.triggered;
-    }
-    public bool PauseInput()
-    {
-        return playerControls.Player.Pause.triggered;
     }
 
     #endregion
