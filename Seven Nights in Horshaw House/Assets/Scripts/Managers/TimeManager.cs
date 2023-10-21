@@ -11,7 +11,7 @@ public class TimeManager : MonoBehaviour
     [NonSerialized] public float timeScale = 1000;
     [SerializeField] private float startHour = 0f;
     [SerializeField] private Text timeText = null;
-    private DateTime currentTime;
+    public DateTime currentTime;
 
     [Header("Sunlight")]
     [SerializeField] private Light sunlight = null;

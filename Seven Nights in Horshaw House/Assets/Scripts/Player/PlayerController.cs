@@ -70,7 +70,9 @@ public class PlayerController : MonoBehaviour
 
     // Actions
     private PlayerInput playerInput = null;
+    private InputAction moveAction = null;
     private InputAction jumpAction = null;
+    private InputAction lookAction = null;
     private InputAction interactAction = null;
     private InputAction pauseAction = null;
     private InputAction pickUpAction = null;
