@@ -308,6 +308,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""InventoryUI"",
+                    ""type"": ""Button"",
+                    ""id"": ""67fd0e78-0d79-42cd-937f-c63828ba126b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -728,6 +737,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""TrackedDeviceOrientation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7f870344-3cdb-475c-9d77-6ecf610fd906"",
+                    ""path"": ""<Keyboard>/i"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""InventoryUI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -755,6 +775,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
         m_UI_Submit = m_UI.FindAction("Submit", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
+        m_UI_InventoryUI = m_UI.FindAction("InventoryUI", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -920,6 +941,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Cancel;
     private readonly InputAction m_UI_Submit;
     private readonly InputAction m_UI_Navigate;
+    private readonly InputAction m_UI_InventoryUI;
     public struct UIActions
     {
         private @PlayerControls m_Wrapper;
@@ -934,6 +956,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
         public InputAction @Submit => m_Wrapper.m_UI_Submit;
         public InputAction @Navigate => m_Wrapper.m_UI_Navigate;
+        public InputAction @InventoryUI => m_Wrapper.m_UI_InventoryUI;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -973,6 +996,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Navigate.started += instance.OnNavigate;
             @Navigate.performed += instance.OnNavigate;
             @Navigate.canceled += instance.OnNavigate;
+            @InventoryUI.started += instance.OnInventoryUI;
+            @InventoryUI.performed += instance.OnInventoryUI;
+            @InventoryUI.canceled += instance.OnInventoryUI;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -1007,6 +1033,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @Navigate.started -= instance.OnNavigate;
             @Navigate.performed -= instance.OnNavigate;
             @Navigate.canceled -= instance.OnNavigate;
+            @InventoryUI.started -= instance.OnInventoryUI;
+            @InventoryUI.performed -= instance.OnInventoryUI;
+            @InventoryUI.canceled -= instance.OnInventoryUI;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -1046,5 +1075,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         void OnCancel(InputAction.CallbackContext context);
         void OnSubmit(InputAction.CallbackContext context);
         void OnNavigate(InputAction.CallbackContext context);
+        void OnInventoryUI(InputAction.CallbackContext context);
     }
 }

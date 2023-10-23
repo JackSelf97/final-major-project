@@ -15,9 +15,12 @@ MonoBehaviour:
   <IsStackable>k__BackingField: 1
   <MaxStackSize>k__BackingField: 99
   <ItemName>k__BackingField: Apple
-  <ItemDescription>k__BackingField: Restores health
-  <ItemImage>k__BackingField: {fileID: 21300000, guid: 02800fb9cff14da47a04572790384d8b, type: 3}
+  <ItemDescription>k__BackingField: A crisp, sweet, and juicy fruit, perfect for
+    a quick energy boost.
+  <ItemImage>k__BackingField: {fileID: 21300000, guid: 46c9e222084fcb8479b61a014526b5c0, type: 3}
   <ItemMesh>k__BackingField: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  <DefaultParametersList>k__BackingField: []
   modifierData:
   - statModifierSO: {fileID: 11400000, guid: 0b259c737fa87e447aafeb23265d664e, type: 2}
     value: 1
+  <actionSFX>k__BackingField: {fileID: 0}

@@ -1,7 +1,5 @@
 using Inventory.Model;
 using Inventory.UI;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -12,7 +10,7 @@ namespace Inventory
     {
         [SerializeField] private PlayerController playerController = null;
         [SerializeField] private UIManager UIMan = null;
-        [SerializeField] private InventoryPage inventoryUI = null;
+        public InventoryPage inventoryUI = null;
         [SerializeField] private InventorySO inventorySO = null;
 
         public List<InventoryObj> initialItems = new List<InventoryObj>();
@@ -49,12 +47,6 @@ namespace Inventory
             {
                 inventoryUI.UpdateData(item.Key, item.Value.itemSO.ItemImage, item.Value.count);
             }
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            Inventory();
         }
 
         private void PrepareInventoryUI()
@@ -148,28 +140,6 @@ namespace Inventory
                 audioSource.PlayOneShot(itemAction.actionSFX);
                 if (inventorySO.GetItem(itemIndex).IsEmpty)
                     inventoryUI.ResetSelection();
-            }
-        }
-
-        public void Inventory()
-        {
-            if (GameManager.gMan.mainMenu) { return; }
-            if (playerController.InventoryInput())
-            {
-                if (inventoryUI.isActiveAndEnabled == false)
-                {
-                    playerController.LockUser(true);
-                    inventoryUI.Show();
-                    foreach (var item in inventorySO.GetCurrInventoryState()) // returns a dictionary
-                    {
-                        inventoryUI.UpdateData(item.Key, item.Value.itemSO.ItemImage, item.Value.count);
-                    }
-                }
-                else
-                {
-                    playerController.LockUser(false);
-                    inventoryUI.Hide();
-                }
             }
         }
     }

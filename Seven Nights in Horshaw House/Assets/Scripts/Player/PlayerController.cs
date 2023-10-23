@@ -1,3 +1,4 @@
+using Inventory;
 using Inventory.Model;
 using System.Collections;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class PlayerController : MonoBehaviour
 {
     // Player Components
     private CharacterController characterController = null;
+    private PlayerInventory playerInventory = null;
     private PlayerStats playerStats = null;
     private PlayerControls playerControls = null;
 
@@ -74,6 +76,8 @@ public class PlayerController : MonoBehaviour
     private InputAction jumpAction = null;
     private InputAction lookAction = null;
     private InputAction interactAction = null;
+    private InputAction inventoryAction = null;
+    private InputAction inventoryUIAction = null; // this could be done for the Pause button
     private InputAction pauseAction = null;
     private InputAction pickUpAction = null;
 
@@ -88,6 +92,8 @@ public class PlayerController : MonoBehaviour
         // Input Actions & Maps
         playerInput = GetComponent<PlayerInput>();
         playerControls = new PlayerControls();
+        playerInventory = GetComponent<PlayerInventory>();
+        playerStats = GetComponent<PlayerStats>();
         playerMap = playerInput.actions.FindActionMap("Player");
         userInterfaceMap = playerInput.actions.FindActionMap("UI");
     }
@@ -99,12 +105,16 @@ public class PlayerController : MonoBehaviour
         // String assignment
         jumpAction = playerInput.actions["Jump"];
         interactAction = playerInput.actions["Interact"];
+        inventoryAction = playerInput.actions["Inventory"];
+        inventoryUIAction = playerInput.actions["InventoryUI"];
         pauseAction = playerInput.actions["Pause"];
         pickUpAction = playerInput.actions["PickUp"];
 
         // Subscribing to functions
         jumpAction.performed += Jump;
         interactAction.performed += Interact;
+        inventoryAction.performed += Inventory;
+        inventoryUIAction.performed += Inventory; // "Inventory" and "InventoryUI" both subscribe to the same function
         pauseAction.performed += Pause;
         pickUpAction.performed += context => grabbing = true;
         pickUpAction.canceled += context => grabbing = false;
@@ -117,6 +127,8 @@ public class PlayerController : MonoBehaviour
         // Unsubscribing to functions
         jumpAction.performed -= Jump;
         interactAction.performed -= Interact;
+        inventoryAction.performed -= Inventory;
+        inventoryUIAction.performed -= Inventory;
         pauseAction.performed -= Pause;
         pickUpAction.performed -= context => grabbing = true;
         pickUpAction.canceled -= context => grabbing = false;
@@ -126,7 +138,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-        playerStats = GetComponent<PlayerStats>();
         cam = Camera.main.transform;
         pauseScreen.SetActive(false);
     }
@@ -312,6 +323,27 @@ public class PlayerController : MonoBehaviour
         if (verticalVelocity < terminalVelocity)
         {
             verticalVelocity += gravityValue * Time.deltaTime;
+        }
+    }
+
+    public void Inventory(InputAction.CallbackContext callbackContext)
+    {
+        if (GameManager.gMan.mainMenu) { return; }
+        if (playerInventory.inventoryUI.isActiveAndEnabled == false)
+        {
+            LockUser(true);
+            playerInventory.inventoryUI.Show();
+            foreach (var item in inventorySO.GetCurrInventoryState()) // returns a dictionary
+            {
+                playerInventory.inventoryUI.UpdateData(item.Key, item.Value.itemSO.ItemImage, item.Value.count);
+            }
+            GameManager.gMan.PlayerActionMap(false);
+        }
+        else
+        {
+            LockUser(false);
+            playerInventory.inventoryUI.Hide();
+            GameManager.gMan.PlayerActionMap(true);
         }
     }
 
@@ -544,10 +576,6 @@ public class PlayerController : MonoBehaviour
     public Vector2 GetMouseDelta()
     {
         return playerControls.Player.Look.ReadValue<Vector2>();
-    }
-    public bool InventoryInput()
-    {
-        return playerControls.Player.Inventory.triggered;
     }
 
     #endregion

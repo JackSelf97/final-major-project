@@ -153,6 +153,16 @@ public class UIManager : MonoBehaviour
             panel.SetActive(state);
     }
 
+    public void Resume() // Makes part of the Pause() redundant
+    {
+        playerController.LockUser(false);
+        playerController.isPaused = false;
+        playerController.pauseScreen.SetActive(false);
+
+        GameManager.gMan.PlayerActionMap(true);
+        Time.timeScale = 1f;
+    }
+
     #region Functions w/ Prompts
 
     private void ShowPrompt(bool state, string prompt = "")
