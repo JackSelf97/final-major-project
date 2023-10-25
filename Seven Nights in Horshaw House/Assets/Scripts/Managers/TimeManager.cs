@@ -9,12 +9,12 @@ public class TimeManager : MonoBehaviour
     [Header("Time")]
     public float timeMultiplier = 0f;
     [NonSerialized] public float timeScale = 1000;
-    [SerializeField] private float startHour = 0f;
-    [SerializeField] private Text dayText = null;
+    public float startHour = 0f;
+    public Text dayText = null;
     [SerializeField] private Text timeText = null;
     [SerializeField] private int lastRecordedDay = 0;
     [SerializeField] private int newDayStartHour = 0;
-    [SerializeField] private int days = 0;
+    public int days = 0;
     public DateTime currentTime;
 
     [Header("Sunlight")]
@@ -126,7 +126,7 @@ public class TimeManager : MonoBehaviour
     private void EnemyState()
     {
         // Spawning the enemy
-        if (currentTime.Hour.Equals(13) && !enemy.activeSelf) // consider using greater than rather than equals
+        if (currentTime.Hour.Equals((int)sunsetHour) && !enemy.activeSelf) // consider using greater than rather than equals
         {
             Debug.Log("Enable the enemy!");
             enemy.SetActive(true);

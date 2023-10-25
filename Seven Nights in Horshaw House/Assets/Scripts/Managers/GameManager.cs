@@ -3,7 +3,6 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private SpawnPointSO spawnPointSO = null;
-    [SerializeField] private UIManager UIMan = null;
     [SerializeField] private GameObject player = null;
     private PlayerController playerController = null;
     public bool mainMenu = true;

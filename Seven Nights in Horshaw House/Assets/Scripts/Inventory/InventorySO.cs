@@ -29,15 +29,17 @@ namespace Inventory.Model
             {
                 for (int i = 0; i < inventoryItems.Count; i++)
                 {
-                    while(count > 0 && !IsInventoryFull())
+                    while (count > 0 && !IsInventoryFull())
                     {
                         count -= AddItemToFirstEmptySlot(itemSO, 1, itemState);
                     }
-                    InformChange();
-                    return count;
                 }
             }
-            count = AddStackableItem(itemSO, count); // for stackable items going into the inventory
+            else
+            {
+                count = AddStackableItem(itemSO, count);
+            }
+
             InformChange();
             return count;
         }

@@ -17,6 +17,9 @@ public class UIManager : MonoBehaviour
     private GameObject player = null;
     private PlayerController playerController = null;
 
+    [Header("Managers")]
+    [SerializeField] private TimeManager timeManager = null;
+
     [Header("General Menu Properties")]
     [SerializeField] private GameObject backButton = null;
     [SerializeField] private int backButtonIndex = 0;
@@ -53,6 +56,7 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        timeManager = FindObjectOfType<TimeManager>();
         player = GameObject.FindGameObjectWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
         
@@ -220,6 +224,10 @@ public class UIManager : MonoBehaviour
         menuCanvas.SetActive(true);
         GameManager.gMan.mainMenu = true;
         GameManager.gMan.PlayerActionMap(false);
+
+        // TimeManager Properties
+        timeManager.currentTime = DateTime.Now.Date + TimeSpan.FromHours(timeManager.startHour); // not reseting appropriately
+        timeManager.days = 0;
 
         ShowPrompt(false);
     }

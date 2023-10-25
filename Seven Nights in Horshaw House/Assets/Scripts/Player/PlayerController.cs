@@ -446,7 +446,7 @@ public class PlayerController : MonoBehaviour
     {
         RaycastHit hit;
         const float rayLength = 5;
-        const int touchSpriteIndex = 0, grabSpriteIndex = 1, inspectSpriteIndex = 2;
+        const int touchSpriteIndex = 0, grabSpriteIndex = 1;
 
         Debug.DrawRay(cam.position, cam.forward.normalized * rayLength, Color.yellow);
         if (Physics.Raycast(cam.position, cam.forward.normalized, out hit, rayLength, interactableLayer))
@@ -459,18 +459,16 @@ public class PlayerController : MonoBehaviour
 
             switch (target.tag)
             {
+                case "AccessPoint":
                 case "Corpse":
-                    sprite = interactionSprite[touchSpriteIndex];
+                case "Item":
+                    sprite = interactionSprite[grabSpriteIndex];
                     break;
                 case "Object":
                     if (!grabbing)
                         sprite = interactionSprite[touchSpriteIndex];
                     else
                         sprite = interactionSprite[grabSpriteIndex];
-                    break;
-                case "AccessPoint":
-                case "Item":
-                    sprite = interactionSprite[inspectSpriteIndex];
                     break;
             }
             SpriteChange(shouldChangeSprite, sprite);
