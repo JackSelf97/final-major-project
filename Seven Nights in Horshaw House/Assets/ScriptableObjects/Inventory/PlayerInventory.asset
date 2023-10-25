@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: PlayerInventory
   m_EditorClassIdentifier: 
   inventoryItems:
-  - count: 98
-    itemSO: {fileID: 11400000, guid: 57e6c7ec6df533d48a194f3974c3cd87, type: 2}
   - count: 1
-    itemSO: {fileID: 11400000, guid: 24fffbee843d5c445bb2e96558ece448, type: 2}
+    itemSO: {fileID: 11400000, guid: 93f251b41f5b54b488edf1bb4667aa90, type: 2}
+    itemState: []
   - count: 0
     itemSO: {fileID: 0}
-  <Size>k__BackingField: 3
+    itemState: []
+  <Size>k__BackingField: 2

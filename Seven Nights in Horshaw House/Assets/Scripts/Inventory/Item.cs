@@ -11,11 +11,6 @@ public class Item : MonoBehaviour
     [SerializeField] private AudioSource audioSource = null;
     [SerializeField] private float duration = 0.3f;
 
-    private void Start()
-    {
-        GetComponentInChildren<MeshFilter>().mesh = InventoryItem.ItemMesh; // item model (change via itemSO)
-    }
-
     public void DestroyItem()
     {
         GetComponent<Collider>().enabled = false;

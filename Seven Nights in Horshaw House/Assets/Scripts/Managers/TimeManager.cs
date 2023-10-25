@@ -10,7 +10,11 @@ public class TimeManager : MonoBehaviour
     public float timeMultiplier = 0f;
     [NonSerialized] public float timeScale = 1000;
     [SerializeField] private float startHour = 0f;
+    [SerializeField] private Text dayText = null;
     [SerializeField] private Text timeText = null;
+    [SerializeField] private int lastRecordedDay = 0;
+    [SerializeField] private int newDayStartHour = 0;
+    [SerializeField] private int days = 0;
     public DateTime currentTime;
 
     [Header("Sunlight")]
@@ -39,6 +43,7 @@ public class TimeManager : MonoBehaviour
         currentTime = DateTime.Now.Date + TimeSpan.FromHours(startHour);
         sunriseTime = TimeSpan.FromHours(sunriseHour);
         sunsetTime = TimeSpan.FromHours(sunsetHour);
+        lastRecordedDay = currentTime.Day; // Set the initial day
         enemy.SetActive(false);
     }
 
@@ -60,7 +65,17 @@ public class TimeManager : MonoBehaviour
 
         if (timeText != null)
         {
-            timeText.text = currentTime.ToString("HH:mm"); // 24 hour format
+            timeText.text = currentTime.ToString("HH:mm tt"); // 24 hour format with AM/PM
+        }
+        if (dayText != null)
+        {
+            int currentDay = currentTime.Day;
+            if (currentDay != lastRecordedDay)
+            {
+                days++;
+                lastRecordedDay = currentDay;
+            }
+            dayText.text = "DAY " + days.ToString();
         }
     }
 

@@ -12,10 +12,9 @@ namespace Inventory.Model
         [field: SerializeField] public int MaxStackSize { get; set; } = 1;
         [field: SerializeField] public string ItemName { get; set; }
 
-        [field: TextArea]
+        [field: TextArea(15, 20)]
         [field: SerializeField] public string ItemDescription { get; set; }
         [field: SerializeField] public Sprite ItemImage { get; set; }
-        [field: SerializeField] public Mesh ItemMesh { get; set; }
 
         [field: SerializeField] public List<ItemParameter> DefaultParametersList { get; set; }
     }
