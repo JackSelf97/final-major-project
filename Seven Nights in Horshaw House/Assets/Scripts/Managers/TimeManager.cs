@@ -1,5 +1,4 @@
 using System;
-using System.Data;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,26 +6,26 @@ using UnityEngine.UI;
 public class TimeManager : MonoBehaviour
 {
     [Header("Time")]
-    public float timeMultiplier = 0f;
     [NonSerialized] public float timeScale = 1000;
+    public float timeMultiplier = 0f;
     public float startHour = 0f;
-    public Text dayText = null;
-    [SerializeField] private Text timeText = null;
-    [SerializeField] private int lastRecordedDay = 0;
-    [SerializeField] private int newDayStartHour = 0;
+    public int lastRecordedDay = 0;
+    public int newDayStartHour = 0;
     public int days = 0;
     public DateTime currentTime;
+    public Text dayText = null;
+    [SerializeField] private Text timeText = null;
 
     [Header("Sunlight")]
     [SerializeField] private Light sunlight = null;
     [SerializeField] private float sunriseHour = 0f;
     [SerializeField] private float sunsetHour = 0f;
-    private TimeSpan sunriseTime;
-    private TimeSpan sunsetTime;
     [SerializeField] private Color dayAmbientLight;
     [SerializeField] private Color nightAmbientLight;
     [SerializeField] private AnimationCurve lightChangeCurve = null;
     [SerializeField] private float maxSunlightIntensity = 0f;
+    private TimeSpan sunriseTime;
+    private TimeSpan sunsetTime;
 
     [Header("Moonlight")]
     [SerializeField] private Light moonlight = null;
@@ -73,6 +72,7 @@ public class TimeManager : MonoBehaviour
             if (currentDay != lastRecordedDay)
             {
                 days++;
+                Debug.Log("ANOTHER DAY");
                 lastRecordedDay = currentDay;
             }
             dayText.text = "DAY " + days.ToString();
@@ -116,25 +116,34 @@ public class TimeManager : MonoBehaviour
     private TimeSpan CalculateTimeDifference(TimeSpan fromTime, TimeSpan toTime)
     {
         TimeSpan difference = toTime - fromTime;
-        if (difference.TotalSeconds < 0) // is it negative?
+        if (difference.TotalSeconds < 0)
         {
             difference += TimeSpan.FromHours(24);
         }
         return difference;
     }
 
+    public void ResetTime()
+    {
+        currentTime = DateTime.Now.Date + TimeSpan.FromHours(startHour);
+        lastRecordedDay = currentTime.Day;
+        days = 0;
+    }
+
+    #region Triggers
+
     private void EnemyState()
     {
         // Spawning the enemy
         if (currentTime.Hour.Equals((int)sunsetHour) && !enemy.activeSelf) // consider using greater than rather than equals
         {
-            Debug.Log("Enable the enemy!");
             enemy.SetActive(true);
         }
         else if (currentTime.Hour.Equals((int)sunriseHour) && enemy.activeSelf)
         {
-            Debug.Log("Disable the enemy!");
             enemy.SetActive(false);
         }
     }
+
+    #endregion
 }

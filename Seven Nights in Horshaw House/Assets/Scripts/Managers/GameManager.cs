@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SpawnPointSO spawnPointSO = null;
     [SerializeField] private GameObject player = null;
     private PlayerController playerController = null;
+    public Transform startPos = null;
     public bool mainMenu = true;
 
     [Header("Respite Mechanics")]
@@ -42,6 +43,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         player = GameObject.FindWithTag("Player");
+        startPos = GameObject.Find("StartPos").gameObject.transform;
         playerController = player.GetComponent<PlayerController>();
     }
 

@@ -45,6 +45,11 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
+    public void Permadeath()
+    {
+        transform.position = GameManager.gMan.GetPlayerSpawnPoint();
+    }
+
     public void ToggleSpiritRealm(bool state, float percentage) // not sure if I should do it this way because of the percentage change
     {
         spiritRealm = state;

@@ -28,7 +28,7 @@ namespace Inventory
             PrepareInventoryData();
         }
 
-        private void PrepareInventoryData()
+        public void PrepareInventoryData()
         {
             inventorySO.Initialise();
             inventorySO.OnInventoryChanged += UpdateInventoryUI;

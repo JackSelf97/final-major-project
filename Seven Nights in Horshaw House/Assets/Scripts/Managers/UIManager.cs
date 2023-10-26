@@ -1,6 +1,8 @@
+using Inventory;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -214,20 +216,30 @@ public class UIManager : MonoBehaviour
         promptYes.onClick.AddListener(() => RestartGame());
     }
 
-    private void RestartGame() // Currently does not reset positions or time
+    private void RestartGame()
     {
-        Time.timeScale = 1f;
-        playerController.isPaused = false;
-        playerController.pauseScreen.SetActive(false);
-        stateDrivenCameraAnimator.Play("Main Menu");
-        playerCanvas.SetActive(false);
-        menuCanvas.SetActive(true);
-        GameManager.gMan.mainMenu = true;
-        GameManager.gMan.PlayerActionMap(false);
+        // UI Change
+        playerController.isPaused = false; 
+        playerController.pauseScreen.SetActive(false); 
+        stateDrivenCameraAnimator.Play("Main Menu"); //
+        playerCanvas.SetActive(false); // Consider turning into a function
+        menuCanvas.SetActive(true); //
+        GameManager.gMan.mainMenu = true; //
+        GameManager.gMan.PlayerActionMap(false); //
 
-        // TimeManager Properties
-        timeManager.currentTime = DateTime.Now.Date + TimeSpan.FromHours(timeManager.startHour); // not reseting appropriately
-        timeManager.days = 0;
+        // Reset Time & Day
+        Time.timeScale = 1f;
+        timeManager.ResetTime();
+
+        // Reset Character Position
+        if (GameManager.gMan.startPos != null)
+            player.transform.position = GameManager.gMan.startPos.position;
+
+        // Reset Inventory
+        player.GetComponent<PlayerInventory>().PrepareInventoryData();
+
+        // Reset the Skulls
+
 
         ShowPrompt(false);
     }
