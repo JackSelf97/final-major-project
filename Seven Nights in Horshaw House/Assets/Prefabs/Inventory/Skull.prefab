@@ -93,11 +93,12 @@ GameObject:
   m_Component:
   - component: {fileID: 2153225349278408624}
   - component: {fileID: 6610110684754979009}
-  - component: {fileID: 1668272243894109666}
-  - component: {fileID: 7830837550358600605}
   - component: {fileID: 2603255749695034201}
+  - component: {fileID: 1668272243894109666}
+  - component: {fileID: 2477092176647053264}
+  - component: {fileID: 7830837550358600605}
   m_Layer: 6
-  m_Name: Skull_Bone
+  m_Name: Skull
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,6 +149,19 @@ LODGroup:
     renderers:
     - renderer: {fileID: 5448058762546316173}
   m_Enabled: 1
+--- !u!135 &2603255749695034201
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633148191495636234}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.15
+  m_Center: {x: 0, y: 0.1, z: 0}
 --- !u!114 &1668272243894109666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,6 +178,18 @@ MonoBehaviour:
   <Count>k__BackingField: 1
   audioSource: {fileID: 7830837550358600605}
   duration: 0.3
+--- !u!114 &2477092176647053264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633148191495636234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcc5b111c304e444d90d724be3d5d354, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!82 &7830837550358600605
 AudioSource:
   m_ObjectHideFlags: 0
@@ -260,19 +286,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!135 &2603255749695034201
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1633148191495636234}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.15
-  m_Center: {x: 0, y: 0.1, z: 0}
 --- !u!1 &6485577500803870146
 GameObject:
   m_ObjectHideFlags: 0

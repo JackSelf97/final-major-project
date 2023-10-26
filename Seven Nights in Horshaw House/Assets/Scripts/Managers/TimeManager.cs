@@ -12,6 +12,7 @@ public class TimeManager : MonoBehaviour
     public int lastRecordedDay = 0;
     public int newDayStartHour = 0;
     public int days = 0;
+    public int maxDays = 7;
     public DateTime currentTime;
     public Text dayText = null;
     [SerializeField] private Text timeText = null;
@@ -76,6 +77,10 @@ public class TimeManager : MonoBehaviour
                 lastRecordedDay = currentDay;
             }
             dayText.text = "DAY " + days.ToString();
+        }
+        if (days >= maxDays)
+        {
+            GameManager.gMan.CheckLoseState(); // make it so that this triggers once
         }
     }
 

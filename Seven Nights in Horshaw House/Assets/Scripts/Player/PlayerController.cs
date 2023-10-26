@@ -422,6 +422,10 @@ public class PlayerController : MonoBehaviour
                     if (item != null)
                     {
                         int remainder = inventorySO.AddItem(item.InventoryItem, item.Count);
+                        if (item.GetComponent<Skull>() != null) // Use this approach to check for puzzle related 'Items'
+                        {
+                            item.GetComponent<Skull>().Interact();
+                        }
                         if (remainder == 0)
                         {
                             item.DestroyItem();
