@@ -25,23 +25,21 @@ public class PlayerStats : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if (!playerController.locked)
+        // Why 'if (!playerController.locked)'?
+        currHP -= damage;
+        if (currHP <= 0)
         {
-            currHP -= damage;
-            if (currHP <= 0)
+            if (GameObject.Find("Player's Corpse"))
             {
-                if (GameObject.Find("Player's Corpse"))
-                {
-                    GameObject instance = GameObject.Find("Player's Corpse");
-                    timeManager.timeMultiplier = timeManager.timeScale;
-                    Destroy(instance);
-                }
-                var corpsePos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-                GameObject corpseObj = Instantiate(playerCorpse, corpsePos, Quaternion.identity);
-                corpseObj.name = "Player's Corpse";
-                transform.position = GameManager.gMan.GetPlayerSpawnPoint();
-                ToggleSpiritRealm(true, 1);
+                GameObject instance = GameObject.Find("Player's Corpse");
+                timeManager.timeMultiplier = timeManager.timeScale;
+                Destroy(instance);
             }
+            var corpsePos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            GameObject corpseObj = Instantiate(playerCorpse, corpsePos, Quaternion.identity);
+            corpseObj.name = "Player's Corpse";
+            transform.position = GameManager.gMan.GetPlayerSpawnPoint();
+            ToggleSpiritRealm(true, 1);
         }
     }
 

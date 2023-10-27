@@ -500,22 +500,22 @@ public class PlayerController : MonoBehaviour
     private void Pause(InputAction.CallbackContext callbackContext)
     {
         if (GameManager.gMan.pause)
+            Time.timeScale = 0f;
+        else
+            Time.timeScale = 1f;
+
+        isPaused = !isPaused;
+        if (isPaused)
         {
-            isPaused = !isPaused;
-            if (isPaused)
-            {
-                Time.timeScale = 0f;
-                pauseScreen.SetActive(true);
-                LockUser(true);
-                GameManager.gMan.PlayerActionMap(false);
-            }
-            else
-            {
-                Time.timeScale = 1f;
-                pauseScreen.SetActive(false);
-                LockUser(false);
-                GameManager.gMan.PlayerActionMap(true);
-            }
+            pauseScreen.SetActive(true);
+            LockUser(true);
+            GameManager.gMan.PlayerActionMap(false);
+        }
+        else
+        {
+            pauseScreen.SetActive(false);
+            LockUser(false);
+            GameManager.gMan.PlayerActionMap(true);
         }
     }
 
