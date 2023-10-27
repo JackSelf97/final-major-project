@@ -216,20 +216,26 @@ public class UIManager : MonoBehaviour
         promptYes.onClick.AddListener(() => RestartGame());
     }
 
-    private void RestartGame()
+    public void RestartGame() // Consider if you need all of these checks.
     {
         // UI Change
         playerController.isPaused = false; 
         playerController.pauseScreen.SetActive(false); 
-        stateDrivenCameraAnimator.Play("Main Menu"); //
-        playerCanvas.SetActive(false); // Consider turning into a function
-        menuCanvas.SetActive(true); //
-        GameManager.gMan.mainMenu = true; //
-        GameManager.gMan.PlayerActionMap(false); //
+        stateDrivenCameraAnimator.Play("Main Menu");
+        playerCanvas.SetActive(false);
+        menuCanvas.SetActive(true); 
+        GameManager.gMan.mainMenu = true; 
+        GameManager.gMan.PlayerActionMap(false);
 
         // Reset Time & Day
         Time.timeScale = 1f;
         timeManager.ResetTime();
+        if (timeManager.accessPoint.isTimePaused)
+            timeManager.accessPoint.isTimePaused = false;
+
+        // Disable the Enemy
+        if (timeManager.enemy.activeSelf)
+            timeManager.enemy.SetActive(false);
 
         // Reset Character Position
         if (GameManager.gMan.startPos != null)
@@ -239,8 +245,23 @@ public class UIManager : MonoBehaviour
         player.GetComponent<PlayerInventory>().PrepareInventoryData();
 
         // Reset the Skulls
+        GameManager.gMan.InstantiateSkulls();
 
-
+        // End Game
+        if (GameManager.gMan.endGamePanel.activeSelf)
+        {
+            if (GameManager.gMan.gameWon)
+            {
+                GameManager.gMan.gameWon = false;
+                GameManager.gMan.endGamePanel.transform.GetChild(0).gameObject.SetActive(false);
+            }
+            else
+            {
+                GameManager.gMan.endGamePanel.transform.GetChild(1).gameObject.SetActive(false);
+            }
+            GameManager.gMan.endGamePanel.SetActive(false);
+        }
+        
         ShowPrompt(false);
     }
 

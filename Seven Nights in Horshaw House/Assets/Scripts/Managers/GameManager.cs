@@ -13,8 +13,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<GameObject> skulls = new List<GameObject>();
     [SerializeField] private SpawnPointSO skullSpawnPointSO = null;
     [SerializeField] private GameObject skullPrefab = null;
-    [SerializeField] private int totalSkulls = 8;
+    public int totalSkulls = 8;
     public int collectedSkulls = 0;
+
+    [Header("Game State")]
+    public GameObject endGamePanel = null;
     public bool gameWon = false;
 
     [Header("Respite Mechanics")]
@@ -57,6 +60,8 @@ public class GameManager : MonoBehaviour
 
         // Proof of Concept
         InstantiateSkulls();
+        if (endGamePanel != null)
+            endGamePanel.SetActive(false);
     }
 
     #region Player Functions
@@ -91,6 +96,14 @@ public class GameManager : MonoBehaviour
             Debug.LogError("SkullSpawnPointSO is not assigned.");
             return;
         }
+
+        // Clear existing skulls and remove them from the scene
+        foreach (GameObject skull in skulls)
+        {
+            Destroy(skull);
+        }
+        skulls.Clear();
+        collectedSkulls = 0;
 
         if (totalSkulls > skullSpawnPointSO.spawnPoint.Length)
         {
@@ -141,24 +154,25 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public bool CheckWinState()
+    public bool EnableEndGameState()
     {
-        if (collectedSkulls == totalSkulls)
+        gameWon = collectedSkulls == totalSkulls;
+
+        if (gameWon)
         {
             Debug.Log("You Win!");
-            return gameWon = true;
+            endGamePanel.transform.GetChild(0).gameObject.SetActive(true);
         }
         else
         {
-            return gameWon = false;
-        }
-    }
-
-    public void CheckLoseState()
-    {
-        if (!gameWon)
-        {
             Debug.Log("You Lose!");
+            endGamePanel.transform.GetChild(1).gameObject.SetActive(true);
         }
+
+        endGamePanel.SetActive(true);
+        PlayerActionMap(false);
+        playerController.LockUser(true);
+
+        return gameWon;
     }
 }

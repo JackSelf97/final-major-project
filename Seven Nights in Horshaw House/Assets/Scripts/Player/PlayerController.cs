@@ -421,6 +421,7 @@ public class PlayerController : MonoBehaviour
                     Item item = hit.transform.GetComponent<Item>();
                     if (item != null)
                     {
+                        if (playerStats.spiritRealm) { return; }
                         int remainder = inventorySO.AddItem(item.InventoryItem, item.Count);
                         if (item.GetComponent<Skull>() != null) // Use this approach to check for puzzle related 'Items'
                         {
@@ -465,7 +466,10 @@ public class PlayerController : MonoBehaviour
             {
                 case "AccessPoint":
                 case "Corpse":
+                    sprite = interactionSprite[grabSpriteIndex];
+                    break;
                 case "Item":
+                    if (playerStats.spiritRealm) { return; } // UI change into a grab outline?
                     sprite = interactionSprite[grabSpriteIndex];
                     break;
                 case "Object":

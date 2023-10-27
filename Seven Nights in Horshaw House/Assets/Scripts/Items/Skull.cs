@@ -10,7 +10,8 @@ public class Skull : MonoBehaviour, IInteractable
     public void Interact()
     {
         GameManager.gMan.collectedSkulls++;
-        GameManager.gMan.CheckWinState();
+        if (GameManager.gMan.collectedSkulls == GameManager.gMan.totalSkulls)
+            GameManager.gMan.EnableEndGameState();
     }
 
     // Start is called before the first frame update

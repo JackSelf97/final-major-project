@@ -34,7 +34,7 @@ public class TimeManager : MonoBehaviour
 
     [Header("Game Mechanics")]
     [SerializeField] private UIManager UIMan = null;
-    [SerializeField] private GameObject enemy = null;
+    public GameObject enemy = null;
     public AccessPoint accessPoint = null;
 
     // Start is called before the first frame update
@@ -73,14 +73,19 @@ public class TimeManager : MonoBehaviour
             if (currentDay != lastRecordedDay)
             {
                 days++;
-                Debug.Log("ANOTHER DAY");
                 lastRecordedDay = currentDay;
             }
             dayText.text = "DAY " + days.ToString();
         }
-        if (days >= maxDays)
+
+        // End Game State
+        if (days >= maxDays && !GameManager.gMan.gameWon)
         {
-            GameManager.gMan.CheckLoseState(); // make it so that this triggers once
+            GameManager.gMan.EnableEndGameState();
+
+            // Reset Time & Day
+            Time.timeScale = 0f;
+            ResetTime();
         }
     }
 
