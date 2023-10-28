@@ -15,11 +15,24 @@ MonoBehaviour:
   <IsStackable>k__BackingField: 0
   <MaxStackSize>k__BackingField: 1
   <ItemName>k__BackingField: Developer Message
-  <ItemDescription>k__BackingField: "Hello and thank you for taking the time to playtest
-    Seven Nights in Horshaw House version 0.3! \n\nPlease visit the testing tab to
-    see what the focus of this spefific version of the game you will be testing.
-    Furthermore, I highly reccomend you familirise yourself with the controls of
-    the game before playing. "
+  <ItemDescription>k__BackingField: 'Thank you for participating in the Seven Nights
+    in Horshaw House (Ver. 0.3) playtest.
+
+
+    Please visit the testing tab, located
+    in the main menu screen, to learn more about the demo that you will be evaluating.
+    Additionally, I strongly advise familiarising yourself with the game controls
+    before diving in.
+
+
+    After you''ve finished your playthrough, I kindly request
+    that you take a moment to complete the questionnaire that has been made available
+    alongside this demo. Your feedback is greatly appreciated as it will help to
+    develop the game further. Thank you once again for your engagement in this playtest!
+
+
+    -
+    Jack'
   <ItemImage>k__BackingField: {fileID: 21300000, guid: c0dee3c637e6ad54c9485029e5064742, type: 3}
   <DefaultParametersList>k__BackingField: []
   modifierData: []
