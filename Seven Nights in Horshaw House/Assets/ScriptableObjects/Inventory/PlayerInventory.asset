@@ -14,9 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryItems:
   - count: 1
+    itemSO: {fileID: 11400000, guid: a8054b7426b408f448fff5c25c75d35e, type: 2}
+    itemState: []
+  - count: 1
     itemSO: {fileID: 11400000, guid: 93f251b41f5b54b488edf1bb4667aa90, type: 2}
     itemState: []
   - count: 0
     itemSO: {fileID: 0}
     itemState: []
-  <Size>k__BackingField: 2
+  <Size>k__BackingField: 3

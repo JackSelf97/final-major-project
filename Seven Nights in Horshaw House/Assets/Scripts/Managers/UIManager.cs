@@ -1,11 +1,5 @@
 using Inventory;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -159,7 +153,7 @@ public class UIManager : MonoBehaviour
             panel.SetActive(state);
     }
 
-    public void Resume() // Makes part of the Pause() redundant
+    public void Resume()
     {
         playerController.LockUser(false);
         playerController.isPaused = false;
@@ -216,22 +210,15 @@ public class UIManager : MonoBehaviour
         promptYes.onClick.AddListener(() => RestartGame());
     }
 
+    #region Restart Checks
+
     public void RestartGame() // Consider if you need all of these checks.
     {
-        // UI Change
-        playerController.isPaused = false; 
-        playerController.pauseScreen.SetActive(false); 
-        stateDrivenCameraAnimator.Play("Main Menu");
-        playerCanvas.SetActive(false);
-        menuCanvas.SetActive(true); 
-        GameManager.gMan.mainMenu = true; 
-        GameManager.gMan.PlayerActionMap(false);
-
-        // Reset Time & Day
-        Time.timeScale = 1f;
-        timeManager.ResetTime();
-        if (timeManager.accessPoint.isTimePaused)
-            timeManager.accessPoint.isTimePaused = false;
+        // Reset Functions
+        ResetUI();
+        ResetTime();
+        ResetAllObjects();
+        ResetEndGame();
 
         // Disable the Enemy
         if (timeManager.enemy.activeSelf)
@@ -247,7 +234,31 @@ public class UIManager : MonoBehaviour
         // Reset the Skulls
         GameManager.gMan.InstantiateSkulls();
 
-        // End Game
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // Consider a 'Main Menu' screen
+        ShowPrompt(false);
+    }
+
+    void ResetUI()
+    {
+        playerController.isPaused = false;
+        playerController.pauseScreen.SetActive(false);
+        stateDrivenCameraAnimator.Play("Main Menu");
+        playerCanvas.SetActive(false);
+        menuCanvas.SetActive(true);
+        GameManager.gMan.mainMenu = true;
+        GameManager.gMan.PlayerActionMap(false);
+    }
+
+    void ResetTime()
+    {
+        Time.timeScale = 1f;
+        timeManager.ResetTime();
+        if (timeManager.accessPoint.isTimePaused)
+            timeManager.accessPoint.isTimePaused = false;
+    }
+
+    void ResetEndGame()
+    {
         if (GameManager.gMan.endGamePanel.activeSelf)
         {
             if (GameManager.gMan.gameWon)
@@ -261,9 +272,19 @@ public class UIManager : MonoBehaviour
             }
             GameManager.gMan.endGamePanel.SetActive(false);
         }
-        
-        ShowPrompt(false);
     }
+
+    void ResetAllObjects()
+    {
+        InteractableObject[] interactableObjects = FindObjectsOfType<InteractableObject>();
+        for (int i = 0; i < interactableObjects.Length; i++)
+        {
+            // Reset or perform some operation on interactableObjects[i] here
+            interactableObjects[i].ResetPositionAndRotation();
+        }
+    }
+
+    #endregion
 
     public void P_QuitGame()
     {

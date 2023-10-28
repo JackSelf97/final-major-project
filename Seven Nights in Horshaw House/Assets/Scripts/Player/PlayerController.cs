@@ -57,9 +57,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Sprite[] interactionSprite = new Sprite[0];
     [SerializeField] private Image crosshair = null;
     [SerializeField] private Image interactionImage = null;
-
     [SerializeField] private Transform objectDestination;
     [SerializeField] private GameObject objectTarget = null;
+
     private Rigidbody objectRb = null;
     private float pickUpRange = 5f;
     private float pickUpForce = 150f;
@@ -82,8 +82,16 @@ public class PlayerController : MonoBehaviour
     private InputAction pickUpAction = null;
 
     // Action Maps
-    public InputActionMap playerMap = null;
-    public InputActionMap userInterfaceMap = null;
+    [HideInInspector] public InputActionMap playerMap = null;
+    [HideInInspector] public InputActionMap userInterfaceMap = null;
+
+    [Header("Hints")]
+    [SerializeField] private Text promptText = null;
+    [SerializeField] private bool itemCheck = false;
+    [SerializeField] private bool objectCheck = false;
+    [SerializeField] private bool corpseCheck = false;
+    [SerializeField] private bool accessPointCheck = false;
+    [SerializeField] private bool inventoryCheck = false;
 
     private void Awake()
     {
@@ -338,6 +346,7 @@ public class PlayerController : MonoBehaviour
                 playerInventory.inventoryUI.UpdateData(item.Key, item.Value.itemSO.ItemImage, item.Value.count);
             }
             GameManager.gMan.PlayerActionMap(false);
+            inventoryCheck = true;
         }
         else
         {
@@ -359,6 +368,7 @@ public class PlayerController : MonoBehaviour
                 if (Physics.Raycast(cam.position, cam.forward.normalized, out hit, pickUpRange, interactableLayer))
                 {
                     PickUpObject(hit.transform.gameObject);
+                    objectCheck = true;
                 }
             }
         }
@@ -416,6 +426,7 @@ public class PlayerController : MonoBehaviour
                 case "AccessPoint":
                     AccessPoint accessPoint = hit.transform.GetComponent<AccessPoint>();
                     accessPoint.Interact();
+                    accessPointCheck = true;
                     break;
                 case "Item":
                     Item item = hit.transform.GetComponent<Item>();
@@ -436,11 +447,13 @@ public class PlayerController : MonoBehaviour
                             item.Count = remainder;
                         }
                     }
+                    itemCheck = true;
                     break;
                 case "Corpse":
                     gameObject.transform.position = hit.transform.position;
                     Destroy(target.gameObject);
                     playerStats.ToggleSpiritRealm(false, -1);
+                    corpseCheck = true;
                     break;
             }
             interact = true;
@@ -454,31 +467,41 @@ public class PlayerController : MonoBehaviour
         const int touchSpriteIndex = 0, grabSpriteIndex = 1;
 
         Debug.DrawRay(cam.position, cam.forward.normalized * rayLength, Color.yellow);
+
         if (Physics.Raycast(cam.position, cam.forward.normalized, out hit, rayLength, interactableLayer))
         {
             Debug.Log("Examining " + hit.collider.name);
             var target = hit.transform;
-
-            bool shouldChangeSprite = !interact; // Determine whether sprite should change
+            bool shouldChangeSprite = !interact;
             Sprite sprite = null;
+            string prompt = "";
 
             switch (target.tag)
             {
                 case "AccessPoint":
+                    sprite = interactionSprite[grabSpriteIndex];
+                    if (!accessPointCheck) prompt = "(E)";
+                    break;
                 case "Corpse":
                     sprite = interactionSprite[grabSpriteIndex];
+                    if (!corpseCheck) prompt = "(E)";
                     break;
                 case "Item":
-                    if (playerStats.spiritRealm) { return; } // UI change into a grab outline?
+                    if (playerStats.spiritRealm) return;
                     sprite = interactionSprite[grabSpriteIndex];
+                    if (!itemCheck) prompt = "(E)";
                     break;
                 case "Object":
                     if (!grabbing)
+                    {
                         sprite = interactionSprite[touchSpriteIndex];
-                    else
-                        sprite = interactionSprite[grabSpriteIndex];
+                        if (!objectCheck) prompt = "(LMB)";
+                    }
+                    else sprite = interactionSprite[grabSpriteIndex];
                     break;
             }
+
+            promptText.text = prompt;
             SpriteChange(shouldChangeSprite, sprite);
         }
         else
@@ -492,6 +515,14 @@ public class PlayerController : MonoBehaviour
     {
         interactionImage.sprite = sprite;
         interactionImage.enabled = state;
+        if (inventoryCheck)
+        {
+            promptText.enabled = state;
+        }
+        else
+        {
+            if (!inventoryCheck) promptText.text = "(I)";
+        }
         crosshair.enabled = !state;
     }
 
