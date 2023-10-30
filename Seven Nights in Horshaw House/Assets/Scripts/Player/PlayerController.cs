@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Text promptText = null;
     [SerializeField] private bool itemCheck = false;
     [SerializeField] private bool objectCheck = false;
-    [SerializeField] private bool corpseCheck = false;
+    public bool corpseCheck = false;
     [SerializeField] private bool accessPointCheck = false;
     [SerializeField] private bool inventoryCheck = false;
 

@@ -219,6 +219,7 @@ public class UIManager : MonoBehaviour
         ResetTime();
         ResetAllObjects();
         ResetEndGame();
+        ResetPlayer();
 
         // Disable the Enemy
         if (timeManager.enemy.activeSelf)
@@ -281,6 +282,18 @@ public class UIManager : MonoBehaviour
         {
             // Reset or perform some operation on interactableObjects[i] here
             interactableObjects[i].ResetPositionAndRotation();
+        }
+    }
+
+    void ResetPlayer() // Consider making it a function inside PlayerController
+    {
+        PlayerStats playerStats = player.GetComponent<PlayerStats>(); // consider making global 
+        if (playerStats.spiritRealm)
+        {
+            Destroy(GameObject.Find("Player's Corpse"));
+            playerStats.ToggleSpiritRealm(false, -1);
+            playerController.corpseCheck = true;
+            // add more like inventory
         }
     }
 

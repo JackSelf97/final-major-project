@@ -141,6 +141,7 @@ public class EnemyController : MonoBehaviour
         navMeshAgent.SetDestination(target);
         travelling = true;
         navMeshAgent.speed = patrolSpeed;
+        Debug.Log(currWaypoint.name);
     }
 
     private void GetWaypoints(GameObject[] allWaypoints)
