@@ -55,7 +55,7 @@ public class TimeManager : MonoBehaviour
             UpdateTimeOfDay();
             RotateSun();
             UpdateLightSettings();
-            EnemyState();
+            ManageEnemyActivation();
         }
     }
 
@@ -142,16 +142,42 @@ public class TimeManager : MonoBehaviour
 
     #region Triggers
 
-    private void EnemyState()
+    private void ManageEnemyActivation()
     {
-        // Spawning the enemy
-        if (currentTime.Hour.Equals((int)sunsetHour) && !enemy.activeSelf) // consider using greater than rather than equals
+        // Get the current hour from the currentTime
+        int currentHour = currentTime.Hour;
+
+        // Check if the enemy should be active during the evening (between sunsetHour and sunriseHour)
+        if ((currentHour >= sunsetHour && currentHour < 24) || (currentHour >= 0 && currentHour < sunriseHour))
         {
-            enemy.SetActive(true);
+            if (!enemy.activeSelf)
+            {
+                // Activate the enemy during the evening
+                enemy.SetActive(true);
+
+                // Change enemy behavior for night
+                // For example, you can set the enemy to be more aggressive or move faster
+                //enemy.GetComponent<EnemyController>().SetNightBehavior();
+
+                Debug.Log("Nighttime: Activate the enemy with night behavior.");
+            }
         }
-        else if (currentTime.Hour.Equals((int)sunriseHour) && enemy.activeSelf)
+        else
         {
-            enemy.SetActive(false);
+            if (enemy.activeSelf)
+            {
+                // Reset the enemy
+                enemy.GetComponent<EnemyController>().EnemyReset();
+
+                // Deactivate the enemy outside the evening hours
+                enemy.SetActive(false);
+
+                // Change enemy behavior for the day
+                // For example, you can set the enemy to be less aggressive or move slower
+                //enemy.GetComponent<EnemyController>().SetDayBehavior();
+
+                Debug.Log("Daytime: Deactivate the enemy with day behavior.");
+            }
         }
     }
 

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -12,17 +10,5 @@ public class Skull : MonoBehaviour, IInteractable
         GameManager.gMan.collectedSkulls++;
         if (GameManager.gMan.collectedSkulls == GameManager.gMan.totalSkulls)
             GameManager.gMan.EnableEndGameState();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

@@ -12,6 +12,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private int patrolSpeed = 4;
     private NavMeshAgent navMeshAgent = null;
     private EnemyStats enemyStats = null;
+    private Vector3 originalPos = Vector3.zero;
+    private Quaternion originalRot = Quaternion.identity;
 
     [Header("States")]
     [SerializeField] private float totalWaitTime = 3f;
@@ -27,6 +29,8 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        originalPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        originalRot = transform.rotation;
         navMeshAgent = GetComponent<NavMeshAgent>();
         enemyStats = GetComponent<EnemyStats>();
         navMeshAgent.speed = 2;
@@ -103,6 +107,8 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    #region State Machine Logic
+
     void ChaseTarget()
     {
         // Set the bool
@@ -157,6 +163,19 @@ public class EnemyController : MonoBehaviour
         {
             Debug.LogError("Failed to find any waypoints for use in the scene!");
         }
+    }
+
+    #endregion
+
+    public void EnemyReset()
+    {
+        // Reset the enemy's position and rotation
+        transform.position = originalPos;
+        transform.rotation = originalRot;
+
+        // Stop chasing
+        if (chasing)
+            chasing = false;
     }
 
     private void OnDrawGizmosSelected()
