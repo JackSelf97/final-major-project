@@ -10,8 +10,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject menuCanvas = null;
     [SerializeField] private GameObject gameTitle = null;
     [SerializeField] private GameObject mainPanel = null;
+
+    // Game Properties
     private GameObject player = null;
     private PlayerController playerController = null;
+    private InteractableObject[] interactableObjects = new InteractableObject[0];
 
     [Header("Managers")]
     [SerializeField] private TimeManager timeManager = null;
@@ -52,10 +55,18 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        timeManager = FindObjectOfType<TimeManager>();
-        player = GameObject.FindGameObjectWithTag("Player");
+        InitialiseGame();
+    }
+
+    private void InitialiseGame()
+    {
+        // Locate GameObjects & Scripts
+        player = GameObject.FindWithTag("Player");
         playerController = player.GetComponent<PlayerController>();
-        
+        timeManager = FindObjectOfType<TimeManager>();
+        interactableObjects = FindObjectsOfType<InteractableObject>();
+
+        // Game Prep
         playerController.LockUser(true);
         SubmenuTemplate(null, false, 0);
         GameManager.gMan.PlayerActionMap(false);
@@ -219,23 +230,15 @@ public class UIManager : MonoBehaviour
         ResetTime();
         ResetAllObjects();
         ResetEndGame();
-        ResetPlayer();
+        playerController.ResetPlayer();
 
         // Disable the Enemy
         if (timeManager.enemy.activeSelf)
             timeManager.enemy.SetActive(false);
 
-        // Reset Character Position
-        if (GameManager.gMan.startPos != null)
-            player.transform.position = GameManager.gMan.startPos.position;
-
-        // Reset Inventory
-        player.GetComponent<PlayerInventory>().PrepareInventoryData();
-
         // Reset the Skulls
         GameManager.gMan.InstantiateSkulls();
 
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); // Consider a 'Main Menu' screen
         ShowPrompt(false);
     }
 
@@ -277,23 +280,10 @@ public class UIManager : MonoBehaviour
 
     void ResetAllObjects()
     {
-        InteractableObject[] interactableObjects = FindObjectsOfType<InteractableObject>();
         for (int i = 0; i < interactableObjects.Length; i++)
         {
             // Reset or perform some operation on interactableObjects[i] here
             interactableObjects[i].ResetPositionAndRotation();
-        }
-    }
-
-    void ResetPlayer() // Consider making it a function inside PlayerController
-    {
-        PlayerStats playerStats = player.GetComponent<PlayerStats>(); // consider making global 
-        if (playerStats.spiritRealm)
-        {
-            Destroy(GameObject.Find("Player's Corpse"));
-            playerStats.ToggleSpiritRealm(false, -1);
-            playerController.corpseCheck = true;
-            // add more like inventory
         }
     }
 

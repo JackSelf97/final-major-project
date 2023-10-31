@@ -33,7 +33,6 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private float maxMoonlightIntensity = 0f;
 
     [Header("Game Mechanics")]
-    [SerializeField] private UIManager UIMan = null;
     public GameObject enemy = null;
     public AccessPoint accessPoint = null;
 

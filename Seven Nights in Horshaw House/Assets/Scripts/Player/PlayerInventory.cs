@@ -9,7 +9,6 @@ namespace Inventory
     public class PlayerInventory : MonoBehaviour
     {
         [SerializeField] private PlayerController playerController = null;
-        [SerializeField] private UIManager UIMan = null;
         public InventoryPage inventoryUI = null;
         [SerializeField] private InventorySO inventorySO = null;
 

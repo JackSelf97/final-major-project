@@ -35,7 +35,6 @@ public class PlayerController : MonoBehaviour
     [Header("Player Properties")]
     [SerializeField] private LayerMask groundLayers;
     [SerializeField] private float speedChangeRate = 10.0f;
-    [SerializeField] private float groundedOffset = -0.14f;
     [SerializeField] private float groundedRadius = 0.5f;
     [SerializeField] private float fallTimeout = 0.15f;
     [SerializeField] private float jumpTimeout = 0.1f;
@@ -470,7 +469,6 @@ public class PlayerController : MonoBehaviour
 
         if (Physics.Raycast(cam.position, cam.forward.normalized, out hit, rayLength, interactableLayer))
         {
-            Debug.Log("Examining " + hit.collider.name);
             var target = hit.transform;
             bool shouldChangeSprite = !interact;
             Sprite sprite = null;
@@ -550,6 +548,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    #region Other
+
     public void LockUser(bool state)
     {
         locked = state;
@@ -558,6 +558,28 @@ public class PlayerController : MonoBehaviour
         else
             Cursor.lockState = CursorLockMode.Locked;
     }
+
+    public void ResetPlayer()
+    {
+        // Reset Character Position
+        if (GameManager.gMan.startPos != null)
+            transform.position = GameManager.gMan.startPos.position;
+
+        // Reset Inventory
+        playerInventory.PrepareInventoryData();
+
+        // Check for the spirit realm
+        if (!playerStats.spiritRealm)
+            return;
+        else
+        {
+            Destroy(GameObject.Find("Player's Corpse"));
+            playerStats.ToggleSpiritRealm(false, -1);
+            corpseCheck = true;
+        }
+    }
+
+    #endregion
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
