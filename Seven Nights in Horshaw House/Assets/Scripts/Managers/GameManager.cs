@@ -21,18 +21,18 @@ public class GameManager : MonoBehaviour
     public bool gameWon = false;
 
     [Header("Respite Mechanics")]
-    public bool cutscenes = true; // rename to 'CHECK'
-    public bool health = true;
-    public bool hints = true;
-    public bool dialogue = true;
-    public bool load = true;
-    public bool pause = true;
-    public bool death = true;
-    public bool quickTimeEvents = true;
-    public bool safeRooms = true;
-    public bool savePoints = true;
-    public bool staticInventory = true;
-    public bool tutorial = true;
+    public bool cutscenesCheck = true;
+    public bool healthCheck = true;
+    public bool hintsCheck = true;
+    public bool dialogueCheck = true;
+    public bool loadCheck = true;
+    public bool pauseCheck = true;
+    public bool deathCheck = true;
+    public bool quickTimeEventsCheck = true;
+    public bool safeRoomsCheck = true;
+    public bool savePointsCheck = true;
+    public bool staticInventoryCheck = true;
+    public bool tutorialCheck = true;
 
     #region Singleton & Awake
     public static GameManager gMan = null; // should always initilize

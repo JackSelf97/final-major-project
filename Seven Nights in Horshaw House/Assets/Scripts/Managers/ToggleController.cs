@@ -54,62 +54,62 @@ public class ToggleController : MonoBehaviour
 
     public void T_Cutscenes(bool value)
     {
-        GameManager.gMan.cutscenes = value;
+        GameManager.gMan.cutscenesCheck = value;
     }
 
     public void T_Health(bool value)
     {
-        GameManager.gMan.health = value;
+        GameManager.gMan.healthCheck = value;
     }
 
     public void T_Hints(bool value)
     {
-        GameManager.gMan.hints = value;
+        GameManager.gMan.hintsCheck = value;
     }
 
     public void T_Dialogue(bool value)
     {
-        GameManager.gMan.dialogue = value;
+        GameManager.gMan.dialogueCheck = value;
     }
     
     public void T_Load(bool value)
     {
-        GameManager.gMan.load = value;
+        GameManager.gMan.loadCheck = value;
     }
     
     public void T_Pause(bool value)
     {
-        GameManager.gMan.pause = value;
+        GameManager.gMan.pauseCheck = value;
     }
     
     public void T_Death(bool value)
     {
-        GameManager.gMan.death = value;
+        GameManager.gMan.deathCheck = value;
     }
     
     public void T_QTE(bool value)
     {
-        GameManager.gMan.quickTimeEvents = value;
+        GameManager.gMan.quickTimeEventsCheck = value;
     }
     
     public void T_SafeRooms(bool value)
     {
-        GameManager.gMan.safeRooms = value;
+        GameManager.gMan.safeRoomsCheck = value;
     }
     
     public void T_Save(bool value)
     {
-        GameManager.gMan.savePoints = value;
+        GameManager.gMan.savePointsCheck = value;
     }
     
     public void T_Inventory(bool value)
     {
-        GameManager.gMan.staticInventory = value;
+        GameManager.gMan.staticInventoryCheck = value;
     }
     
     public void T_Tutorial(bool value)
     {
-        GameManager.gMan.tutorial = value;
+        GameManager.gMan.tutorialCheck = value;
     }
 
     #endregion

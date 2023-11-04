@@ -545,7 +545,7 @@ public class PlayerController : MonoBehaviour
 
     private void Pause(InputAction.CallbackContext callbackContext)
     {
-        if (GameManager.gMan.pause)
+        if (GameManager.gMan.pauseCheck)
             Time.timeScale = 0f;
         else
             Time.timeScale = 1f;

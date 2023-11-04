@@ -23,34 +23,39 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject backButton = null;
     [SerializeField] private int backButtonIndex = 0;
 
-    [Header("Testing")]
-    [SerializeField] private GameObject testingPanel = null;
-
     [Header("Settings")]
-    [SerializeField] private GameObject settingsPanel = null;
+    [SerializeField] private GameObject settingPanel = null;
 
     [Header("Settings/Game")]
     [SerializeField] private GameObject gamePanel = null;
-    [SerializeField] private GameObject defaultButton = null;
 
     [Header("Settings/Controls")]
-    [SerializeField] private GameObject controlsPanel = null;
+    [SerializeField] private GameObject controlPanel = null;
 
     [Header("Settings/Display")]
     [SerializeField] private GameObject displayPanel = null;
 
     [Header("Settings/Graphics")]
-    [SerializeField] private GameObject graphicsPanel = null;
+    [SerializeField] private GameObject graphicPanel = null;
 
     [Header("Settings/Audio")]
     [SerializeField] private GameObject audioPanel = null;
+
+    [Header("Respite Mechanics")]
+    [SerializeField] private GameObject RMSettingPanel = null;
+
+    [Header("Respite Mechanics/Toggles")]
+    [SerializeField] private GameObject togglePanel = null;
+
+    [Header("Respite Mechanics/Info")]
+    [SerializeField] private GameObject infoPanel = null;
 
     [Header("Prompt")] 
     [SerializeField] private GameObject promptPanel = null;
     [SerializeField] private Text promptText = null;
     [SerializeField] private Button promptYes = null;
 
-    private readonly int subsettingsIndex = 2;
+    private readonly int RMSIndex = 2, SIndex = 3;
 
     // Start is called before the first frame update
     void Start()
@@ -86,65 +91,64 @@ public class UIManager : MonoBehaviour
                 GameManager.gMan.PlayerActionMap(true);
                 break;
             case "Settings":
-                SubmenuTemplate(settingsPanel, true, 1);
+                SubmenuTemplate(settingPanel, true, 1);
                 break;
-            case "Testing":
-                SubmenuTemplate(testingPanel, true, 1);
+            case "Respite Mechanics":
+                SubmenuTemplate(RMSettingPanel, true, 1);
                 break;
             case "Back":
                 if (backButtonIndex == 1)
                 {
-                    // MainMenu/Testing
-                    if (testingPanel.activeSelf)
+                    if (RMSettingPanel.activeSelf)
                     {
-                        SubmenuTemplate(testingPanel, false, -1);
-                        return;
+                        SubmenuTemplate(RMSettingPanel, false, -1);
                     }
-                    // MainMenu/Settings
-                    if (settingsPanel.activeSelf)
+                    else if (settingPanel.activeSelf)
                     {
-                        SubmenuTemplate(settingsPanel, false, -1);
-                        return;
+                        SubmenuTemplate(settingPanel, false, -1);
                     }
                 }
-                if (backButtonIndex == subsettingsIndex)
+                else if (backButtonIndex == RMSIndex)
                 {
-                    // Settings
-                    SubmenuTemplate(settingsPanel, true, -1);
-
-                    // List of panels to toggle
-                    GameObject[] panelsToToggle = { gamePanel, controlsPanel, displayPanel, graphicsPanel, audioPanel };
-
-                    // Toggle panels
-                    foreach (var panel in panelsToToggle)
-                    {
-                        if (panel.activeSelf)
-                            panel.SetActive(false);
-                    }
+                    SubmenuTemplate(RMSettingPanel, true, -1);
+                    TogglePanels(new GameObject[] { togglePanel, infoPanel }, false);
+                }
+                else if (backButtonIndex == SIndex)
+                {
+                    SubmenuTemplate(settingPanel, true, -2);
+                    TogglePanels(new GameObject[] { gamePanel, controlPanel, displayPanel, graphicPanel, audioPanel }, false);
                 }
                 break;
             case "No":
                 ShowPrompt(false);
                 break;
+            case "Toggles":
+                SubmenuTemplate(RMSettingPanel, false, 0);
+                SubmenuTemplate(togglePanel, true, 1);
+                break;
+            case "Info":
+                SubmenuTemplate(RMSettingPanel, false, 0);
+                SubmenuTemplate(infoPanel, true, 1);
+                break;
             case "Game":
-                SubmenuTemplate(settingsPanel, false, 0);
-                SubmenuTemplate(gamePanel, true, 1);
+                SubmenuTemplate(settingPanel, false, 0);
+                SubmenuTemplate(gamePanel, true, 2);
                 break;
             case "Controls":
-                SubmenuTemplate(settingsPanel, false, 0);
-                SubmenuTemplate(controlsPanel, true, 1);
+                SubmenuTemplate(settingPanel, false, 0);
+                SubmenuTemplate(controlPanel, true, 2);
                 break;
             case "Display":
-                SubmenuTemplate(settingsPanel, false, 0);
-                SubmenuTemplate(displayPanel, true, 1);
+                SubmenuTemplate(settingPanel, false, 0);
+                SubmenuTemplate(displayPanel, true, 2);
                 break;
             case "Graphics":
-                SubmenuTemplate(settingsPanel, false, 0);
-                SubmenuTemplate(graphicsPanel, true, 1);
+                SubmenuTemplate(settingPanel, false, 0);
+                SubmenuTemplate(graphicPanel, true, 2);
                 break;
             case "Audio":
-                SubmenuTemplate(settingsPanel, false, 0);
-                SubmenuTemplate(audioPanel, true, 1);
+                SubmenuTemplate(settingPanel, false, 0);
+                SubmenuTemplate(audioPanel, true, 2);
                 break;
         }
     }
@@ -162,6 +166,15 @@ public class UIManager : MonoBehaviour
         // If there is no panel to change then this should be null.
         if (panel != null)
             panel.SetActive(state);
+    }
+
+    private void TogglePanels(GameObject[] panels, bool state)
+    {
+        foreach (GameObject panel in panels)
+        {
+            if (panel.activeSelf)
+                panel.SetActive(state);
+        }
     }
 
     public void Resume()
@@ -187,7 +200,7 @@ public class UIManager : MonoBehaviour
     {
         ShowPrompt(true, "RESET TO DEFAULT?");
 
-        if (gamePanel.activeSelf)
+        if (togglePanel.activeSelf)
             promptYes.onClick.AddListener(() => ResetRespiteMechanics());
 
         if (audioPanel.activeSelf)
@@ -199,7 +212,7 @@ public class UIManager : MonoBehaviour
         Toggle[] respiteToggles = GetComponent<ToggleController>().respiteToggles;
         for (int i = 0; i < respiteToggles.Length; i++)
         {
-            respiteToggles[i].isOn = true;
+            respiteToggles[i].isOn = false;
         }
         ShowPrompt(false);
     }
