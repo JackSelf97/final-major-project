@@ -163,7 +163,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""id"": ""e767e792-5030-4619-bab5-3e6c3c8897d7"",
                     ""path"": ""<Pointer>/delta"",
                     ""interactions"": """",
-                    ""processors"": ""ScaleVector2(x=0.025,y=0.025)"",
+                    ""processors"": ""InvertVector2(invertX=false),ScaleVector2(x=0.05,y=0.05)"",
                     ""groups"": """",
                     ""action"": ""Look"",
                     ""isComposite"": false,

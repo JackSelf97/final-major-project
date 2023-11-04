@@ -15,22 +15,21 @@ public class PlayerController : MonoBehaviour
     private PlayerControls playerControls = null;
 
     [Header("Cinemachine")]
+    [SerializeField] private Transform cam = null;
     [SerializeField] private GameObject camPos = null;
-    private Transform cam = null;
-    private float verticalVelocity;
-    private float rotationSpeed = 5.0f;
-    private float rotationVelocity;
-    private float verticalRotation = 0.0f;
-    private float maxVerticalRotation = 80.0f;
-    private float minVerticalRotation = -80.0f;
-    private const float rotationThreshold = 1.0f; 
-    private float sensitivity = 1.0f;
+    [SerializeField] private float rotationSpeed = 1.0f;
+    [SerializeField] private float topClamp = 90.0f;
+    [SerializeField] private float bottomClamp = -90.0f;
+    private float verticalVelocity = 0f;
+    private float cinemachineTargetPitch = 0f;
+    private float rotationVelocity = 0f;
+    private const float threshold = 0.01f;
 
     [Header("Game Properties")]
     public GameObject pauseScreen = null;
     public bool locked = false;
     public bool isPaused = false;
-    private bool analogMovement;
+    private bool analogMovement = false;
     private float gravityValue = -9.81f;
 
     [Header("Player Properties")]
@@ -42,8 +41,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Vector3 direction = Vector3.zero;
     private bool jump;
     private bool grounded = true;
-    private float mouseX = 0f;
-    private float mouseY = 0f;
     private float pushPower = 2.0f;
     private float moveSpeed = 9f;
     private float slopeForce = 40;
@@ -65,7 +62,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool grabbing = false;
     private Rigidbody objectRb = null;
     private float pickUpRange = 5f;
-    private float pickUpForce = 150f;
+    private float pickUpForce = 500f;
 
     [Header("Inventory")]
     [SerializeField] private InventorySO inventorySO = null;
@@ -74,7 +71,6 @@ public class PlayerController : MonoBehaviour
     private PlayerInput playerInput = null;
     private InputAction moveAction = null;
     private InputAction jumpAction = null;
-    private InputAction lookAction = null;
     private InputAction interactAction = null;
     private InputAction inventoryAction = null;
     private InputAction inventoryUIAction = null; // this could be done for the Pause button
@@ -114,7 +110,6 @@ public class PlayerController : MonoBehaviour
         // String assignment
         moveAction = playerInput.actions["Move"];
         jumpAction = playerInput.actions["Jump"];
-        lookAction = playerInput.actions["Look"];
         interactAction = playerInput.actions["Interact"];
         inventoryAction = playerInput.actions["Inventory"];
         inventoryUIAction = playerInput.actions["InventoryUI"];
@@ -124,7 +119,6 @@ public class PlayerController : MonoBehaviour
         // Subscribing to functions
         moveAction.performed += context => Move(context.ReadValue<Vector2>());
         jumpAction.performed += Jump;
-        lookAction.performed += context => Look(context.ReadValue<Vector2>());
         interactAction.performed += Interact;
         inventoryAction.performed += Inventory;
         inventoryUIAction.performed += Inventory; // "Inventory" and "InventoryUI" both subscribe to the same function
@@ -140,7 +134,6 @@ public class PlayerController : MonoBehaviour
         // Unsubscribing to functions
         moveAction.performed -= context => Move(context.ReadValue<Vector2>());
         jumpAction.performed -= Jump;
-        lookAction.performed -= context => Look(context.ReadValue<Vector2>());
         interactAction.performed -= Interact;
         inventoryAction.performed -= Inventory;
         inventoryUIAction.performed -= Inventory;
@@ -173,12 +166,13 @@ public class PlayerController : MonoBehaviour
         GroundCheck();
         JumpCheck();
         ObjectCheck();
+
+        // Should be in FixedUpdate, however the 'StarterAsset' has this in Update.
+        Movement();
     }
 
     void FixedUpdate()
     {
-        Movement();
-        
         // Picking up objects
         if (objectTarget != null)
             MoveObject();
@@ -260,34 +254,26 @@ public class PlayerController : MonoBehaviour
         #endregion
     }
 
-    private void Look(Vector2 mouseInput)
-    {
-        // Normalize the mouse input
-        mouseInput *= sensitivity;
-
-        //mouseDelta = playerControls.Player.Look.ReadValue<Vector2>();
-        mouseX = mouseInput.x;
-        mouseY = -mouseInput.y; // Invert mouseY for more intuitive camera control
-
-        // Update horizontal rotation based on mouse input
-        transform.Rotate(Vector3.up * mouseX * rotationSpeed);
-
-        // Update vertical rotation with clamping to control pitch (looking up and down)
-        verticalRotation += mouseY * rotationSpeed;
-        verticalRotation = Mathf.Clamp(verticalRotation, minVerticalRotation, maxVerticalRotation);
-
-        // Apply the vertical rotation to the camera transform
-        camPos.transform.localRotation = Quaternion.Euler(verticalRotation, 0.0f, 0.0f);
-    }
-
     private void CameraRotation()
     {
         if (locked) { return; }
 
-        // If there is an input
-        if (Mathf.Abs(rotationVelocity) >= rotationThreshold)
+        // if there is an input
+        if (GetMouseDelta().sqrMagnitude >= threshold)
         {
-            // Rotate the player left and right
+            //Don't multiply mouse input by Time.deltaTime
+            //float deltaTimeMultiplier = IsCurrentDeviceMouse ? 1.0f : Time.deltaTime;
+
+            cinemachineTargetPitch += GetMouseDelta().y * rotationSpeed * 1;
+            rotationVelocity = GetMouseDelta().x * rotationSpeed * 1;
+
+            // clamp our pitch rotation
+            cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, bottomClamp, topClamp);
+
+            // Update Cinemachine camera target pitch
+            camPos.transform.localRotation = Quaternion.Euler(cinemachineTargetPitch, 0.0f, 0.0f);
+
+            // rotate the player left and right
             transform.Rotate(Vector3.up * rotationVelocity);
         }
     }
@@ -427,8 +413,7 @@ public class PlayerController : MonoBehaviour
             objectRb.useGravity = false;
             objectRb.drag = 10;
             objectRb.constraints = RigidbodyConstraints.FreezeRotation;
-
-            objectRb.transform.parent = objectDestination; // MAKES IT JITTER!
+            //objectRb.transform.parent = objectDestination; // Enabling this line will cause the object to pass through other colliders. (1/2)
             objectTarget = obj;
         }
     }
@@ -438,8 +423,7 @@ public class PlayerController : MonoBehaviour
         objectRb.useGravity = true;
         objectRb.drag = 1;
         objectRb.constraints = RigidbodyConstraints.None;
-
-        objectTarget.transform.parent = null;
+        //objectTarget.transform.parent = null; // The character controller could be causing this issue. (2/2)
         objectTarget = null;
     }
 
@@ -657,5 +641,12 @@ public class PlayerController : MonoBehaviour
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
     }
 
+    #endregion
+
+    #region Player Inputs
+    public Vector2 GetMouseDelta()
+    {
+        return playerControls.Player.Look.ReadValue<Vector2>();
+    }
     #endregion
 }
