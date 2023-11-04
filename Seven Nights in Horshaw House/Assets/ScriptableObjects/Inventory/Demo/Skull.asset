@@ -21,7 +21,6 @@ MonoBehaviour:
     Cracks trace the surface, like a web of mysteries. This relic is your key to
     uncovering the truth behind the mansion's haunting.
   <ItemImage>k__BackingField: {fileID: 21300000, guid: 3757153e1f8169f4db7a8ff8f9d3b125, type: 3}
-  <ItemMesh>k__BackingField: {fileID: 0}
   <DefaultParametersList>k__BackingField: []
   modifierData: []
   <actionSFX>k__BackingField: {fileID: 0}

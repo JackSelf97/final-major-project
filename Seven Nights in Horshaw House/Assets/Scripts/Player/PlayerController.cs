@@ -17,13 +17,14 @@ public class PlayerController : MonoBehaviour
     [Header("Cinemachine")]
     [SerializeField] private GameObject camPos = null;
     private Transform cam = null;
-    private float currRotationSpeed = 3.0f;
-    private float rotationVelocity;
     private float verticalVelocity;
-    private float topClamp = 90.0f;
-    private float bottomClamp = -90.0f;
-    private float cinemachineTargetPitch;
-    private const float threshold = 0.01f;
+    private float rotationSpeed = 5.0f;
+    private float rotationVelocity;
+    private float verticalRotation = 0.0f;
+    private float maxVerticalRotation = 80.0f;
+    private float minVerticalRotation = -80.0f;
+    private const float rotationThreshold = 1.0f; 
+    private float sensitivity = 1.0f;
 
     [Header("Game Properties")]
     public GameObject pauseScreen = null;
@@ -35,12 +36,14 @@ public class PlayerController : MonoBehaviour
     [Header("Player Properties")]
     [SerializeField] private LayerMask groundLayers;
     [SerializeField] private float speedChangeRate = 10.0f;
-    [SerializeField] private float groundedRadius = 0.5f;
     [SerializeField] private float fallTimeout = 0.15f;
     [SerializeField] private float jumpTimeout = 0.1f;
     [SerializeField] private float jumpHeight = 1.2f;
+    [SerializeField] private Vector3 direction = Vector3.zero;
     private bool jump;
     private bool grounded = true;
+    private float mouseX = 0f;
+    private float mouseY = 0f;
     private float pushPower = 2.0f;
     private float moveSpeed = 9f;
     private float slopeForce = 40;
@@ -58,13 +61,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Image interactionImage = null;
     [SerializeField] private Transform objectDestination;
     [SerializeField] private GameObject objectTarget = null;
-
+    [SerializeField] private bool interact = false;
+    [SerializeField] private bool grabbing = false;
     private Rigidbody objectRb = null;
     private float pickUpRange = 5f;
     private float pickUpForce = 150f;
-
-    [SerializeField] private bool interact = false;
-    [SerializeField] private bool grabbing = false;
 
     [Header("Inventory")]
     [SerializeField] private InventorySO inventorySO = null;
@@ -88,19 +89,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Text promptText = null;
     [SerializeField] private bool itemCheck = false;
     [SerializeField] private bool objectCheck = false;
-    public bool corpseCheck = false;
     [SerializeField] private bool accessPointCheck = false;
     [SerializeField] private bool inventoryCheck = false;
+    [SerializeField] private bool corpseCheck = false;
 
     private void Awake()
     {
         Application.targetFrameRate = 120;
+        FindInputActionAndMaps();
+    }
 
-        // Input Actions & Maps
+    private void FindInputActionAndMaps()
+    {
         playerInput = GetComponent<PlayerInput>();
         playerControls = new PlayerControls();
-        playerInventory = GetComponent<PlayerInventory>();
-        playerStats = GetComponent<PlayerStats>();
         playerMap = playerInput.actions.FindActionMap("Player");
         userInterfaceMap = playerInput.actions.FindActionMap("UI");
     }
@@ -110,7 +112,9 @@ public class PlayerController : MonoBehaviour
         playerControls.Enable();
 
         // String assignment
+        moveAction = playerInput.actions["Move"];
         jumpAction = playerInput.actions["Jump"];
+        lookAction = playerInput.actions["Look"];
         interactAction = playerInput.actions["Interact"];
         inventoryAction = playerInput.actions["Inventory"];
         inventoryUIAction = playerInput.actions["InventoryUI"];
@@ -118,7 +122,9 @@ public class PlayerController : MonoBehaviour
         pickUpAction = playerInput.actions["PickUp"];
 
         // Subscribing to functions
+        moveAction.performed += context => Move(context.ReadValue<Vector2>());
         jumpAction.performed += Jump;
+        lookAction.performed += context => Look(context.ReadValue<Vector2>());
         interactAction.performed += Interact;
         inventoryAction.performed += Inventory;
         inventoryUIAction.performed += Inventory; // "Inventory" and "InventoryUI" both subscribe to the same function
@@ -132,7 +138,9 @@ public class PlayerController : MonoBehaviour
         playerControls.Disable();
 
         // Unsubscribing to functions
+        moveAction.performed -= context => Move(context.ReadValue<Vector2>());
         jumpAction.performed -= Jump;
+        lookAction.performed -= context => Look(context.ReadValue<Vector2>());
         interactAction.performed -= Interact;
         inventoryAction.performed -= Inventory;
         inventoryUIAction.performed -= Inventory;
@@ -144,7 +152,14 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        InitialisePlayer();
+    }
+
+    private void InitialisePlayer()
+    {
         characterController = GetComponent<CharacterController>();
+        playerInventory = GetComponent<PlayerInventory>();
+        playerStats = GetComponent<PlayerStats>();
         cam = Camera.main.transform;
         pauseScreen.SetActive(false);
     }
@@ -162,15 +177,24 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Move();
-        CameraRotation();
-
+        Movement();
+        
         // Picking up objects
         if (objectTarget != null)
             MoveObject();
     }
 
-    private void Move()
+    private void LateUpdate() // CameraRotation back in LateUpdate() & Cinemachine camera changed to Smart/Late from Fixed
+    {
+        CameraRotation();
+    }
+
+    private void Move(Vector2 input)
+    {
+        direction = new Vector3(input.x, 0, input.y);
+    }
+
+    private void Movement()
     {
         if (locked) { return; }
         // set target speed based on move speed, sprint speed and if sprint is pressed
@@ -180,13 +204,13 @@ public class PlayerController : MonoBehaviour
 
         // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
         // if there is no input, set the target speed to 0
-        if (GetPlayerMovement() == Vector2.zero) targetSpeed = 0.0f;
+        if (direction == Vector3.zero) targetSpeed = 0.0f;
 
         // a reference to the players current horizontal velocity
         float currentHorizontalSpeed = new Vector3(characterController.velocity.x, 0.0f, characterController.velocity.z).magnitude;
 
         float speedOffset = 0.1f;
-        float inputMagnitude = analogMovement ? GetPlayerMovement().magnitude : 1f;
+        float inputMagnitude = analogMovement ? direction.magnitude : 1f;
 
         float tempSpeed;
         float thousand = 1000;
@@ -206,14 +230,14 @@ public class PlayerController : MonoBehaviour
         }
 
         // normalise input direction
-        Vector3 inputDirection = new Vector3(GetPlayerMovement().x, 0.0f, GetPlayerMovement().y).normalized;
+        Vector3 inputDirection = new Vector3(direction.x, 0.0f, direction.z).normalized;
 
         // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
         // if there is a move input rotate player when the player is moving
-        if (GetPlayerMovement() != Vector2.zero)
+        if (direction != Vector3.zero)
         {
             // move
-            inputDirection = transform.right * GetPlayerMovement().x + transform.forward * GetPlayerMovement().y;
+            inputDirection = transform.right * direction.x + transform.forward * direction.z;
         }
 
         // Move the player
@@ -222,7 +246,7 @@ public class PlayerController : MonoBehaviour
         #region Slope & Jumping
 
         // Slope movement
-        if (GetPlayerMovement() != Vector2.zero && SlopeCheck())
+        if (direction != Vector3.zero && SlopeCheck())
         {
             characterController.Move(Vector3.down * characterController.height / 2 * slopeForce * Time.fixedDeltaTime);
         }
@@ -236,25 +260,34 @@ public class PlayerController : MonoBehaviour
         #endregion
     }
 
+    private void Look(Vector2 mouseInput)
+    {
+        // Normalize the mouse input
+        mouseInput *= sensitivity;
+
+        //mouseDelta = playerControls.Player.Look.ReadValue<Vector2>();
+        mouseX = mouseInput.x;
+        mouseY = -mouseInput.y; // Invert mouseY for more intuitive camera control
+
+        // Update horizontal rotation based on mouse input
+        transform.Rotate(Vector3.up * mouseX * rotationSpeed);
+
+        // Update vertical rotation with clamping to control pitch (looking up and down)
+        verticalRotation += mouseY * rotationSpeed;
+        verticalRotation = Mathf.Clamp(verticalRotation, minVerticalRotation, maxVerticalRotation);
+
+        // Apply the vertical rotation to the camera transform
+        camPos.transform.localRotation = Quaternion.Euler(verticalRotation, 0.0f, 0.0f);
+    }
+
     private void CameraRotation()
     {
         if (locked) { return; }
-        // if there is an input
-        if (GetMouseDelta().sqrMagnitude >= threshold)
+
+        // If there is an input
+        if (Mathf.Abs(rotationVelocity) >= rotationThreshold)
         {
-            //Don't multiply mouse input by Time.deltaTime
-            //float deltaTimeMultiplier = isCurrentDeviceMouse ? 1.0f : Time.deltaTime;
-
-            cinemachineTargetPitch += GetMouseDelta().y * currRotationSpeed/* * deltaTimeMultiplier*/;
-            rotationVelocity = GetMouseDelta().x * currRotationSpeed/* * deltaTimeMultiplier*/;
-
-            // clamp our pitch rotation
-            cinemachineTargetPitch = ClampAngle(cinemachineTargetPitch, bottomClamp, topClamp);
-
-            // Update Cinemachine camera target pitch
-            camPos.transform.localRotation = Quaternion.Euler(cinemachineTargetPitch, 0.0f, 0.0f);
-
-            // rotate the player left and right
+            // Rotate the player left and right
             transform.Rotate(Vector3.up * rotationVelocity);
         }
     }
@@ -357,7 +390,7 @@ public class PlayerController : MonoBehaviour
 
     #region Item & Object Interaction
 
-    private void ObjectCheck() // World Items
+    private void ObjectCheck()
     {
         if (grabbing)
         {
@@ -395,7 +428,7 @@ public class PlayerController : MonoBehaviour
             objectRb.drag = 10;
             objectRb.constraints = RigidbodyConstraints.FreezeRotation;
 
-            objectRb.transform.parent = objectDestination;
+            objectRb.transform.parent = objectDestination; // MAKES IT JITTER!
             objectTarget = obj;
         }
     }
@@ -410,7 +443,7 @@ public class PlayerController : MonoBehaviour
         objectTarget = null;
     }
 
-    private void Interact(InputAction.CallbackContext callbackContext) // Inventory Items
+    private void Interact(InputAction.CallbackContext callbackContext)
     {
         RaycastHit hit;
         const float rayLength = 5;
@@ -622,19 +655,6 @@ public class PlayerController : MonoBehaviour
         if (lfAngle < -360f) lfAngle += 360f;
         if (lfAngle > 360f) lfAngle -= 360f;
         return Mathf.Clamp(lfAngle, lfMin, lfMax);
-    }
-
-    #endregion
-
-    #region Player Inputs
-
-    public Vector2 GetPlayerMovement()
-    {
-        return playerControls.Player.Move.ReadValue<Vector2>();
-    }
-    public Vector2 GetMouseDelta()
-    {
-        return playerControls.Player.Look.ReadValue<Vector2>();
     }
 
     #endregion
