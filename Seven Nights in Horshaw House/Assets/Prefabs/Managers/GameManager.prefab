@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6035902564179297159
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6035902564179297177}
+  - component: {fileID: 6035902564179297158}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6035902564179297177
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6035902564179297159}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6035902564179297158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6035902564179297159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ea6369f2f402774696a04443df9776d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSpawnPointSO: {fileID: 11400000, guid: 094d88bac6cac754ea3fd185d058b216, type: 2}
+  player: {fileID: 0}
+  startPos: {fileID: 0}
+  mainMenu: 1
+  skulls: []
+  skullSpawnPointSO: {fileID: 11400000, guid: 4561b9b5a04761145b45de219b1bd06b, type: 2}
+  skullPrefab: {fileID: 1633148191495636234, guid: 1fc83e91a03ca0a4982c3e5d37dd7350, type: 3}
+  totalSkulls: 8
+  collectedSkulls: 0
+  endGamePanel: {fileID: 0}
+  gameWon: 0
+  cutscenesCheck: 1
+  healthCheck: 1
+  hintsCheck: 1
+  dialogueCheck: 1
+  loadCheck: 1
+  pauseCheck: 1
+  deathCheck: 1
+  quickTimeEventsCheck: 1
+  safeRoomsCheck: 1
+  savePointsCheck: 1
+  staticInventoryCheck: 1
+  tutorialCheck: 1
