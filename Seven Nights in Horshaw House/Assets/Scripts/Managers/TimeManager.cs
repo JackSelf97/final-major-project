@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.UI;
 
 // https://www.youtube.com/watch?v=L4t2c1_Szdk&t=42s&ab_channel=KetraGames
@@ -35,6 +36,10 @@ public class TimeManager : MonoBehaviour
     [Header("Game Mechanics")]
     public GameObject enemy = null;
     public AccessPoint accessPoint = null;
+
+    [Header("Post-Processing Effects")]
+    [SerializeField] private PostProcessVolume postProcessingVolumeNight = null;
+    [SerializeField] private PostProcessVolume postProcessingVolumeDay = null;
 
     // Start is called before the first frame update
     void Start()
@@ -118,9 +123,20 @@ public class TimeManager : MonoBehaviour
     private void UpdateLightSettings()
     {
         float dotProduct = Vector3.Dot(sunlight.transform.forward, Vector3.down); // returns a value of 1 or -1
-        sunlight.intensity = Mathf.Lerp(0, maxSunlightIntensity, lightChangeCurve.Evaluate(dotProduct));
-        moonlight.intensity = Mathf.Lerp(maxMoonlightIntensity, 0, lightChangeCurve.Evaluate(dotProduct));
-        RenderSettings.ambientLight = Color.Lerp(nightAmbientLight, dayAmbientLight, lightChangeCurve.Evaluate(dotProduct));
+        float timeOfDay = lightChangeCurve.Evaluate(dotProduct);
+
+        // Update light settings
+        sunlight.intensity = Mathf.Lerp(0, maxSunlightIntensity, timeOfDay);
+        moonlight.intensity = Mathf.Lerp(maxMoonlightIntensity, 0, timeOfDay);
+        RenderSettings.ambientLight = Color.Lerp(nightAmbientLight, dayAmbientLight, timeOfDay);
+
+        // Blending between Post-Processing profiles
+        if (postProcessingVolumeDay != null && postProcessingVolumeNight != null)
+        {
+            float blendFactor = Mathf.Lerp(0, 1, timeOfDay);
+            postProcessingVolumeNight.weight = 1 - blendFactor;
+            postProcessingVolumeDay.weight = blendFactor;
+        }
     }
 
     private TimeSpan CalculateTimeDifference(TimeSpan fromTime, TimeSpan toTime)

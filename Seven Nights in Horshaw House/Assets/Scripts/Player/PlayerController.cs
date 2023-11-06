@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     private bool jump;
     private bool grounded = true;
     private float pushPower = 2.0f;
-    private float moveSpeed = 9f;
+    private float moveSpeed = 6f;
     private float slopeForce = 40;
     private float slopeForceRayLength = 5;
     private float fallMultiplier = 2.5f;
