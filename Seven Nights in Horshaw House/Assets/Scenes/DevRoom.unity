@@ -1625,17 +1625,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4116259839626626, guid: c21252cbe01eccd4a967b728d0b09f5a, type: 3}
   m_PrefabInstance: {fileID: 311232805}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &106234124 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1359137565938474031, guid: fd2f36bd30786ae45bb1b7e92678f850, type: 3}
-  m_PrefabInstance: {fileID: 1359137565977074979}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &106432686 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4558708785850488, guid: bcb5c50335d5ead4abea041e6e413ccd, type: 3}
@@ -10782,6 +10771,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4116259839626626, guid: c21252cbe01eccd4a967b728d0b09f5a, type: 3}
   m_PrefabInstance: {fileID: 1099456528}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1099991251 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5654625152372169073, guid: fd2f36bd30786ae45bb1b7e92678f850, type: 3}
+  m_PrefabInstance: {fileID: 1359137565977074979}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1106261824
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20297,11 +20297,15 @@ PrefabInstance:
     - target: {fileID: 6920557994342071833, guid: dbaac9ecd11af9d4c89dc261e8dfc129, type: 3}
       propertyPath: promptText
       value: 
-      objectReference: {fileID: 106234124}
+      objectReference: {fileID: 0}
     - target: {fileID: 6920557994342071833, guid: dbaac9ecd11af9d4c89dc261e8dfc129, type: 3}
       propertyPath: pauseScreen
       value: 
       objectReference: {fileID: 555955669}
+    - target: {fileID: 6920557994342071833, guid: dbaac9ecd11af9d4c89dc261e8dfc129, type: 3}
+      propertyPath: interactionText
+      value: 
+      objectReference: {fileID: 1099991251}
     - target: {fileID: 6920557994342071833, guid: dbaac9ecd11af9d4c89dc261e8dfc129, type: 3}
       propertyPath: interactionImage
       value: 

@@ -82,7 +82,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public InputActionMap userInterfaceMap = null;
 
     [Header("Hints")]
-    [SerializeField] private Text promptText = null;
+    [SerializeField] private Text interactionText = null;
     [SerializeField] private bool itemCheck = false;
     [SerializeField] private bool objectCheck = false;
     [SerializeField] private bool accessPointCheck = false;
@@ -495,28 +495,28 @@ public class PlayerController : MonoBehaviour
             {
                 case "AccessPoint":
                     sprite = interactionSprite[grabSpriteIndex];
-                    if (!accessPointCheck) prompt = "(E)";
+                    if (!accessPointCheck) prompt = "Interact [E]";
                     break;
                 case "Corpse":
                     sprite = interactionSprite[grabSpriteIndex];
-                    if (!corpseCheck) prompt = "(E)";
+                    if (!corpseCheck) prompt = "Interact [E]";
                     break;
                 case "Item":
                     if (playerStats.spiritRealm) return;
                     sprite = interactionSprite[grabSpriteIndex];
-                    if (!itemCheck) prompt = "(E)";
+                    if (!itemCheck) prompt = "Interact [E]";
                     break;
                 case "Object":
                     if (!grabbing)
                     {
                         sprite = interactionSprite[touchSpriteIndex];
-                        if (!objectCheck) prompt = "(LMB)";
+                        if (!objectCheck) prompt = "Pick Up [LMB]";
                     }
                     else sprite = interactionSprite[grabSpriteIndex];
                     break;
             }
 
-            promptText.text = prompt;
+            interactionText.text = prompt;
             SpriteChange(shouldChangeSprite, sprite);
         }
         else
@@ -532,11 +532,11 @@ public class PlayerController : MonoBehaviour
         interactionImage.enabled = state;
         if (inventoryCheck)
         {
-            promptText.enabled = state;
+            interactionText.enabled = state;
         }
         else
         {
-            if (!inventoryCheck) promptText.text = "(I)";
+            if (!inventoryCheck) interactionText.text = "Inventory [I]";
         }
         crosshair.enabled = !state;
     }

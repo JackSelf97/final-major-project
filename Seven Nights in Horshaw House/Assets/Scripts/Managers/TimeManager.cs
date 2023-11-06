@@ -43,6 +43,7 @@ public class TimeManager : MonoBehaviour
         sunriseTime = TimeSpan.FromHours(sunriseHour);
         sunsetTime = TimeSpan.FromHours(sunsetHour);
         lastRecordedDay = currentTime.Day; // Set the initial day
+        UpdateLightSettings();
         enemy.SetActive(false);
     }
 
