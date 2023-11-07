@@ -79,7 +79,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: MAIN MENU
+  m_Text: EXIT
 --- !u!1 &580527547705601787
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.078431375}
-    m_HighlightedColor: {r: 0.33333334, g: 1, b: 0.45882353, a: 1}
+    m_HighlightedColor: {r: 0.9098039, g: 0.58431375, b: 0.21568628, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -732,7 +732,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.33333334, g: 1, b: 0.45882353, a: 1}
+  m_Color: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1069,7 +1069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.33333334, g: 1, b: 0.45882353, a: 1}
+  m_Color: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1346,7 +1346,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_HighlightedColor: {r: 0.33333334, g: 1, b: 0.45882353, a: 1}
+    m_HighlightedColor: {r: 0.9098039, g: 0.58431375, b: 0.21568628, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -1842,7 +1842,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_HighlightedColor: {r: 0.33333334, g: 1, b: 0.45882353, a: 1}
+    m_HighlightedColor: {r: 0.9098039, g: 0.58431375, b: 0.21568628, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -2015,7 +2015,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.33333334, g: 1, b: 0.45882353, a: 1}
+  m_Color: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2726,7 +2726,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_HighlightedColor: {r: 0.33333334, g: 1, b: 0.45882353, a: 1}
+    m_HighlightedColor: {r: 0.9098039, g: 0.58431375, b: 0.21568628, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -2860,7 +2860,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_HighlightedColor: {r: 0.33333334, g: 1, b: 0.45882353, a: 1}
+    m_HighlightedColor: {r: 0.9098039, g: 0.58431375, b: 0.21568628, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -2994,7 +2994,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_HighlightedColor: {r: 0.33333334, g: 1, b: 0.45882353, a: 1}
+    m_HighlightedColor: {r: 0.9098039, g: 0.58431375, b: 0.21568628, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}

@@ -263,13 +263,58 @@ public class UIManager : MonoBehaviour
 
     public void P_RestartGame()
     {
-        ShowPrompt(true, "ARE YOU SURE YOU WANT TO RESTART THE GAME?");
+        ShowPrompt(true, "ARE YOU SURE YOU WANT TO RESTART THE GAME?\nALL UNSAVED PROGRESS WILL BE LOST.");
         promptYes.onClick.AddListener(() => RestartGame());
+    }
+
+    public void P_MainMenu()
+    {
+        ShowPrompt(true, "ARE YOU SURE YOU WANT TO EXIT TO MAIN MENU?\nALL UNSAVED PROGRESS WILL BE LOST.");
+        promptYes.onClick.AddListener(() => MainMenu());
+    }
+
+    public void P_QuitGame()
+    {
+        ShowPrompt(true, "ARE YOU SURE YOU WANT TO QUIT THE GAME?");
+        promptYes.onClick.AddListener(() => QuitGame());
     }
 
     #region Restart Checks
 
-    public void RestartGame() // Consider if you need all of these checks.
+    void RestartGame()
+    {
+        // Reset Functions
+        playerController.isPaused = false;
+        playerController.pauseScreen.SetActive(false);
+        //stateDrivenCameraAnimator.Play("Main Menu");
+        //playerCanvas.SetActive(false);
+        //menuCanvas.SetActive(true);
+        //GameManager.gMan.mainMenu = true;
+        
+        //stateDrivenCameraAnimator.Play("Player");
+        //menuCanvas.SetActive(false);
+        //playerCanvas.SetActive(true);
+        playerController.LockUser(false);
+        //GameManager.gMan.mainMenu = false;
+        //GameManager.gMan.PlayerActionMap(true);
+        GameManager.gMan.PlayerActionMap(true);
+
+        ResetTime();
+        ResetAllObjects();
+        ResetEndGame();
+        playerController.ResetPlayer();
+
+        // Disable the Enemy
+        if (timeManager.enemy.activeSelf)
+            timeManager.enemy.SetActive(false);
+
+        // Reset the Skulls
+        GameManager.gMan.InstantiateSkulls();
+
+        ShowPrompt(false);
+    }
+
+    void MainMenu() // Consider if you need all of these checks.
     {
         // Reset Functions
         ResetUI();
@@ -333,19 +378,13 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    #endregion
-
-    public void P_QuitGame()
-    {
-        ShowPrompt(true, "ARE YOU SURE YOU WANT TO QUIT THE GAME?");
-        promptYes.onClick.AddListener(() => QuitGame());
-    }
-
-    private void QuitGame()
+    void QuitGame()
     {
         Application.Quit();
         ShowPrompt(false);
     }
+
+    #endregion
 
     public void ShowInfo(GameObject infoPanel)
     {
