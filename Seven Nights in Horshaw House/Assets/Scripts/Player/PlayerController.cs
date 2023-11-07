@@ -73,9 +73,12 @@ public class PlayerController : MonoBehaviour
     private InputAction jumpAction = null;
     private InputAction interactAction = null;
     private InputAction inventoryAction = null;
-    private InputAction inventoryUIAction = null; // this could be done for the Pause button
     private InputAction pauseAction = null;
     private InputAction pickUpAction = null;
+
+    // Actions/UI
+    private InputAction inventoryUIAction = null;
+    private InputAction pauseUIAction = null;
 
     // Action Maps
     [HideInInspector] public InputActionMap playerMap = null;
@@ -112,19 +115,23 @@ public class PlayerController : MonoBehaviour
         jumpAction = playerInput.actions["Jump"];
         interactAction = playerInput.actions["Interact"];
         inventoryAction = playerInput.actions["Inventory"];
-        inventoryUIAction = playerInput.actions["InventoryUI"];
         pauseAction = playerInput.actions["Pause"];
         pickUpAction = playerInput.actions["PickUp"];
+
+        inventoryUIAction = playerInput.actions["InventoryUI"];
+        pauseUIAction = playerInput.actions["PauseUI"];
 
         // Subscribing to functions
         moveAction.performed += context => Move(context.ReadValue<Vector2>());
         jumpAction.performed += Jump;
         interactAction.performed += Interact;
         inventoryAction.performed += Inventory;
-        inventoryUIAction.performed += Inventory; // "Inventory" and "InventoryUI" both subscribe to the same function
         pauseAction.performed += Pause;
         pickUpAction.performed += context => grabbing = true;
         pickUpAction.canceled += context => grabbing = false;
+
+        inventoryUIAction.performed += Inventory;
+        pauseUIAction.performed += Pause;
     }
 
     private void OnDisable()
@@ -136,10 +143,12 @@ public class PlayerController : MonoBehaviour
         jumpAction.performed -= Jump;
         interactAction.performed -= Interact;
         inventoryAction.performed -= Inventory;
-        inventoryUIAction.performed -= Inventory;
         pauseAction.performed -= Pause;
         pickUpAction.performed -= context => grabbing = true;
         pickUpAction.canceled -= context => grabbing = false;
+
+        inventoryUIAction.performed -= Inventory;
+        pauseUIAction.performed -= Pause;
     }
 
     // Start is called before the first frame update
@@ -545,24 +554,25 @@ public class PlayerController : MonoBehaviour
 
     private void Pause(InputAction.CallbackContext callbackContext)
     {
-        if (GameManager.gMan.pauseCheck)
-            Time.timeScale = 0f;
-        else
-            Time.timeScale = 1f;
-
         isPaused = !isPaused;
         if (isPaused)
         {
-            pauseScreen.SetActive(true);
-            LockUser(true);
-            GameManager.gMan.PlayerActionMap(false);
+            // Handle pause
+            HandlePause(true);
         }
         else
         {
-            pauseScreen.SetActive(false);
-            LockUser(false);
-            GameManager.gMan.PlayerActionMap(true);
+            // Handle unpause
+            HandlePause(false);
         }
+    }
+
+    private void HandlePause(bool isPaused)
+    {
+        pauseScreen.SetActive(isPaused);
+        LockUser(isPaused);
+        GameManager.gMan.PlayerActionMap(!isPaused);
+        Time.timeScale = isPaused && GameManager.gMan.pauseCheck ? 0f : 1f;
     }
 
     #region Other

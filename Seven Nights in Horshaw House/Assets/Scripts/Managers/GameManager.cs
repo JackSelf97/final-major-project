@@ -21,18 +21,18 @@ public class GameManager : MonoBehaviour
     public bool gameWon = false;
 
     [Header("Respite Mechanics")]
-    public bool cutscenesCheck = true;
-    public bool healthCheck = true;
-    public bool hintsCheck = true;
-    public bool dialogueCheck = true;
-    public bool loadCheck = true;
-    public bool pauseCheck = true;
-    public bool deathCheck = true;
-    public bool quickTimeEventsCheck = true;
-    public bool safeRoomsCheck = true;
-    public bool savePointsCheck = true;
-    public bool staticInventoryCheck = true;
-    public bool tutorialCheck = true;
+    public bool cutscenesCheck = false; // Maybe set them to thier toggle?
+    public bool healthCheck = false;
+    public bool hintsCheck = false;
+    public bool dialogueCheck = false;
+    public bool loadCheck = false;
+    public bool pauseCheck = false;
+    public bool deathCheck = false;
+    public bool quickTimeEventsCheck = false;
+    public bool safeRoomsCheck = false;
+    public bool savePointsCheck = false;
+    public bool staticInventoryCheck = false;
+    public bool tutorialCheck = false;
 
     #region Singleton & Awake
     public static GameManager gMan = null; // should always initilize

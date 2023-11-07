@@ -295,6 +295,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "PauseUI",
+                    "type": "Button",
+                    "id": "c65dca2c-3ce0-4474-a9d7-18902d60682a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -724,6 +733,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "InventoryUI",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e92393a3-c2c6-4e41-8f14-e86890fc8b06",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PauseUI",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

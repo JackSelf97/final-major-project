@@ -9,7 +9,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject playerCanvas = null; 
     [SerializeField] private GameObject menuCanvas = null;
     [SerializeField] private GameObject gameTitle = null;
-    [SerializeField] private GameObject mainPanel = null;
+    [SerializeField] private GameObject mainButtonPanel = null;
 
     // Game Properties
     private GameObject player = null;
@@ -22,6 +22,9 @@ public class UIManager : MonoBehaviour
     [Header("General Menu Properties")]
     [SerializeField] private GameObject backButton = null;
     [SerializeField] private int backButtonIndex = 0;
+
+    [Header("Player Menu Properties")]
+    [SerializeField] private GameObject pauseButtonPanel = null;
 
     [Header("Settings")]
     [SerializeField] private GameObject settingPanel = null;
@@ -50,7 +53,7 @@ public class UIManager : MonoBehaviour
     [Header("Respite Mechanics/Info")]
     [SerializeField] private GameObject infoPanel = null;
 
-    [Header("Prompt")] 
+    [Header("Prompts")] 
     [SerializeField] private GameObject promptPanel = null;
     [SerializeField] private Text promptText = null;
     [SerializeField] private Button promptYes = null;
@@ -90,22 +93,52 @@ public class UIManager : MonoBehaviour
                 GameManager.gMan.mainMenu = false;
                 GameManager.gMan.PlayerActionMap(true);
                 break;
-            case "Settings":
-                SubmenuTemplate(settingPanel, true, 1);
-                break;
             case "Respite Mechanics":
-                SubmenuTemplate(RMSettingPanel, true, 1);
+                if (GameManager.gMan.mainMenu)
+                    SubmenuTemplate(RMSettingPanel, true, 1);
+                else
+                {
+                    // Player Pause Screen
+                    pauseButtonPanel.SetActive(false);
+                    menuCanvas.SetActive(true);
+                    SubmenuTemplate(RMSettingPanel, true, 1);
+                }
+                break;
+            case "Settings":
+                if (GameManager.gMan.mainMenu)
+                    SubmenuTemplate(settingPanel, true, 1);
+                else
+                {
+                    // Player Pause Screen
+                    pauseButtonPanel.SetActive(false);
+                    menuCanvas.SetActive(true);
+                    SubmenuTemplate(settingPanel, true, 1);
+                }
                 break;
             case "Back":
                 if (backButtonIndex == 1)
                 {
                     if (RMSettingPanel.activeSelf)
                     {
-                        SubmenuTemplate(RMSettingPanel, false, -1);
+                        if (GameManager.gMan.mainMenu)
+                            SubmenuTemplate(RMSettingPanel, false, -1);
+                        else
+                        {
+                            SubmenuTemplate(RMSettingPanel, false, -1);
+                            menuCanvas.SetActive(false);
+                            pauseButtonPanel.SetActive(true);
+                        }
                     }
                     else if (settingPanel.activeSelf)
                     {
-                        SubmenuTemplate(settingPanel, false, -1);
+                        if (GameManager.gMan.mainMenu)
+                            SubmenuTemplate(settingPanel, false, -1);
+                        else
+                        {
+                            SubmenuTemplate(settingPanel, false, -1);
+                            menuCanvas.SetActive(false);
+                            pauseButtonPanel.SetActive(true);
+                        }
                     }
                 }
                 else if (backButtonIndex == RMSIndex)
@@ -158,7 +191,7 @@ public class UIManager : MonoBehaviour
         // Control back button and title. 
         backButton.SetActive(state);
         gameTitle.SetActive(!state);
-        mainPanel.SetActive(!state);
+        mainButtonPanel.SetActive(!state);
 
         // When navigating through the menu, increment or decrement the 'backButtonIndex'
         backButtonIndex += index;

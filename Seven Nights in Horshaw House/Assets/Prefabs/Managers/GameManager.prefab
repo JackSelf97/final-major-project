@@ -55,15 +55,15 @@ MonoBehaviour:
   collectedSkulls: 0
   endGamePanel: {fileID: 0}
   gameWon: 0
-  cutscenesCheck: 1
-  healthCheck: 1
-  hintsCheck: 1
-  dialogueCheck: 1
-  loadCheck: 1
-  pauseCheck: 1
-  deathCheck: 1
-  quickTimeEventsCheck: 1
-  safeRoomsCheck: 1
-  savePointsCheck: 1
-  staticInventoryCheck: 1
-  tutorialCheck: 1
+  cutscenesCheck: 0
+  healthCheck: 0
+  hintsCheck: 0
+  dialogueCheck: 0
+  loadCheck: 0
+  pauseCheck: 0
+  deathCheck: 0
+  quickTimeEventsCheck: 0
+  safeRoomsCheck: 0
+  savePointsCheck: 0
+  staticInventoryCheck: 0
+  tutorialCheck: 0
