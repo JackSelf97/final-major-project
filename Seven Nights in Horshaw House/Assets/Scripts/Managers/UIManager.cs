@@ -1,4 +1,3 @@
-using Inventory;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -86,71 +85,16 @@ public class UIManager : MonoBehaviour
         switch (menuName)
         {
             case "Continue":
-                stateDrivenCameraAnimator.Play("Player");
-                menuCanvas.SetActive(false);
-                playerCanvas.SetActive(true);
-                playerController.LockUser(false);
-                GameManager.gMan.mainMenu = false;
-                GameManager.gMan.PlayerActionMap(true);
+                ContinueAction();
                 break;
             case "Respite Mechanics":
-                if (GameManager.gMan.mainMenu)
-                    SubmenuTemplate(RMSettingPanel, true, 1);
-                else
-                {
-                    // Player Pause Screen
-                    pauseButtonPanel.SetActive(false);
-                    menuCanvas.SetActive(true);
-                    SubmenuTemplate(RMSettingPanel, true, 1);
-                }
+                RespiteMechanicsAction();
                 break;
             case "Settings":
-                if (GameManager.gMan.mainMenu)
-                    SubmenuTemplate(settingPanel, true, 1);
-                else
-                {
-                    // Player Pause Screen
-                    pauseButtonPanel.SetActive(false);
-                    menuCanvas.SetActive(true);
-                    SubmenuTemplate(settingPanel, true, 1);
-                }
+                SettingsAction();
                 break;
             case "Back":
-                if (backButtonIndex == 1)
-                {
-                    if (RMSettingPanel.activeSelf)
-                    {
-                        if (GameManager.gMan.mainMenu)
-                            SubmenuTemplate(RMSettingPanel, false, -1);
-                        else
-                        {
-                            SubmenuTemplate(RMSettingPanel, false, -1);
-                            menuCanvas.SetActive(false);
-                            pauseButtonPanel.SetActive(true);
-                        }
-                    }
-                    else if (settingPanel.activeSelf)
-                    {
-                        if (GameManager.gMan.mainMenu)
-                            SubmenuTemplate(settingPanel, false, -1);
-                        else
-                        {
-                            SubmenuTemplate(settingPanel, false, -1);
-                            menuCanvas.SetActive(false);
-                            pauseButtonPanel.SetActive(true);
-                        }
-                    }
-                }
-                else if (backButtonIndex == RMSIndex)
-                {
-                    SubmenuTemplate(RMSettingPanel, true, -1);
-                    TogglePanels(new GameObject[] { togglePanel, infoPanel }, false);
-                }
-                else if (backButtonIndex == SIndex)
-                {
-                    SubmenuTemplate(settingPanel, true, -2);
-                    TogglePanels(new GameObject[] { gamePanel, controlPanel, displayPanel, graphicPanel, audioPanel }, false);
-                }
+                BackAction();
                 break;
             case "No":
                 ShowPrompt(false);
@@ -201,6 +145,8 @@ public class UIManager : MonoBehaviour
             panel.SetActive(state);
     }
 
+    #region Switch Statement Functions
+
     private void TogglePanels(GameObject[] panels, bool state)
     {
         foreach (GameObject panel in panels)
@@ -210,15 +156,80 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void Resume()
+    private void ContinueAction()
     {
+        stateDrivenCameraAnimator.Play("Player");
+        menuCanvas.SetActive(false);
+        playerCanvas.SetActive(true);
         playerController.LockUser(false);
-        playerController.isPaused = false;
-        playerController.pauseScreen.SetActive(false);
-
+        GameManager.gMan.mainMenu = false;
         GameManager.gMan.PlayerActionMap(true);
-        Time.timeScale = 1f;
     }
+
+    private void RespiteMechanicsAction()
+    {
+        if (GameManager.gMan.mainMenu)
+            SubmenuTemplate(RMSettingPanel, true, 1);
+        else
+        {
+            pauseButtonPanel.SetActive(false);
+            menuCanvas.SetActive(true);
+            SubmenuTemplate(RMSettingPanel, true, 1);
+        }
+    }
+
+    private void SettingsAction()
+    {
+        if (GameManager.gMan.mainMenu)
+            SubmenuTemplate(settingPanel, true, 1);
+        else
+        {
+            pauseButtonPanel.SetActive(false);
+            menuCanvas.SetActive(true);
+            SubmenuTemplate(settingPanel, true, 1);
+        }
+    }
+
+    private void BackAction()
+    {
+        if (backButtonIndex == 1)
+        {
+            if (RMSettingPanel.activeSelf)
+            {
+                if (GameManager.gMan.mainMenu)
+                    SubmenuTemplate(RMSettingPanel, false, -1);
+                else
+                {
+                    SubmenuTemplate(RMSettingPanel, false, -1);
+                    menuCanvas.SetActive(false);
+                    pauseButtonPanel.SetActive(true);
+                }
+            }
+            else if (settingPanel.activeSelf)
+            {
+                if (GameManager.gMan.mainMenu)
+                    SubmenuTemplate(settingPanel, false, -1);
+                else
+                {
+                    SubmenuTemplate(settingPanel, false, -1);
+                    menuCanvas.SetActive(false);
+                    pauseButtonPanel.SetActive(true);
+                }
+            }
+        }
+        else if (backButtonIndex == RMSIndex)
+        {
+            SubmenuTemplate(RMSettingPanel, true, -1);
+            TogglePanels(new GameObject[] { togglePanel, infoPanel }, false);
+        }
+        else if (backButtonIndex == SIndex)
+        {
+            SubmenuTemplate(settingPanel, true, -2);
+            TogglePanels(new GameObject[] { gamePanel, controlPanel, displayPanel, graphicPanel, audioPanel }, false);
+        }
+    }
+
+    #endregion
 
     #region Functions w/ Prompts
 
@@ -238,6 +249,123 @@ public class UIManager : MonoBehaviour
 
         if (audioPanel.activeSelf)
             promptYes.onClick.AddListener(() => ResetAudioValues());
+    }
+
+    public void P_RestartGame()
+    {
+        ShowPrompt(true, "ARE YOU SURE YOU WANT TO RESTART THE GAME?\nALL UNSAVED PROGRESS WILL BE LOST.");
+        promptYes.onClick.AddListener(() => RestartGame());
+    }
+
+    public void P_ExitGame()
+    {
+        ShowPrompt(true, "ARE YOU SURE YOU WANT TO EXIT TO MAIN MENU?\nALL UNSAVED PROGRESS WILL BE LOST.");
+        promptYes.onClick.AddListener(() => ExitGame());
+    }
+
+    public void P_QuitGame()
+    {
+        ShowPrompt(true, "ARE YOU SURE YOU WANT TO QUIT THE GAME?");
+        promptYes.onClick.AddListener(() => QuitGame());
+    }
+
+    #region Reset Checks
+
+    public void Resume()
+    {
+        playerController.LockUser(false);
+        playerController.isPaused = false;
+        playerController.pauseScreen.SetActive(false);
+
+        GameManager.gMan.PlayerActionMap(true);
+        Time.timeScale = 1f;
+    }
+
+    private void RestartGame()
+    {
+        playerController.isPaused = false;
+        playerController.pauseScreen.SetActive(false);
+        playerController.LockUser(false);
+        GameManager.gMan.PlayerActionMap(true);
+
+        // Reset Functions
+        ResetTime();
+        ResetAllObjects();
+        ResetEndGame();
+        playerController.ResetPlayer();
+
+        // Disable the Enemy
+        if (timeManager.enemy.activeSelf)
+            timeManager.enemy.SetActive(false);
+
+        // Reset the Skulls
+        GameManager.gMan.InstantiateSkulls();
+
+        ShowPrompt(false);
+    }
+
+    private void ExitGame()
+    {
+        // Reset Functions
+        ResetUI();
+        ResetTime();
+        ResetAllObjects();
+        ResetEndGame();
+        playerController.ResetPlayer();
+
+        // Disable the Enemy
+        if (timeManager.enemy.activeSelf)
+            timeManager.enemy.SetActive(false);
+
+        // Reset the Skulls
+        GameManager.gMan.InstantiateSkulls();
+
+        ShowPrompt(false);
+    }
+
+    private void ResetUI()
+    {
+        playerController.isPaused = false;
+        playerController.pauseScreen.SetActive(false);
+        stateDrivenCameraAnimator.Play("Main Menu");
+        playerCanvas.SetActive(false);
+        menuCanvas.SetActive(true);
+        GameManager.gMan.mainMenu = true;
+        GameManager.gMan.PlayerActionMap(false);
+    }
+
+    private void ResetTime()
+    {
+        Time.timeScale = 1f;
+        timeManager.ResetTime();
+        if (timeManager.accessPoint.isTimePaused)
+            timeManager.accessPoint.isTimePaused = false;
+    }
+
+    private void ResetEndGame()
+    {
+        if (GameManager.gMan.endGamePanel.activeSelf)
+        {
+            if (GameManager.gMan.gameWon)
+            {
+                GameManager.gMan.gameWon = false;
+                GameManager.gMan.endGamePanel.transform.GetChild(0).gameObject.SetActive(false);
+            }
+            else
+            {
+                GameManager.gMan.endGamePanel.transform.GetChild(1).gameObject.SetActive(false);
+            }
+            GameManager.gMan.endGamePanel.SetActive(false);
+        }
+    }
+
+    private void ResetAllObjects()
+    {
+        for (int i = 0; i < interactableObjects.Length; i++)
+        {
+            // Reset or perform some operation on interactableObjects[i] here
+            interactableObjects[i].ResetPositionAndRotation();
+        }
     }
 
     private void ResetRespiteMechanics()
@@ -261,124 +389,7 @@ public class UIManager : MonoBehaviour
         ShowPrompt(false);
     }
 
-    public void P_RestartGame()
-    {
-        ShowPrompt(true, "ARE YOU SURE YOU WANT TO RESTART THE GAME?\nALL UNSAVED PROGRESS WILL BE LOST.");
-        promptYes.onClick.AddListener(() => RestartGame());
-    }
-
-    public void P_MainMenu()
-    {
-        ShowPrompt(true, "ARE YOU SURE YOU WANT TO EXIT TO MAIN MENU?\nALL UNSAVED PROGRESS WILL BE LOST.");
-        promptYes.onClick.AddListener(() => MainMenu());
-    }
-
-    public void P_QuitGame()
-    {
-        ShowPrompt(true, "ARE YOU SURE YOU WANT TO QUIT THE GAME?");
-        promptYes.onClick.AddListener(() => QuitGame());
-    }
-
-    #region Restart Checks
-
-    void RestartGame()
-    {
-        // Reset Functions
-        playerController.isPaused = false;
-        playerController.pauseScreen.SetActive(false);
-        //stateDrivenCameraAnimator.Play("Main Menu");
-        //playerCanvas.SetActive(false);
-        //menuCanvas.SetActive(true);
-        //GameManager.gMan.mainMenu = true;
-        
-        //stateDrivenCameraAnimator.Play("Player");
-        //menuCanvas.SetActive(false);
-        //playerCanvas.SetActive(true);
-        playerController.LockUser(false);
-        //GameManager.gMan.mainMenu = false;
-        //GameManager.gMan.PlayerActionMap(true);
-        GameManager.gMan.PlayerActionMap(true);
-
-        ResetTime();
-        ResetAllObjects();
-        ResetEndGame();
-        playerController.ResetPlayer();
-
-        // Disable the Enemy
-        if (timeManager.enemy.activeSelf)
-            timeManager.enemy.SetActive(false);
-
-        // Reset the Skulls
-        GameManager.gMan.InstantiateSkulls();
-
-        ShowPrompt(false);
-    }
-
-    void MainMenu() // Consider if you need all of these checks.
-    {
-        // Reset Functions
-        ResetUI();
-        ResetTime();
-        ResetAllObjects();
-        ResetEndGame();
-        playerController.ResetPlayer();
-
-        // Disable the Enemy
-        if (timeManager.enemy.activeSelf)
-            timeManager.enemy.SetActive(false);
-
-        // Reset the Skulls
-        GameManager.gMan.InstantiateSkulls();
-
-        ShowPrompt(false);
-    }
-
-    void ResetUI()
-    {
-        playerController.isPaused = false;
-        playerController.pauseScreen.SetActive(false);
-        stateDrivenCameraAnimator.Play("Main Menu");
-        playerCanvas.SetActive(false);
-        menuCanvas.SetActive(true);
-        GameManager.gMan.mainMenu = true;
-        GameManager.gMan.PlayerActionMap(false);
-    }
-
-    void ResetTime()
-    {
-        Time.timeScale = 1f;
-        timeManager.ResetTime();
-        if (timeManager.accessPoint.isTimePaused)
-            timeManager.accessPoint.isTimePaused = false;
-    }
-
-    void ResetEndGame()
-    {
-        if (GameManager.gMan.endGamePanel.activeSelf)
-        {
-            if (GameManager.gMan.gameWon)
-            {
-                GameManager.gMan.gameWon = false;
-                GameManager.gMan.endGamePanel.transform.GetChild(0).gameObject.SetActive(false);
-            }
-            else
-            {
-                GameManager.gMan.endGamePanel.transform.GetChild(1).gameObject.SetActive(false);
-            }
-            GameManager.gMan.endGamePanel.SetActive(false);
-        }
-    }
-
-    void ResetAllObjects()
-    {
-        for (int i = 0; i < interactableObjects.Length; i++)
-        {
-            // Reset or perform some operation on interactableObjects[i] here
-            interactableObjects[i].ResetPositionAndRotation();
-        }
-    }
-
-    void QuitGame()
+    private void QuitGame()
     {
         Application.Quit();
         ShowPrompt(false);
