@@ -9,6 +9,7 @@ TagManager:
   - Waypoint
   - Corpse
   - Object
+  - Door
   layers:
   - Default
   - TransparentFX

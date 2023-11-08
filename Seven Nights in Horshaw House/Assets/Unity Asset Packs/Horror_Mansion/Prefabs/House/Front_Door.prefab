@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 5123888928621436032}
   - component: {fileID: 6236477102954724365}
   - component: {fileID: 380545997712371716}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Front_Door_01_LOD0
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -112,9 +112,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4162366dd8f897d4da8955cfc0504b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOpen: 0
   smooth: 2
-  DoorOpenAngle: 90
-  txt: {fileID: 0}
+  doorOpenAngle: 90
 --- !u!1 &1204967510069863273
 GameObject:
   m_ObjectHideFlags: 0

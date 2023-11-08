@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
     private bool jump;
     private bool grounded = true;
     private float pushPower = 2.0f;
-    private float moveSpeed = 6f;
+    private float moveSpeed = 5f;
     private float slopeForce = 40;
     private float slopeForceRayLength = 5;
     private float fallMultiplier = 2.5f;
@@ -86,15 +86,16 @@ public class PlayerController : MonoBehaviour
 
     [Header("Hints")]
     [SerializeField] private Text interactionText = null;
-    [SerializeField] private bool itemCheck = false;
-    [SerializeField] private bool objectCheck = false;
-    [SerializeField] private bool accessPointCheck = false;
-    [SerializeField] private bool inventoryCheck = false;
-    [SerializeField] private bool corpseCheck = false;
+    [SerializeField] private bool itemPrompt = false;
+    [SerializeField] private bool objectPrompt = false;
+    [SerializeField] private bool accessPointPrompt = false;
+    [SerializeField] private bool inventoryPrompt = false;
+    [SerializeField] private bool corpsePrompt = false;
+    [SerializeField] private bool doorPrompt = false;
 
     private void Awake()
     {
-        Application.targetFrameRate = 120;
+        Application.targetFrameRate = 60;
         FindInputActionAndMaps();
     }
 
@@ -373,7 +374,7 @@ public class PlayerController : MonoBehaviour
                 playerInventory.inventoryUI.UpdateData(item.Key, item.Value.itemSO.ItemImage, item.Value.count);
             }
             GameManager.gMan.PlayerActionMap(false);
-            inventoryCheck = true;
+            inventoryPrompt = true;
         }
         else
         {
@@ -395,7 +396,7 @@ public class PlayerController : MonoBehaviour
                 if (Physics.Raycast(cam.position, cam.forward.normalized, out hit, pickUpRange, interactableLayer))
                 {
                     PickUpObject(hit.transform.gameObject);
-                    objectCheck = true;
+                    objectPrompt = true;
                 }
             }
         }
@@ -439,7 +440,7 @@ public class PlayerController : MonoBehaviour
     private void Interact(InputAction.CallbackContext callbackContext)
     {
         RaycastHit hit;
-        const float rayLength = 5;
+        const float rayLength = 3;
 
         Debug.DrawRay(cam.position, cam.forward.normalized * rayLength, Color.cyan);
         if (Physics.Raycast(cam.position, cam.forward.normalized, out hit, rayLength, interactableLayer))
@@ -451,7 +452,18 @@ public class PlayerController : MonoBehaviour
                 case "AccessPoint":
                     AccessPoint accessPoint = hit.transform.GetComponent<AccessPoint>();
                     accessPoint.Interact();
-                    accessPointCheck = true;
+                    accessPointPrompt = true;
+                    break;
+                case "Corpse":
+                    gameObject.transform.position = hit.transform.position;
+                    Destroy(target.gameObject);
+                    playerStats.ToggleSpiritRealm(false, -1);
+                    corpsePrompt = true;
+                    break;
+                case "Door":
+                    Door door = hit.transform.GetComponent<Door>();
+                    door.Interact();
+                    doorPrompt = true;
                     break;
                 case "Item":
                     Item item = hit.transform.GetComponent<Item>();
@@ -472,13 +484,7 @@ public class PlayerController : MonoBehaviour
                             item.Count = remainder;
                         }
                     }
-                    itemCheck = true;
-                    break;
-                case "Corpse":
-                    gameObject.transform.position = hit.transform.position;
-                    Destroy(target.gameObject);
-                    playerStats.ToggleSpiritRealm(false, -1);
-                    corpseCheck = true;
+                    itemPrompt = true;
                     break;
             }
             interact = true;
@@ -488,7 +494,7 @@ public class PlayerController : MonoBehaviour
     private void InteractionUI()
     {
         RaycastHit hit;
-        const float rayLength = 5;
+        const float rayLength = 3;
         const int touchSpriteIndex = 0, grabSpriteIndex = 1;
 
         Debug.DrawRay(cam.position, cam.forward.normalized * rayLength, Color.yellow);
@@ -504,22 +510,26 @@ public class PlayerController : MonoBehaviour
             {
                 case "AccessPoint":
                     sprite = interactionSprite[grabSpriteIndex];
-                    if (!accessPointCheck) prompt = "Interact [E]";
+                    if (!accessPointPrompt) prompt = "Interact [E]";
                     break;
                 case "Corpse":
                     sprite = interactionSprite[grabSpriteIndex];
-                    if (!corpseCheck) prompt = "Interact [E]";
+                    if (!corpsePrompt) prompt = "Interact [E]";
+                    break;
+                case "Door":
+                    sprite = interactionSprite[touchSpriteIndex];
+                    if (!doorPrompt) prompt = "Open Door [E]";
                     break;
                 case "Item":
                     if (playerStats.spiritRealm) return;
                     sprite = interactionSprite[grabSpriteIndex];
-                    if (!itemCheck) prompt = "Interact [E]";
+                    if (!itemPrompt) prompt = "Interact [E]";
                     break;
                 case "Object":
                     if (!grabbing)
                     {
                         sprite = interactionSprite[touchSpriteIndex];
-                        if (!objectCheck) prompt = "Pick Up [LMB]";
+                        if (!objectPrompt) prompt = "Pick Up [LMB]";
                     }
                     else sprite = interactionSprite[grabSpriteIndex];
                     break;
@@ -539,13 +549,13 @@ public class PlayerController : MonoBehaviour
     {
         interactionImage.sprite = sprite;
         interactionImage.enabled = state;
-        if (inventoryCheck)
+        if (inventoryPrompt)
         {
             interactionText.enabled = state;
         }
         else
         {
-            if (!inventoryCheck) interactionText.text = "Inventory [I]";
+            if (!inventoryPrompt) interactionText.text = "Inventory [I]";
         }
         crosshair.enabled = !state;
     }
@@ -602,7 +612,7 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(GameObject.Find("Player's Corpse"));
             playerStats.ToggleSpiritRealm(false, -1);
-            corpseCheck = true;
+            corpsePrompt = true;
         }
     }
 

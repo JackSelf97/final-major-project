@@ -328,12 +328,12 @@ GameObject:
   - component: {fileID: 8461096788592443079}
   - component: {fileID: 1892114967894333239}
   - component: {fileID: 1683693815147877613}
-  - component: {fileID: 7856795543303350855}
   - component: {fileID: 4332384339706985842}
   - component: {fileID: 5755023752887471211}
-  m_Layer: 0
+  - component: {fileID: 1807314626}
+  m_Layer: 6
   m_Name: Back_Entrance_LOD0
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -405,19 +405,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7856795543303350855
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7900552146075406074}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.606781, y: 2.2661633, z: 2.1599426}
-  m_Center: {x: -0.00019466877, y: 1.1330817, z: -0.54607403}
 --- !u!65 &4332384339706985842
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -443,9 +430,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4162366dd8f897d4da8955cfc0504b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smooth: 2
-  DoorOpenAngle: 90
-  txt: {fileID: 0}
+  isOpen: 0
+--- !u!95 &1807314626
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7900552146075406074}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4194fc2a2ce458c4c9a1b76d0cd989ef, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &8483518779555737105
 GameObject:
   m_ObjectHideFlags: 0

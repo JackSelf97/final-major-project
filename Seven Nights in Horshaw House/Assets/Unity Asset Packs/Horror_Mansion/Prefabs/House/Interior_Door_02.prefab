@@ -161,12 +161,12 @@ GameObject:
   - component: {fileID: 762315092903310855}
   - component: {fileID: 7549478541939378976}
   - component: {fileID: 1693629529177966597}
-  - component: {fileID: 5352250593675134527}
   - component: {fileID: 7565290088244937173}
   - component: {fileID: 2213543497508120783}
-  m_Layer: 0
+  - component: {fileID: 4926509928697491399}
+  m_Layer: 6
   m_Name: Interior_Door_02_LOD0
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -238,19 +238,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5352250593675134527
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2391347323180012580}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.2716975, y: 2.1553185, z: 1.9009392}
-  m_Center: {x: 0.07296276, y: 1.0776592, z: -0.68548334}
 --- !u!114 &7565290088244937173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,9 +250,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4162366dd8f897d4da8955cfc0504b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smooth: 2
-  DoorOpenAngle: 90
-  txt: {fileID: 8057050384760974268, guid: c129f1f930e536e4980cc7ddc2937399, type: 3}
+  isOpen: 0
 --- !u!65 &2213543497508120783
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -279,6 +264,26 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.108008616, y: 2.1553185, z: 1.2446047}
   m_Center: {x: 0.019579789, y: 1.0776592, z: -0.6177048}
+--- !u!95 &4926509928697491399
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2391347323180012580}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4194fc2a2ce458c4c9a1b76d0cd989ef, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &5553162918401769263
 GameObject:
   m_ObjectHideFlags: 0

@@ -337,7 +337,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 5179e9c573c8a4545ad3e88267b56c35, type: 2}
-  - {fileID: 2100000, guid: d2bd6d41cc06bf846aade6f04c301cd7, type: 2}
+  - {fileID: 2100000, guid: 63e3737206712e241b2249602f955237, type: 2}
   - {fileID: 2100000, guid: 1bab28d664f0b1b4cae2174b763197af, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -371,12 +371,12 @@ GameObject:
   - component: {fileID: 8479541102295212106}
   - component: {fileID: 8053964777261367087}
   - component: {fileID: 3171582523028048429}
-  - component: {fileID: 920540589027151962}
   - component: {fileID: 2163840498158727206}
   - component: {fileID: 687956436444696183}
-  m_Layer: 0
+  - component: {fileID: 835685528323411022}
+  m_Layer: 6
   m_Name: Interior_Door_01_LOD0
-  m_TagString: Untagged
+  m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -388,7 +388,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8201011291967204180}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.07262647, y: 0.021458492, z: -1.3794751}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -447,19 +447,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &920540589027151962
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8201011291967204180}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.4727173, y: 2.226404, z: 2.6214294}
-  m_Center: {x: -0.03768921, y: 1.113202, z: -0.6666107}
 --- !u!65 &2163840498158727206
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -485,6 +472,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4162366dd8f897d4da8955cfc0504b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smooth: 2
-  DoorOpenAngle: 90
-  txt: {fileID: 8057050384760974268, guid: c129f1f930e536e4980cc7ddc2937399, type: 3}
+  isOpen: 0
+--- !u!95 &835685528323411022
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8201011291967204180}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4194fc2a2ce458c4c9a1b76d0cd989ef, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
