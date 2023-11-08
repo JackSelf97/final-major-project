@@ -69,15 +69,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2997230524597966248}
-  m_LocalRotation: {x: -0.06526311, y: -0.85861653, z: -0.11303903, w: 0.49572238}
-  m_LocalPosition: {x: -12, y: -7, z: 15}
+  m_LocalRotation: {x: 0, y: -0.86602545, z: 0, w: 0.49999994}
+  m_LocalPosition: {x: 314.75, y: -5.15, z: 273.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2997230523760671491}
   m_Father: {fileID: 2997230525525429819}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -15, y: -120, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -120, z: 0}
 --- !u!114 &2997230524597966246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,14 +95,14 @@ MonoBehaviour:
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
   m_Priority: 1
-  m_StandbyUpdate: 2
+  m_StandbyUpdate: 0
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 5
     NearClipPlane: 0.3
-    FarClipPlane: 100
+    FarClipPlane: 60
     Dutch: 0
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
@@ -273,7 +273,7 @@ MonoBehaviour:
     m_MinDuration: 0
   m_DefaultBlend:
     m_Style: 1
-    m_Time: 0.5
+    m_Time: 1
     m_CustomCurve:
       serializedVersion: 2
       m_Curve: []
@@ -333,7 +333,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2997230525538151540}
   m_LocalRotation: {x: -0.09964724, y: 0.84946585, z: -0.17335355, w: -0.48828968}
-  m_LocalPosition: {x: 2.841405, y: -6.9765425, z: -2.9989266}
+  m_LocalPosition: {x: 314.90338, y: -6.3194075, z: 262.888}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -358,14 +358,14 @@ MonoBehaviour:
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
   m_Priority: 0
-  m_StandbyUpdate: 2
+  m_StandbyUpdate: 0
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 5
     NearClipPlane: 0.3
-    FarClipPlane: 100
+    FarClipPlane: 80
     Dutch: 0
     ModeOverride: 0
     LensShift: {x: 0, y: 0}

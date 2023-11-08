@@ -23,7 +23,7 @@ RenderSettings:
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
-  m_AmbientIntensity: 0.25
+  m_AmbientIntensity: 1.45
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.6930847, g: 0.731312, b: 0.8396226, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: d029d5481e00d1449b42e55b6635b053, type: 2}
@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 726856828}
+  m_Sun: {fileID: 0}
   m_IndirectSpecularColor: {r: 0.044278257, g: 0.05792074, b: 0.06846093, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
@@ -2603,7 +2603,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 384346520}
-  m_RootOrder: 5
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!215 &67240079
 ReflectionProbe:
@@ -10510,7 +10510,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 384346520}
-  m_RootOrder: 15
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &327772109
 Light:
@@ -10524,8 +10524,8 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 7.87
-  m_Range: 2.1744995
+  m_Intensity: 4
+  m_Range: 2
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -10566,7 +10566,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ColorTemperature: 10024
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -12661,10 +12661,18 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1383925560}
   - {fileID: 705507995}
-  - {fileID: 1665713192}
+  - {fileID: 1383925560}
+  - {fileID: 1996339178}
   - {fileID: 1779673330}
+  - {fileID: 1432485470}
+  - {fileID: 327772108}
+  - {fileID: 1792330890}
+  - {fileID: 624703222}
+  - {fileID: 839011645}
+  - {fileID: 1903980152}
+  - {fileID: 391492998}
+  - {fileID: 1665713192}
   - {fileID: 785672038}
   - {fileID: 67240078}
   - {fileID: 1831354917}
@@ -12674,14 +12682,6 @@ Transform:
   - {fileID: 1523742789}
   - {fileID: 1575396948}
   - {fileID: 411855839}
-  - {fileID: 1432485470}
-  - {fileID: 1996339178}
-  - {fileID: 327772108}
-  - {fileID: 624703222}
-  - {fileID: 839011645}
-  - {fileID: 1792330890}
-  - {fileID: 1903980152}
-  - {fileID: 391492998}
   m_Father: {fileID: 0}
   m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12777,7 +12777,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 384346520}
-  m_RootOrder: 20
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 76.482, y: 90, z: 150}
 --- !u!108 &391492999
 Light:
@@ -12792,9 +12792,9 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1.95
-  m_Range: 3.8025622
-  m_SpotAngle: 159.10497
-  m_InnerSpotAngle: 21.80208
+  m_Range: 3.8
+  m_SpotAngle: 160
+  m_InnerSpotAngle: 1
   m_CookieSize: 10
   m_Shadows:
     m_Type: 2
@@ -12833,7 +12833,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ColorTemperature: 8526
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -13892,7 +13892,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 384346520}
-  m_RootOrder: 12
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!215 &411855840
 ReflectionProbe:
@@ -20999,9 +20999,9 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1.95
-  m_Range: 3.8025622
-  m_SpotAngle: 120.906456
-  m_InnerSpotAngle: 21.80208
+  m_Range: 3.8
+  m_SpotAngle: 120
+  m_InnerSpotAngle: 1
   m_CookieSize: 10
   m_Shadows:
     m_Type: 2
@@ -21040,7 +21040,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ColorTemperature: 8526
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -21061,7 +21061,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 384346520}
-  m_RootOrder: 16
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 60}
 --- !u!1001 &625599858
 PrefabInstance:
@@ -22910,7 +22910,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 384346520}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 38.252, y: -30.827, z: 8.458}
 --- !u!1001 &707172493
 PrefabInstance:
@@ -25364,7 +25364,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 384346520}
-  m_RootOrder: 4
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!215 &785672039
 ReflectionProbe:
@@ -26581,7 +26581,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 384346520}
-  m_RootOrder: 17
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 80.823, y: 0, z: 0}
 --- !u!108 &839011646
 Light:
@@ -26595,10 +26595,10 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 2.71
-  m_Range: 3.8025622
-  m_SpotAngle: 128.48378
-  m_InnerSpotAngle: 21.80208
+  m_Intensity: 2.7
+  m_Range: 3.8
+  m_SpotAngle: 130
+  m_InnerSpotAngle: 1
   m_CookieSize: 10
   m_Shadows:
     m_Type: 2
@@ -26637,7 +26637,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ColorTemperature: 8526
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -30812,7 +30812,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 384346520}
-  m_RootOrder: 7
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!215 &1000755234
 ReflectionProbe:
@@ -37698,7 +37698,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 384346520}
-  m_RootOrder: 8
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!215 &1210540684
 ReflectionProbe:
@@ -41794,7 +41794,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 4.25
-  m_Range: 1.190094
+  m_Range: 1.1
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -41835,7 +41835,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ColorTemperature: 9010
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -41856,7 +41856,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 384346520}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1385290288
 PrefabInstance:
@@ -43412,7 +43412,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 384346520}
-  m_RootOrder: 13
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &1432485471
 Light:
@@ -43427,7 +43427,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 2.14
-  m_Range: 2.1087952
+  m_Range: 2.1
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -43468,7 +43468,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ColorTemperature: 4085
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -45624,7 +45624,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 384346520}
-  m_RootOrder: 9
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!215 &1475180716
 ReflectionProbe:
@@ -47065,7 +47065,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 384346520}
-  m_RootOrder: 10
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!215 &1523742790
 ReflectionProbe:
@@ -49075,7 +49075,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 384346520}
-  m_RootOrder: 11
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!215 &1575396949
 ReflectionProbe:
@@ -49443,58 +49443,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2997230524597966245, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 314.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 2997230524597966245, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -5.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2997230524597966245, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 273.65
-      objectReference: {fileID: 0}
-    - target: {fileID: 2997230524597966245, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.49999994
-      objectReference: {fileID: 0}
-    - target: {fileID: 2997230524597966245, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2997230524597966245, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.86602545
-      objectReference: {fileID: 0}
-    - target: {fileID: 2997230524597966245, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2997230524597966245, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2997230524597966245, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -120
-      objectReference: {fileID: 0}
-    - target: {fileID: 2997230524597966246, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
-      propertyPath: m_StandbyUpdate
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2997230524597966246, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
-      propertyPath: m_Lens.FarClipPlane
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 2997230525508067953, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
-      propertyPath: ShoulderOffset.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2997230525508067953, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
-      propertyPath: VerticalArmLength
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2997230525525429819, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -49540,10 +49488,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2997230525525429820, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
-      propertyPath: m_DefaultBlend.m_Time
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2997230525525429820, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
       propertyPath: m_ChildCameras.Array.size
       value: 0
       objectReference: {fileID: 0}
@@ -49551,38 +49495,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CM StateDrivenCamera
       objectReference: {fileID: 0}
-    - target: {fileID: 2997230525538151536, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
-      propertyPath: m_Profile
-      value: 
-      objectReference: {fileID: 11400000, guid: 9b1e957bf1e05d9428c79dfa37db93c8, type: 2}
-    - target: {fileID: 2997230525538151537, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 314.90338
-      objectReference: {fileID: 0}
-    - target: {fileID: 2997230525538151537, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -6.3194075
-      objectReference: {fileID: 0}
-    - target: {fileID: 2997230525538151537, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 262.888
-      objectReference: {fileID: 0}
     - target: {fileID: 2997230525538151538, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
       propertyPath: m_Follow
       value: 
       objectReference: {fileID: 1553003046}
-    - target: {fileID: 2997230525538151538, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
-      propertyPath: m_StandbyUpdate
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2997230525538151538, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
-      propertyPath: m_Lens.FieldOfView
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 2997230525538151538, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
-      propertyPath: m_Lens.FarClipPlane
-      value: 80
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 691a03dcabbfece42b41f0349533834b, type: 3}
 --- !u!1001 &1586922834
@@ -51736,7 +51652,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 384346520}
-  m_RootOrder: 2
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1666135327
 PrefabInstance:
@@ -54779,7 +54695,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 3.24
-  m_Range: 1.9609375
+  m_Range: 1.9
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -54820,7 +54736,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -55370,7 +55286,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 384346520}
-  m_RootOrder: 18
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &1792330891
 Light:
@@ -55385,7 +55301,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 0.6084906, g: 0.85100675, b: 1, a: 1}
   m_Intensity: 3.3
-  m_Range: 0.7946167
+  m_Range: 0.8
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -55426,7 +55342,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ColorTemperature: 18214
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -56412,7 +56328,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 384346520}
-  m_RootOrder: 6
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!215 &1831354918
 ReflectionProbe:
@@ -59284,7 +59200,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 384346520}
-  m_RootOrder: 19
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 60}
 --- !u!108 &1903980153
 Light:
@@ -59299,7 +59215,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 0.93
-  m_Range: 3.8025622
+  m_Range: 3.8
   m_SpotAngle: 120.906456
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -59340,7 +59256,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ColorTemperature: 8526
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
@@ -61760,7 +61676,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 384346520}
-  m_RootOrder: 14
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!108 &1996339179
 Light:
@@ -61775,7 +61691,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 0.990566, g: 0.53776693, b: 0.28502133, a: 1}
   m_Intensity: 1.61
-  m_Range: 1.0631104
+  m_Range: 1
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -61816,7 +61732,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
+  m_BounceIntensity: 0
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
