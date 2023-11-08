@@ -407,5 +407,10 @@ public class UIManager : MonoBehaviour
         infoPanel.SetActive(false);
     }
 
+    public void SurveyLink()
+    {
+        Application.OpenURL("https://forms.gle/616rCeVsvSospqtY7");
+    }
+
     #endregion
 }
