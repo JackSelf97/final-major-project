@@ -19,7 +19,7 @@ RenderSettings:
   m_FogMode: 1
   m_FogDensity: 0.01
   m_LinearFogStart: 9.25
-  m_LinearFogEnd: 133.7
+  m_LinearFogEnd: 80
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
+  m_Sun: {fileID: 726856828}
   m_IndirectSpecularColor: {r: 0.044278257, g: 0.05792074, b: 0.06846093, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
@@ -3205,6 +3205,10 @@ PrefabInstance:
       propertyPath: endGamePanel
       value: 
       objectReference: {fileID: 105656084}
+    - target: {fileID: 6035902564179297158, guid: d23add5f37691b141862aed434e185cf, type: 3}
+      propertyPath: playerSpawnPointSO
+      value: 
+      objectReference: {fileID: 11400000, guid: ea00238870f990e46b6d15f725d838ef, type: 2}
     - target: {fileID: 6035902564179297159, guid: d23add5f37691b141862aed434e185cf, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -66712,6 +66716,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4827533771492028084, guid: 499999751186cc847bed5fae5beea3d3, type: 3}
   m_PrefabInstance: {fileID: 2141175488}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2142855217
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2142855218}
+  m_Layer: 0
+  m_Name: SpawnPointPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2142855218
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142855217}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 275, y: 6, z: 250}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 33
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2143318521
 PrefabInstance:
   m_ObjectHideFlags: 0
