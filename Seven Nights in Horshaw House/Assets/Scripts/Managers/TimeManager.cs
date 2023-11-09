@@ -54,7 +54,7 @@ public class TimeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!accessPoint.isTimePaused && !GameManager.gMan.mainMenu)
+        if (!accessPoint.isTimePaused && GameManager.gMan.mainMenu)
         {
             UpdateTimeOfDay();
             RotateSun();
