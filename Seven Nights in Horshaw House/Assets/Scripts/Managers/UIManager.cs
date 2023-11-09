@@ -337,7 +337,7 @@ public class UIManager : MonoBehaviour
     private void ResetTime()
     {
         Time.timeScale = 1f;
-        timeManager.ResetTime();
+        timeManager.ResetTimeOfDay();
         if (timeManager.accessPoint.isTimePaused)
             timeManager.accessPoint.isTimePaused = false;
     }

@@ -33,28 +33,33 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private Light moonlight = null;
     [SerializeField] private float maxMoonlightIntensity = 0f;
 
-    [Header("Game Mechanics")]
+    [Header("Game Properties")]
     public GameObject enemy = null;
     public AccessPoint accessPoint = null;
 
     [Header("Post-Processing Effects")]
-    [SerializeField] private PostProcessVolume postProcessingVolumeNight = null;
-    [SerializeField] private PostProcessVolume postProcessingVolumeDay = null;
+    [SerializeField] private PostProcessVolume nightProfile = null;
+    [SerializeField] private PostProcessVolume dayProfile = null;
 
     // Start is called before the first frame update
     void Start()
     {
+        InitialiseTimeOfDay();
+    }
+
+    void InitialiseTimeOfDay()
+    {
         currentTime = DateTime.Now.Date + TimeSpan.FromHours(startHour);
         sunriseTime = TimeSpan.FromHours(sunriseHour);
         sunsetTime = TimeSpan.FromHours(sunsetHour);
-        lastRecordedDay = currentTime.Day; // Set the initial day
+        lastRecordedDay = currentTime.Day;
         enemy.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!accessPoint.isTimePaused && !GameManager.gMan.mainMenu)
+        if (!accessPoint.isTimePaused && GameManager.gMan.mainMenu)
         {
             UpdateTimeOfDay();
             RotateSun();
@@ -69,54 +74,61 @@ public class TimeManager : MonoBehaviour
 
         if (timeText != null)
         {
-            timeText.text = currentTime.ToString("HH:mm tt"); // 24 hour format with AM/PM
+            timeText.text = currentTime.ToString("HH:mm tt");
         }
+
         if (dayText != null)
         {
-            int currentDay = currentTime.Day;
-            if (currentDay != lastRecordedDay)
-            {
-                days++;
-                lastRecordedDay = currentDay;
-            }
-            dayText.text = "DAY " + days.ToString();
+            UpdateDayText();
         }
 
         // End Game State
         if (days >= maxDays && !GameManager.gMan.gameWon)
         {
             GameManager.gMan.EnableEndGameState();
-
-            // Reset Time & Day
             Time.timeScale = 0f;
-            ResetTime();
+            ResetTimeOfDay();
         }
+    }
+
+    private void UpdateDayText()
+    {
+        int currentDay = currentTime.Day;
+        if (currentDay != lastRecordedDay)
+        {
+            days++;
+            lastRecordedDay = currentDay;
+        }
+        dayText.text = "DAY " + days.ToString();
     }
 
     private void RotateSun()
     {
         float sunlightRotation;
+        TimeSpan duration;
+        TimeSpan timeSinceEvent;
+
         if (currentTime.TimeOfDay > sunriseTime && currentTime.TimeOfDay < sunsetTime)
         {
-            TimeSpan sunriseToSunsetDuration = CalculateTimeDifference(sunriseTime, sunsetTime);
-            TimeSpan timeSinceSunrise = CalculateTimeDifference(sunriseTime, currentTime.TimeOfDay);
-
-            double percentage = timeSinceSunrise.TotalMinutes / sunriseToSunsetDuration.TotalMinutes;
-
-            sunlightRotation = Mathf.Lerp(0,180, (float)percentage);
+            duration = CalculateTimeDifference(sunriseTime, sunsetTime);
+            timeSinceEvent = CalculateTimeDifference(sunriseTime, currentTime.TimeOfDay);
+            sunlightRotation = CalculateSunlightRotation(0, 180, duration, timeSinceEvent);
         }
         else
         {
-            TimeSpan sunsetToSunriseDuration = CalculateTimeDifference(sunsetTime, sunriseTime);
-            TimeSpan timeSinceSunset = CalculateTimeDifference(sunsetTime, currentTime.TimeOfDay);
-
-            double percentage = timeSinceSunset.TotalMinutes / sunsetToSunriseDuration.TotalMinutes;
-
-            sunlightRotation = Mathf.Lerp(180, 360, (float)percentage);
+            duration = CalculateTimeDifference(sunsetTime, sunriseTime);
+            timeSinceEvent = CalculateTimeDifference(sunsetTime, currentTime.TimeOfDay);
+            sunlightRotation = CalculateSunlightRotation(180, 360, duration, timeSinceEvent);
         }
 
-        // rotate the light source
+        // Rotate the light source
         sunlight.transform.rotation = Quaternion.AngleAxis(sunlightRotation, Vector3.right);
+    }
+
+    private float CalculateSunlightRotation(float startRotation, float endRotation, TimeSpan duration, TimeSpan timeSinceEvent)
+    {
+        double percentage = timeSinceEvent.TotalMinutes / duration.TotalMinutes;
+        return Mathf.Lerp(startRotation, endRotation, (float)percentage);
     }
 
     private void UpdateLightSettings()
@@ -130,11 +142,15 @@ public class TimeManager : MonoBehaviour
         RenderSettings.ambientLight = Color.Lerp(nightAmbientLight, dayAmbientLight, timeOfDay);
 
         // Blending between Post-Processing profiles
-        if (postProcessingVolumeDay != null && postProcessingVolumeNight != null)
+        if (dayProfile != null && nightProfile != null)
         {
             float blendFactor = Mathf.Lerp(0, 1, timeOfDay);
-            postProcessingVolumeNight.weight = 1 - blendFactor;
-            postProcessingVolumeDay.weight = blendFactor;
+            nightProfile.weight = 1 - blendFactor;
+            dayProfile.weight = blendFactor;
+        }
+        else
+        {
+            Debug.LogWarning("No post-processing profiles detected.");
         }
     }
 
@@ -148,7 +164,7 @@ public class TimeManager : MonoBehaviour
         return difference;
     }
 
-    public void ResetTime()
+    public void ResetTimeOfDay()
     {
         currentTime = DateTime.Now.Date + TimeSpan.FromHours(startHour);
         lastRecordedDay = currentTime.Day;
