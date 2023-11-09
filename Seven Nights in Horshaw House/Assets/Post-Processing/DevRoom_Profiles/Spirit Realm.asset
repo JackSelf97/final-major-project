@@ -1,5 +1,31 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3403974973398002158
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6050e2d5de785ce4d931e4dbdbf2d755, type: 3}
+  m_Name: ChromaticAberration
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  spectralLut:
+    overrideState: 0
+    value: {fileID: 0}
+    defaultState: 1
+  intensity:
+    overrideState: 1
+    value: 0.5
+  fastMode:
+    overrideState: 1
+    value: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13,11 +39,10 @@ MonoBehaviour:
   m_Name: Spirit Realm
   m_EditorClassIdentifier: 
   settings:
-  - {fileID: 187079675753957134}
-  - {fileID: 4704761762668123780}
-  - {fileID: 7068279889009312329}
-  - {fileID: 5996318110749931945}
---- !u!114 &187079675753957134
+  - {fileID: 38441640612993836}
+  - {fileID: -3403974973398002158}
+  - {fileID: 136474796557835449}
+--- !u!114 &38441640612993836
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -72,26 +97,26 @@ MonoBehaviour:
     overrideState: 0
     value: 0
   tint:
-    overrideState: 0
-    value: 0
+    overrideState: 1
+    value: -10
   colorFilter:
     overrideState: 1
-    value: {r: 0.2028302, g: 0.5567692, b: 1, a: 1}
+    value: {r: 0.33333334, g: 1, b: 0.45882353, a: 1}
   hueShift:
-    overrideState: 1
-    value: 5
+    overrideState: 0
+    value: 0
   saturation:
-    overrideState: 1
-    value: 25
+    overrideState: 0
+    value: 0
   brightness:
     overrideState: 0
     value: 0
   postExposure:
+    overrideState: 1
+    value: 1.6
+  contrast:
     overrideState: 0
     value: 0
-  contrast:
-    overrideState: 1
-    value: 20
   mixerRedOutRedIn:
     overrideState: 0
     value: 100
@@ -105,8 +130,8 @@ MonoBehaviour:
     overrideState: 0
     value: 0
   mixerGreenOutGreenIn:
-    overrideState: 0
-    value: 100
+    overrideState: 1
+    value: 135
   mixerGreenOutBlueIn:
     overrideState: 0
     value: 0
@@ -1328,41 +1353,7 @@ MonoBehaviour:
       - 0.5
       - 0.5
       - 0.5
---- !u!114 &4704761762668123780
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b77c5407dc277943b591ade9e6b18c5, type: 3}
-  m_Name: LensDistortion
-  m_EditorClassIdentifier: 
-  active: 1
-  enabled:
-    overrideState: 1
-    value: 1
-  intensity:
-    overrideState: 1
-    value: 10
-  intensityX:
-    overrideState: 0
-    value: 1
-  intensityY:
-    overrideState: 0
-    value: 1
-  centerX:
-    overrideState: 0
-    value: 0
-  centerY:
-    overrideState: 0
-    value: 0
-  scale:
-    overrideState: 0
-    value: 1
---- !u!114 &5996318110749931945
+--- !u!114 &136474796557835449
 MonoBehaviour:
   m_ObjectHideFlags: 3
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1379,7 +1370,7 @@ MonoBehaviour:
     overrideState: 1
     value: 1
   mode:
-    overrideState: 0
+    overrideState: 1
     value: 0
   color:
     overrideState: 0
@@ -1389,9 +1380,9 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.5
+    value: 0.4
   smoothness:
-    overrideState: 1
+    overrideState: 0
     value: 0.2
   roundness:
     overrideState: 0
@@ -1404,33 +1395,5 @@ MonoBehaviour:
     value: {fileID: 0}
     defaultState: 1
   opacity:
-    overrideState: 0
-    value: 1
---- !u!114 &7068279889009312329
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
-  m_Name: DepthOfField
-  m_EditorClassIdentifier: 
-  active: 1
-  enabled:
-    overrideState: 1
-    value: 1
-  focusDistance:
-    overrideState: 1
-    value: 2
-  aperture:
-    overrideState: 0
-    value: 5.6
-  focalLength:
-    overrideState: 0
-    value: 50
-  kernelSize:
     overrideState: 0
     value: 1
