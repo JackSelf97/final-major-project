@@ -89,7 +89,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool itemPrompt = false;
     [SerializeField] private bool objectPrompt = false;
     [SerializeField] private bool accessPointPrompt = false;
-    [SerializeField] private bool inventoryPrompt = false;
     [SerializeField] private bool corpsePrompt = false;
     [SerializeField] private bool doorPrompt = false;
 
@@ -374,7 +373,6 @@ public class PlayerController : MonoBehaviour
                 playerInventory.inventoryUI.UpdateData(item.Key, item.Value.itemSO.ItemImage, item.Value.count);
             }
             GameManager.gMan.PlayerActionMap(false);
-            inventoryPrompt = true;
         }
         else
         {
@@ -540,6 +538,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
+            interactionText.text = null;
             SpriteChange(false, null);
             interact = false;
         }
@@ -549,14 +548,6 @@ public class PlayerController : MonoBehaviour
     {
         interactionImage.sprite = sprite;
         interactionImage.enabled = state;
-        if (inventoryPrompt)
-        {
-            interactionText.enabled = state;
-        }
-        else
-        {
-            if (!inventoryPrompt) interactionText.text = "Inventory [I]";
-        }
         crosshair.enabled = !state;
     }
 

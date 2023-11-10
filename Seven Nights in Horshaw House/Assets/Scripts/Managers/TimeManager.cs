@@ -10,13 +10,12 @@ public class TimeManager : MonoBehaviour
     [NonSerialized] public float timeScale = 1000;
     public float timeMultiplier = 0f;
     public float startHour = 0f;
-    public int lastRecordedDay = 0;
-    public int newDayStartHour = 0;
     public int days = 0;
     public int maxDays = 7;
     public DateTime currentTime;
     public Text dayText = null;
     [SerializeField] private Text timeText = null;
+    private int lastRecordedDay = 0;
 
     [Header("Sunlight")]
     [SerializeField] private Light sunlight = null;
@@ -59,7 +58,7 @@ public class TimeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!accessPoint.isTimePaused && GameManager.gMan.mainMenu)
+        if (!accessPoint.isTimePaused && !GameManager.gMan.mainMenu)
         {
             UpdateTimeOfDay();
             RotateSun();
@@ -74,7 +73,7 @@ public class TimeManager : MonoBehaviour
 
         if (timeText != null)
         {
-            timeText.text = currentTime.ToString("HH:mm tt");
+            timeText.text = currentTime.ToString("hh:mm tt");
         }
 
         if (dayText != null)
@@ -137,11 +136,31 @@ public class TimeManager : MonoBehaviour
         float timeOfDay = lightChangeCurve.Evaluate(dotProduct);
 
         // Update light settings
-        sunlight.intensity = Mathf.Lerp(0, maxSunlightIntensity, timeOfDay);
-        moonlight.intensity = Mathf.Lerp(maxMoonlightIntensity, 0, timeOfDay);
-        RenderSettings.ambientLight = Color.Lerp(nightAmbientLight, dayAmbientLight, timeOfDay);
+        UpdateSunlightIntensity(timeOfDay);
+        UpdateMoonlightIntensity(timeOfDay);
+        UpdateAmbientLightColor(timeOfDay);
 
         // Blending between Post-Processing profiles
+        BlendPostProcessingProfiles(timeOfDay);
+    }
+
+    private void UpdateSunlightIntensity(float timeOfDay)
+    {
+        sunlight.intensity = Mathf.Lerp(0, maxSunlightIntensity, timeOfDay);
+    }
+
+    private void UpdateMoonlightIntensity(float timeOfDay)
+    {
+        moonlight.intensity = Mathf.Lerp(maxMoonlightIntensity, 0, timeOfDay);
+    }
+
+    private void UpdateAmbientLightColor(float timeOfDay)
+    {
+        RenderSettings.ambientLight = Color.Lerp(nightAmbientLight, dayAmbientLight, timeOfDay);
+    }
+
+    private void BlendPostProcessingProfiles(float timeOfDay)
+    {
         if (dayProfile != null && nightProfile != null)
         {
             float blendFactor = Mathf.Lerp(0, 1, timeOfDay);
@@ -177,11 +196,12 @@ public class TimeManager : MonoBehaviour
     {
         // Get the current hour from the currentTime
         int currentHour = currentTime.Hour;
+        const int enemySpawnDay = 2;
 
         // Check if the enemy should be active during the evening (between sunsetHour and sunriseHour)
         if ((currentHour >= sunsetHour && currentHour < 24) || (currentHour >= 0 && currentHour < sunriseHour))
         {
-            if (!enemy.activeSelf)
+            if (!enemy.activeSelf && days >= enemySpawnDay)
             {
                 // Activate the enemy during the evening
                 enemy.SetActive(true);

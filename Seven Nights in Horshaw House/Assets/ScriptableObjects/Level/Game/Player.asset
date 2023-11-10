@@ -14,3 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPoint:
   - {x: 275, y: 6, z: 250}
+  - {x: 267.55, y: 6, z: 255}
+  - {x: 267, y: 10, z: 254.25}
+  - {x: 275.25, y: 10, z: 250.75}

@@ -161,12 +161,12 @@ public class GameManager : MonoBehaviour
         if (gameWon)
         {
             Debug.Log("You Win!");
-            endGamePanel.transform.GetChild(0).gameObject.SetActive(true);
+            endGamePanel.transform.GetChild(1).gameObject.SetActive(true);
         }
         else
         {
             Debug.Log("You Lose!");
-            endGamePanel.transform.GetChild(1).gameObject.SetActive(true);
+            endGamePanel.transform.GetChild(2).gameObject.SetActive(true);
         }
 
         endGamePanel.SetActive(true);
