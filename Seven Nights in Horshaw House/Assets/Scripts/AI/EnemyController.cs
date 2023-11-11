@@ -5,17 +5,18 @@ using UnityEngine.AI;
 // https://www.youtube.com/watch?v=NK1TssMD5mE&t=1s&ab_channel=TableFlipGames
 public class EnemyController : MonoBehaviour
 {
-    [Header("Properties")]
+    [Header("Stats")]
     [SerializeField] private Transform target = null;
     [SerializeField] private float lookRadius = 8f;
-    [SerializeField] private int chaseSpeed = 7;
-    [SerializeField] private int patrolSpeed = 4;
+    [SerializeField] private int chaseSpeed = 5;
+    [SerializeField] private int patrolSpeed = 2;
     private NavMeshAgent navMeshAgent = null;
     private EnemyStats enemyStats = null;
+    private Animator animator = null;
     private Vector3 originalPos = Vector3.zero;
     private Quaternion originalRot = Quaternion.identity;
-
-    [Header("States")]
+    
+    [Header("Navigation")]
     [SerializeField] private float totalWaitTime = 3f;
     [SerializeField] private bool patrolWaiting = false;
     [SerializeField] private bool travelling = false;
@@ -26,21 +27,34 @@ public class EnemyController : MonoBehaviour
     public bool chasing = false;
     public Spawner parentSpawner = null;
 
+    [Header("Jump Scare")]
+    [SerializeField] private GameObject jumpscareMonster = null;
+
     // Start is called before the first frame update
     void Start()
     {
-        originalPos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        InitialiseComponents();
+        SetWaypoints();
+        SetDestination();
+    }
+
+    void InitialiseComponents()
+    {
+        originalPos = transform.position;
         originalRot = transform.rotation;
         navMeshAgent = GetComponent<NavMeshAgent>();
+        animator = GetComponentInChildren<Animator>();
         enemyStats = GetComponent<EnemyStats>();
         navMeshAgent.speed = 2;
+    }
+
+    void SetWaypoints()
+    {
         if (currWaypoint == null)
         {
-            // Set it at random
-            // Grab all the waypoint objects in the scene
-            if (parentSpawner == null) // meaning if the enemy was NOT instantiated
+            if (parentSpawner == null)
             {
-                GameObject[] allWaypointsInScene = GameObject.FindGameObjectsWithTag("Waypoint"); // then have the freedom to move with every waypoint
+                GameObject[] allWaypointsInScene = GameObject.FindGameObjectsWithTag("Waypoint");
                 GetWaypoints(allWaypointsInScene);
             }
             else
@@ -48,100 +62,95 @@ public class EnemyController : MonoBehaviour
                 GetWaypoints(parentSpawner.allWaypoints);
             }
         }
-
-        SetDestination();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!enemyStats.isDead)
+        if (enemyStats.isDead) { return; }
+
+        float distance = Vector3.Distance(target.position, transform.position);
+        if (distance <= lookRadius)
         {
-            float distance = Vector3.Distance(target.position, transform.position);
-            if (distance <= lookRadius)
+            ChaseTarget();
+
+            if (distance <= navMeshAgent.stoppingDistance)
             {
-                ChaseTarget();
-                if (distance <= navMeshAgent.stoppingDistance)
-                {
-                    // attack and face the target
-                    FaceTarget();
-                }
+                // Attack and face the target
+                animator.SetBool("isAttacking", true);
+                FaceTarget();
             }
-            else
-            {
-                chasing = false;
-            }
+        }
+        else
+        {
+            chasing = false;
         }
     }
 
     private void Update()
     {
         if (chasing) { return; }
-        // Check if we're close to the destination
-        if (travelling && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance) // has to match the stopping distance
-        {
-            travelling = false;
-            waypointsVisited++;
 
-            // If we're going to wait, then wait
-            if (patrolWaiting)
-            {
-                waiting = true;
-                waitTimer = 0f;
-            }
-            else
-            {
-                SetDestination();
-            }
+        if (travelling && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
+        {
+            HandleDestinationReached();
         }
 
-        // Instead if we're waiting
         if (waiting)
         {
-            waitTimer += Time.fixedDeltaTime;
-            if (waitTimer >= totalWaitTime)
-            {
-                waiting = false;
-                SetDestination();
-            }
+            HandleWaiting();
+        }
+    }
+
+    private void HandleDestinationReached()
+    {
+        travelling = false;
+        waypointsVisited++;
+
+        if (patrolWaiting)
+        {
+            waiting = true;
+            animator.SetBool("isWalking", false);
+            waitTimer = 0f;
+        }
+        else
+        {
+            SetDestination();
+        }
+    }
+
+    private void HandleWaiting()
+    {
+        waitTimer += Time.fixedDeltaTime;
+        if (waitTimer >= totalWaitTime)
+        {
+            waiting = false;
+            SetDestination();
         }
     }
 
     #region State Machine Logic
 
-    void ChaseTarget()
-    {
-        // Set the bool
-        chasing = true;
-
-        // Set the scripts
-        navMeshAgent.speed = chaseSpeed;
-
-        // Set the target
-        navMeshAgent.SetDestination(target.position);
-    }
-
-    void FaceTarget()
-    {
-        Vector3 direction = (target.position - transform.position).normalized;
-        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.fixedDeltaTime * 5f);
-    }
-
     private void SetDestination()
     {
         if (waypointsVisited > 0)
         {
-            ConnectedWaypoint nextWaypoint = currWaypoint.NextWaypoint(prevWaypoint);
-            prevWaypoint = currWaypoint;
-            currWaypoint = nextWaypoint;
+            UpdateWaypoints();
         }
 
         Vector3 target = currWaypoint.transform.position;
         navMeshAgent.SetDestination(target);
         travelling = true;
         navMeshAgent.speed = patrolSpeed;
+        animator.SetBool("isWalking", true);
         Debug.Log(currWaypoint.name);
+    }
+
+    private void UpdateWaypoints()
+    {
+        ConnectedWaypoint nextWaypoint = currWaypoint.NextWaypoint(prevWaypoint);
+        prevWaypoint = currWaypoint;
+        currWaypoint = nextWaypoint;
     }
 
     private void GetWaypoints(GameObject[] allWaypoints)
@@ -168,9 +177,42 @@ public class EnemyController : MonoBehaviour
 
     #endregion
 
+    #region Actions
+
+    void ChaseTarget()
+    {
+        // Set the bool
+        chasing = true;
+
+        // Set the animation
+        animator.SetBool("isWalking", false);
+        animator.SetBool("isAttacking", false);
+        animator.SetBool("isChasing", true);
+
+        // Set the scripts
+        navMeshAgent.speed = chaseSpeed;
+
+        // Set the target
+        navMeshAgent.SetDestination(target.position);
+    }
+
+    void FaceTarget()
+    {
+        Vector3 direction = (target.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.fixedDeltaTime * 5f);
+    }
+
+    public void JumpScare()
+    {
+        jumpscareMonster.SetActive(true);
+    }
+
+    #endregion
+
     public void EnemyReset()
     {
-        // Reset the enemy's position and rotation
+        // Reset the position and rotation
         transform.position = originalPos;
         transform.rotation = originalRot;
 

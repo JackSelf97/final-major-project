@@ -51,7 +51,8 @@ public class PlayerStats : MonoBehaviour
     public void ToggleSpiritRealm(bool state, float percentage) // not sure if I should do it this way because of the percentage change
     {
         spiritRealm = state;
-        timeManager.timeMultiplier += (timeManager.timeScale / percentage); // speed up time
+        if (timeManager != null)
+            timeManager.timeMultiplier += (timeManager.timeScale / percentage); // speed up time
 
         // toggle the post processing layer on the player's VCam
         if (virtualCamera != null)
