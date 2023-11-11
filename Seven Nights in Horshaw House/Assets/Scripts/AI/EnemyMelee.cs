@@ -2,22 +2,29 @@ using UnityEngine;
 
 public class EnemyMelee : MonoBehaviour
 {
-    [SerializeField] private int damage = 100;
-    [SerializeField] private PlayerStats playerStats = null;
+    [SerializeField] private int damage = 25;
+    private PlayerStats playerStats = null;
     private EnemyController enemyController = null;
+    private GameObject player = null;
 
     private void Start()
     {
         enemyController = GetComponentInParent<EnemyController>();
+        player = GameObject.FindWithTag("Player");
+        playerStats = player.GetComponent<PlayerStats>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            playerStats.TakeDamage(damage);
+            if (!playerStats.isDead)
+                playerStats.TakeDamage(damage);
+
             if (playerStats.currHP <= 0)
+            {
                 enemyController.chasing = false;
+            } 
         }
     }
 }

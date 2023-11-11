@@ -194,6 +194,9 @@ public class TimeManager : MonoBehaviour
 
     private void ManageEnemyActivation()
     {
+        // Check if the monster is jump scaring the player
+        if (GameManager.gMan.isjumpScaring) { return; }
+
         // Get the current hour from the currentTime
         int currentHour = currentTime.Hour;
         const int enemySpawnDay = 2;

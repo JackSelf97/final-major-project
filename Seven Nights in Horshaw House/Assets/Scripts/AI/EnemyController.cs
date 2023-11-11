@@ -8,7 +8,7 @@ public class EnemyController : MonoBehaviour
     [Header("Stats")]
     [SerializeField] private Transform target = null;
     [SerializeField] private float lookRadius = 8f;
-    [SerializeField] private int chaseSpeed = 5;
+    [SerializeField] private int chaseSpeed = 6;
     [SerializeField] private int patrolSpeed = 2;
     private NavMeshAgent navMeshAgent = null;
     private EnemyStats enemyStats = null;
@@ -26,9 +26,6 @@ public class EnemyController : MonoBehaviour
     private int waypointsVisited = 0;
     public bool chasing = false;
     public Spawner parentSpawner = null;
-
-    [Header("Jump Scare")]
-    [SerializeField] private GameObject jumpscareMonster = null;
 
     // Start is called before the first frame update
     void Start()
@@ -201,11 +198,6 @@ public class EnemyController : MonoBehaviour
         Vector3 direction = (target.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.fixedDeltaTime * 5f);
-    }
-
-    public void JumpScare()
-    {
-        jumpscareMonster.SetActive(true);
     }
 
     #endregion

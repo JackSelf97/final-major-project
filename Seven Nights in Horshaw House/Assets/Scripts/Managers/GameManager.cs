@@ -16,6 +16,11 @@ public class GameManager : MonoBehaviour
     public int totalSkulls = 8;
     public int collectedSkulls = 0;
 
+    [Header("Jump Scare")]
+    [SerializeField] private GameObject monster = null;
+    [SerializeField] private GameObject jumpScareMonster = null;
+    public bool isjumpScaring = false;
+
     [Header("Game State")]
     public GameObject endGamePanel = null;
     public bool gameWon = false;
@@ -129,6 +134,14 @@ public class GameManager : MonoBehaviour
             occupiedSpawnIndices.Add(randomSpawnIndex);
             skulls.Add(newSkull);
         }
+    }
+
+    public void JumpScare(bool state)
+    {
+        isjumpScaring = state;
+        monster.SetActive(!state);
+        jumpScareMonster.SetActive(state);
+        playerController.LockUser(state);
     }
 
     private int GetRandomUnoccupiedSpawnIndex(List<int> occupiedIndices)
