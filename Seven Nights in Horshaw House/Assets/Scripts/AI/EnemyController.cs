@@ -8,7 +8,7 @@ public class EnemyController : MonoBehaviour
     [Header("Stats")]
     [SerializeField] private Transform target = null;
     [SerializeField] private float lookRadius = 8f;
-    [SerializeField] private int chaseSpeed = 6;
+    [SerializeField] private int chaseSpeed = 7;
     [SerializeField] private int patrolSpeed = 2;
     private NavMeshAgent navMeshAgent = null;
     private EnemyStats enemyStats = null;

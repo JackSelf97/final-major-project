@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Cinemachine")]
     [SerializeField] private Transform cam = null;
-    [SerializeField] private GameObject camPos = null;
+    public GameObject camPos = null;
     [SerializeField] private float rotationSpeed = 1.0f;
     [SerializeField] private float topClamp = 90.0f;
     [SerializeField] private float bottomClamp = -90.0f;

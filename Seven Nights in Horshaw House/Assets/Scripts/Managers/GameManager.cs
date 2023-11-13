@@ -19,6 +19,10 @@ public class GameManager : MonoBehaviour
     [Header("Jump Scare")]
     [SerializeField] private GameObject monster = null;
     [SerializeField] private GameObject jumpScareMonster = null;
+    [SerializeField] private float rotationSpeed = 20f;
+    private GameObject playerCamPos = null;
+    private Vector3 lastMonsterPos = Vector3.zero;
+    private float headHeightOffset = 1.4f;
     public bool isjumpScaring = false;
 
     [Header("Game State")]
@@ -62,6 +66,7 @@ public class GameManager : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         startPos = GameObject.Find("StartPos").gameObject.transform;
         playerController = player.GetComponent<PlayerController>();
+        playerCamPos = playerController.camPos;
 
         // Proof of Concept
         InstantiateSkulls();
@@ -138,10 +143,29 @@ public class GameManager : MonoBehaviour
 
     public void JumpScare(bool state)
     {
+        // Rotate the camera
+        lastMonsterPos = monster.transform.position;
+        RotateCameraTowardsMonster();
+
+        // Activate the 'Jump Scare Monster'
         isjumpScaring = state;
         monster.SetActive(!state);
         jumpScareMonster.SetActive(state);
+
+        // Lock the player
         playerController.LockUser(state);
+    }
+
+    private void RotateCameraTowardsMonster()
+    {
+        // Offset the target position to the head height
+        Vector3 targetPosition = lastMonsterPos + Vector3.up * headHeightOffset;
+
+        // Calculate the rotation needed to look at the target position
+        Quaternion targetRotation = Quaternion.LookRotation(targetPosition - playerCamPos.transform.position);
+
+        // Apply the rotation
+        playerCamPos.transform.rotation = Quaternion.Slerp(playerCamPos.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
     private int GetRandomUnoccupiedSpawnIndex(List<int> occupiedIndices)

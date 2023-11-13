@@ -52,7 +52,7 @@ public class TimeManager : MonoBehaviour
         sunriseTime = TimeSpan.FromHours(sunriseHour);
         sunsetTime = TimeSpan.FromHours(sunsetHour);
         lastRecordedDay = currentTime.Day;
-        enemy.SetActive(false);
+        //enemy.SetActive(false);
     }
 
     // Update is called once per frame
@@ -63,7 +63,7 @@ public class TimeManager : MonoBehaviour
             UpdateTimeOfDay();
             RotateSun();
             UpdateLightSettings();
-            ManageEnemyActivation();
+            //ManageEnemyActivation();
         }
     }
 

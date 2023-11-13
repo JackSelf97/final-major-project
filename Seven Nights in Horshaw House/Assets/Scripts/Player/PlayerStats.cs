@@ -1,7 +1,6 @@
 using UnityEngine;
 using Cinemachine;
 using Cinemachine.PostFX;
-using System.Collections;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -12,6 +11,9 @@ public class PlayerStats : MonoBehaviour
     public int currHP = 0, maxHP = 100;
     public bool isDead = false;
     public bool spiritRealm = false;
+
+    private float jumpScareTimer = 0f;
+    private float jumpScareDuration = 3.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -25,35 +27,47 @@ public class PlayerStats : MonoBehaviour
             virtualCamera.GetComponent<CinemachinePostProcessing>().enabled = false;
     }
 
+    void Update()
+    {
+        if (isDead)
+            PlayerDeath();
+    }
+
     public void TakeDamage(int damage)
     {
         currHP -= damage;
         if (currHP <= 0)
         {
             isDead = true;
-            StartCoroutine(PlayerDeath());
         }
     }
 
-    IEnumerator PlayerDeath()
+    private void PlayerDeath()
     {
-        GameManager.gMan.JumpScare(true);
-        yield return new WaitForSeconds(3.5f);
-        GameManager.gMan.JumpScare(false);
-
-        if (GameObject.Find("Player's Corpse"))
+        jumpScareTimer += Time.deltaTime;
+        if (jumpScareTimer <= jumpScareDuration)
         {
-            GameObject instance = GameObject.Find("Player's Corpse");
-            timeManager.timeMultiplier = timeManager.timeScale;
-            Destroy(instance);
+            GameManager.gMan.JumpScare(true);
         }
-        var corpsePos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-        GameObject corpseObj = Instantiate(playerCorpse, corpsePos, Quaternion.identity);
-        corpseObj.name = "Player's Corpse";
+        else
+        {
+            GameManager.gMan.JumpScare(false);
 
-        // Reset the player's position and toggle the spirit realm
-        transform.position = GameManager.gMan.GetPlayerSpawnPoint();
-        ToggleSpiritRealm(true, 1);
+            if (GameObject.Find("Player's Corpse"))
+            {
+                GameObject instance = GameObject.Find("Player's Corpse");
+                timeManager.timeMultiplier = timeManager.timeScale;
+                Destroy(instance);
+            }
+            var corpsePos = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            GameObject corpseObj = Instantiate(playerCorpse, corpsePos, Quaternion.identity);
+            corpseObj.name = "Player's Corpse";
+
+            // Reset the player's position and toggle the spirit realm
+            transform.position = GameManager.gMan.GetPlayerSpawnPoint();
+            ToggleSpiritRealm(true, 1);
+            jumpScareTimer = 0f;
+        }
     }
 
     public void Permadeath()
@@ -65,6 +79,8 @@ public class PlayerStats : MonoBehaviour
     {
         spiritRealm = state;
         isDead = false;
+        currHP = maxHP;
+
         if (timeManager != null)
             timeManager.timeMultiplier += (timeManager.timeScale / percentage); // speed up time
 
