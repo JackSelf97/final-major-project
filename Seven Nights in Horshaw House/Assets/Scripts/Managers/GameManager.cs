@@ -199,6 +199,10 @@ public class GameManager : MonoBehaviour
 
         // Lock the player
         playerController.LockUser(state);
+
+        // Shake the player's Vcamera
+        if (isjumpScaring)
+            CameraShake.instance.ShakeCamera(2.5f, 3.5f); // Animation time
     }
 
     public bool EnableEndGameState()

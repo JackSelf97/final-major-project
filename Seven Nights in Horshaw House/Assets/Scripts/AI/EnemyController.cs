@@ -15,6 +15,7 @@ public class EnemyController : MonoBehaviour
     private Animator animator = null;
     private Vector3 originalPos = Vector3.zero;
     private Quaternion originalRot = Quaternion.identity;
+    private PlayerStats playerStats = null;
     
     [Header("Navigation")]
     [SerializeField] private float totalWaitTime = 3f;
@@ -30,18 +31,19 @@ public class EnemyController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InitialiseComponents();
+        InitialiseEnemy();
         SetWaypoints();
         SetDestination();
     }
 
-    void InitialiseComponents()
+    void InitialiseEnemy()
     {
         originalPos = transform.position;
         originalRot = transform.rotation;
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
         enemyStats = GetComponent<EnemyStats>();
+        playerStats = GameObject.FindWithTag("Player").GetComponent<PlayerStats>();
         navMeshAgent.speed = 2;
     }
 
@@ -67,7 +69,7 @@ public class EnemyController : MonoBehaviour
         if (enemyStats.isDead) { return; }
 
         float distance = Vector3.Distance(target.position, transform.position);
-        if (distance <= lookRadius)
+        if (distance <= lookRadius && !playerStats.spiritRealm)
         {
             ChaseTarget();
 

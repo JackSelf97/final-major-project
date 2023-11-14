@@ -5,13 +5,13 @@ using System.Collections;
 
 public class PlayerStats : MonoBehaviour
 {
-    [SerializeField] private CinemachineVirtualCamera virtualCamera = null;
     [SerializeField] private GameObject playerCorpse = null;
     private PlayerController playerController = null;
     private TimeManager timeManager = null;
     private Vector3 originalCameraPosition;
     private Quaternion originalCameraRotation;
     private int maxHP = 100;
+    public CinemachineVirtualCamera virtualCamera = null;
     public int currHP = 0;
     public bool isDead = false;
     public bool spiritRealm = false;

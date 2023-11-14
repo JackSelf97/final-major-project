@@ -143,6 +143,7 @@ GameObject:
   - component: {fileID: 2997230525508067954}
   - component: {fileID: 2997230525508067952}
   - component: {fileID: 2997230525508067953}
+  - component: {fileID: 1586728163}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -201,6 +202,23 @@ MonoBehaviour:
   CameraRadius: 0.15
   DampingIntoCollision: 0
   DampingFromCollision: 0
+--- !u!114 &1586728163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2997230525508067955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: 46965f9cbaf525742a6da4c2172a99cd, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
+  m_AmplitudeGain: 0
+  m_FrequencyGain: 5
+  mNoiseOffsets: {x: 0, y: 0, z: 0}
 --- !u!1 &2997230525525429821
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,6 +336,7 @@ GameObject:
   - component: {fileID: 2997230525538151538}
   - component: {fileID: 2997230525538151539}
   - component: {fileID: 2997230525538151536}
+  - component: {fileID: 882308298}
   m_Layer: 0
   m_Name: CM vcam [Player]
   m_TagString: Untagged
@@ -333,7 +352,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2997230525538151540}
   m_LocalRotation: {x: -0.09964724, y: 0.84946585, z: -0.17335355, w: -0.48828968}
-  m_LocalPosition: {x: 314.90338, y: -6.3194075, z: 262.888}
+  m_LocalPosition: {x: 314.90338, y: -5.719407, z: 262.888}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -364,7 +383,7 @@ MonoBehaviour:
   m_Lens:
     FieldOfView: 60
     OrthographicSize: 5
-    NearClipPlane: 0.3
+    NearClipPlane: 0.1
     FarClipPlane: 80
     Dutch: 0
     ModeOverride: 0
@@ -402,7 +421,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2997230525538151540}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 729aad4491e915a41bda2b8325cf757a, type: 3}
   m_Name: 
@@ -412,3 +431,15 @@ MonoBehaviour:
   m_FocusTarget: {fileID: 0}
   m_FocusOffset: 0
   m_Profile: {fileID: 11400000, guid: 9b1e957bf1e05d9428c79dfa37db93c8, type: 2}
+--- !u!114 &882308298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2997230525538151540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7649df83b91e8954c80fff60d309b0a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
