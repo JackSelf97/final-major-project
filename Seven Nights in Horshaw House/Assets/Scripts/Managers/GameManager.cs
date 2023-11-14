@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
     public bool gameWon = false;
 
     [Header("Respite Mechanics")]
-    public bool cutscenesCheck = false; // Maybe set them to thier toggle?
+    public bool cutscenesCheck = false; // Maybe set them to their toggle?
     public bool healthCheck = false;
     public bool hintsCheck = false;
     public bool dialogueCheck = false;
@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     public bool tutorialCheck = false;
 
     #region Singleton & Awake
-    public static GameManager gMan = null; // should always initilize
+    public static GameManager gMan = null;
 
     private void Awake()
     {
@@ -55,13 +55,18 @@ public class GameManager : MonoBehaviour
         }
         else if (gMan != null)
         {
-            Destroy(gameObject); // if its already there destroy it
+            Destroy(gameObject);
         }
     }
     #endregion
 
     // Start is called before the first frame update
     void Start()
+    {
+        InitialiseGameManager();
+    }
+
+    private void InitialiseGameManager()
     {
         player = GameObject.FindWithTag("Player");
         startPos = GameObject.Find("StartPos").gameObject.transform;
@@ -74,6 +79,12 @@ public class GameManager : MonoBehaviour
             endGamePanel.SetActive(false);
     }
 
+    void Update()
+    {
+        if (isjumpScaring)
+            RotateCameraTowardsMonster();
+    }
+
     #region Player Functions
 
     public Vector3 GetPlayerSpawnPoint()
@@ -81,6 +92,29 @@ public class GameManager : MonoBehaviour
         int ranNo = Random.Range(0, playerSpawnPointSO.spawnPoint.Length);
         Debug.Log("Spawn point: " + ranNo);
         return playerSpawnPointSO.spawnPoint[ranNo];
+    }
+
+    private int GetRandomUnoccupiedSpawnIndex(List<int> occupiedIndices)
+    {
+        List<int> availableIndices = new List<int>();
+
+        for (int i = 0; i < skullSpawnPointSO.spawnPoint.Length; i++)
+        {
+            if (!occupiedIndices.Contains(i))
+            {
+                availableIndices.Add(i);
+            }
+        }
+
+        if (availableIndices.Count > 0)
+        {
+            int randomIndex = Random.Range(0, availableIndices.Count);
+            return availableIndices[randomIndex];
+        }
+        else
+        {
+            return -1; // All spawn points are occupied
+        }
     }
 
     public void PlayerActionMap(bool active)
@@ -95,6 +129,18 @@ public class GameManager : MonoBehaviour
             playerController.playerMap.Disable();
             playerController.userInterfaceMap.Enable();
         }
+    }
+
+    private void RotateCameraTowardsMonster()
+    {
+        // Offset the target position to the head height
+        Vector3 targetPosition = lastMonsterPos + Vector3.up * headHeightOffset;
+
+        // Calculate the rotation needed to look at the target position
+        Quaternion targetRotation = Quaternion.LookRotation(targetPosition - playerCamPos.transform.position);
+
+        // Apply the rotation
+        playerCamPos.transform.rotation = Quaternion.Slerp(playerCamPos.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
     #endregion
@@ -145,7 +191,6 @@ public class GameManager : MonoBehaviour
     {
         // Rotate the camera
         lastMonsterPos = monster.transform.position;
-        RotateCameraTowardsMonster();
 
         // Activate the 'Jump Scare Monster'
         isjumpScaring = state;
@@ -154,41 +199,6 @@ public class GameManager : MonoBehaviour
 
         // Lock the player
         playerController.LockUser(state);
-    }
-
-    private void RotateCameraTowardsMonster()
-    {
-        // Offset the target position to the head height
-        Vector3 targetPosition = lastMonsterPos + Vector3.up * headHeightOffset;
-
-        // Calculate the rotation needed to look at the target position
-        Quaternion targetRotation = Quaternion.LookRotation(targetPosition - playerCamPos.transform.position);
-
-        // Apply the rotation
-        playerCamPos.transform.rotation = Quaternion.Slerp(playerCamPos.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-    }
-
-    private int GetRandomUnoccupiedSpawnIndex(List<int> occupiedIndices)
-    {
-        List<int> availableIndices = new List<int>();
-
-        for (int i = 0; i < skullSpawnPointSO.spawnPoint.Length; i++)
-        {
-            if (!occupiedIndices.Contains(i))
-            {
-                availableIndices.Add(i);
-            }
-        }
-
-        if (availableIndices.Count > 0)
-        {
-            int randomIndex = Random.Range(0, availableIndices.Count);
-            return availableIndices[randomIndex];
-        }
-        else
-        {
-            return -1; // All spawn points are occupied
-        }
     }
 
     public bool EnableEndGameState()

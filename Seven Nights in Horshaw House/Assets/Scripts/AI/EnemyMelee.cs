@@ -3,10 +3,10 @@ using UnityEngine;
 public class EnemyMelee : MonoBehaviour
 {
     [SerializeField] private int damage = 25;
+    private GameObject player = null;
     private PlayerStats playerStats = null;
     private EnemyController enemyController = null;
-    private GameObject player = null;
-
+    
     private void Start()
     {
         enemyController = GetComponentInParent<EnemyController>();
@@ -22,9 +22,7 @@ public class EnemyMelee : MonoBehaviour
                 playerStats.TakeDamage(damage);
 
             if (playerStats.currHP <= 0)
-            {
                 enemyController.chasing = false;
-            } 
         }
     }
 }
