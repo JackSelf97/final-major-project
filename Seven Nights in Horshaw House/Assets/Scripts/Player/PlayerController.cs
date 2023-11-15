@@ -40,6 +40,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpTimeout = 0.1f;
     [SerializeField] private float jumpHeight = 1.2f;
     [SerializeField] private Vector3 direction = Vector3.zero;
+    [SerializeField] private GameObject candle = null;
+    [SerializeField] private bool candleLit = false;
     private bool jump;
     private bool grounded = true;
     private float pushPower = 2.0f;
@@ -76,6 +78,7 @@ public class PlayerController : MonoBehaviour
     private InputAction inventoryAction = null;
     private InputAction pauseAction = null;
     private InputAction pickUpAction = null;
+    private InputAction flashlightAction = null;
 
     // Actions/UI
     private InputAction inventoryUIAction = null;
@@ -113,6 +116,7 @@ public class PlayerController : MonoBehaviour
         inventoryAction = playerInput.actions["Inventory"];
         pauseAction = playerInput.actions["Pause"];
         pickUpAction = playerInput.actions["PickUp"];
+        flashlightAction = playerInput.actions["Flashlight"];
 
         inventoryUIAction = playerInput.actions["InventoryUI"];
         pauseUIAction = playerInput.actions["PauseUI"];
@@ -125,6 +129,7 @@ public class PlayerController : MonoBehaviour
         pauseAction.performed += Pause;
         pickUpAction.performed += context => grabbing = true;
         pickUpAction.canceled += context => grabbing = false;
+        flashlightAction.performed += Flashlight;
 
         inventoryUIAction.performed += Inventory;
         pauseUIAction.performed += Pause;
@@ -142,6 +147,7 @@ public class PlayerController : MonoBehaviour
         pauseAction.performed -= Pause;
         pickUpAction.performed -= context => grabbing = true;
         pickUpAction.canceled -= context => grabbing = false;
+        flashlightAction.performed -= Flashlight;
 
         inventoryUIAction.performed -= Inventory;
         pauseUIAction.performed -= Pause;
@@ -357,6 +363,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Flashlight(InputAction.CallbackContext callbackContext)
+    {
+        if (candle != null)
+        {
+            candleLit = !candleLit;
+            candle.SetActive(candleLit);
+        }
+    }
+
     public void Inventory(InputAction.CallbackContext callbackContext)
     {
         if (isPaused || GameManager.gMan.mainMenu) { return; }
@@ -503,7 +518,7 @@ public class PlayerController : MonoBehaviour
             {
                 case "AccessPoint":
                     sprite = interactionSprite[grabSpriteIndex];
-                    if (GameManager.gMan.HUDCheck) prompt = "Interact [E]";
+                    if (GameManager.gMan.HUDCheck) prompt = "Touch [E]";
                     break;
                 case "Corpse":
                     sprite = interactionSprite[grabSpriteIndex];
@@ -511,12 +526,12 @@ public class PlayerController : MonoBehaviour
                     break;
                 case "Door":
                     sprite = interactionSprite[touchSpriteIndex];
-                    if (GameManager.gMan.HUDCheck) prompt = "Open Door [E]";
+                    if (GameManager.gMan.HUDCheck) prompt = "Use Door [E]";
                     break;
                 case "Item":
                     if (playerStats.spiritRealm) return;
                     sprite = interactionSprite[grabSpriteIndex];
-                    if (GameManager.gMan.HUDCheck) prompt = "Interact [E]";
+                    if (GameManager.gMan.HUDCheck) prompt = "Pick Up [E]";
                     break;
                 case "Object":
                     if (!grabbing)

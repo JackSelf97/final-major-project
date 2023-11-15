@@ -50,6 +50,6 @@ MonoBehaviour:
     mixerGroup: {fileID: -4231998029217629052, guid: 94742c1e1be097b40bb2347cb06f053b, type: 2}
     volume: 0.5
     pitch: 1
-    loop: 0
+    loop: 1
     bypassListenerEffects: 0
     audioSource: {fileID: 0}
