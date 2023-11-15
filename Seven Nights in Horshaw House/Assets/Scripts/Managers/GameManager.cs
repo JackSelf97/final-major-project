@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
     {
         InitialiseGameManager();
         SetDefaultRespiteMechanics();
+        SetSoundTracks();
     }
 
     private void InitialiseGameManager()
@@ -86,6 +87,11 @@ public class GameManager : MonoBehaviour
     private void SetDefaultRespiteMechanics()
     {
         HUDPanel.SetActive(false);
+    }
+
+    private void SetSoundTracks()
+    {
+        FindObjectOfType<AudioManager>().Play("House");
     }
 
     void Update()

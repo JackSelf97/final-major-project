@@ -14019,6 +14019,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4015955734361406829, guid: 51d011658ae8fa04d8c11c82b6dcfc97, type: 3}
+      propertyPath: m_MaxValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4015955734361406829, guid: 51d011658ae8fa04d8c11c82b6dcfc97, type: 3}
+      propertyPath: m_MinValue
+      value: -80
+      objectReference: {fileID: 0}
     - target: {fileID: 4015955734855570602, guid: 51d011658ae8fa04d8c11c82b6dcfc97, type: 3}
       propertyPath: m_Text
       value: MASTER
