@@ -1,3 +1,4 @@
+using Inventory;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -273,10 +274,9 @@ public class UIManager : MonoBehaviour
 
     public void Resume()
     {
-        playerController.LockUser(false);
         playerController.isPaused = false;
         playerController.pauseScreen.SetActive(false);
-
+        playerController.LockUser(false);
         GameManager.gMan.PlayerActionMap(true);
         Time.timeScale = 1f;
     }

@@ -765,7 +765,7 @@ GameObject:
   - component: {fileID: 1359137565816091585}
   - component: {fileID: 1359137565816091586}
   m_Layer: 5
-  m_Name: Hint_Panel
+  m_Name: HUD_Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

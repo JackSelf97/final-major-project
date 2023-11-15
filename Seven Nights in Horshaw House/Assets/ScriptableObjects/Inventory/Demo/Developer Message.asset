@@ -16,23 +16,24 @@ MonoBehaviour:
   <MaxStackSize>k__BackingField: 1
   <ItemName>k__BackingField: Developer Message
   <ItemDescription>k__BackingField: 'Thank you for participating in the Seven Nights
-    in Horshaw House (Ver. 0.3) playtest.
+    in Horshaw House (Ver. 0.4) playtest.
 
 
-    Please visit the testing tab, located
-    in the main menu screen, to learn more about the demo that you will be evaluating.
-    Additionally, I strongly advise familiarising yourself with the game controls
-    before diving in. Lastly, do not consume or drop any items in your inventory.
+    Please visit the ''Info'' tab, located
+    in the ''Respite Mechanics'' screen, to learn more about the demo that you will
+    be evaluating. Additionally, I strongly advise familiarising yourself with the
+    game controls before diving in. Lastly, do not consume or drop any items in your
+    inventory.
 
 
-    After
-    you''ve finished your playthrough, I kindly request that you take a moment to
-    complete the questionnaire that has been made available alongside this demo.
-    Your feedback is greatly appreciated as it will help to develop the game further.
-    Thank you once again for your engagement in this playtest!
+    After you''ve finished your playthrough, I kindly request that
+    you take a moment to complete the questionnaire that has been made available
+    alongside this demo. Your feedback is greatly appreciated as it will help to
+    develop the game further. Thank you once again for your engagement in this playtest!
 
 
-    - Jack'
+    -
+    Jack'
   <ItemImage>k__BackingField: {fileID: 21300000, guid: c0dee3c637e6ad54c9485029e5064742, type: 3}
   <DefaultParametersList>k__BackingField: []
   modifierData: []

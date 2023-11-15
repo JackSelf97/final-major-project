@@ -30,12 +30,15 @@ public class GameManager : MonoBehaviour
     public bool gameWon = false;
 
     [Header("Respite Mechanics")]
+    public GameObject HUDPanel = null;
+
+    [Header("RM/Checks")]
     public bool cutscenesCheck = false; // Maybe set them to their toggle?
     public bool healthCheck = false;
-    public bool hintsCheck = false;
+    public bool HUDCheck = false;
     public bool dialogueCheck = false;
     public bool loadCheck = false;
-    public bool pauseCheck = false;
+    public bool staticPauseCheck = false;
     public bool deathCheck = false;
     public bool quickTimeEventsCheck = false;
     public bool safeRoomsCheck = false;
@@ -64,6 +67,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         InitialiseGameManager();
+        SetDefaultRespiteMechanics();
     }
 
     private void InitialiseGameManager()
@@ -77,6 +81,11 @@ public class GameManager : MonoBehaviour
         InstantiateSkulls();
         if (endGamePanel != null)
             endGamePanel.SetActive(false);
+    }
+
+    private void SetDefaultRespiteMechanics()
+    {
+        HUDPanel.SetActive(false);
     }
 
     void Update()

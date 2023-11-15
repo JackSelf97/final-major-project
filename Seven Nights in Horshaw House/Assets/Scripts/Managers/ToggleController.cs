@@ -14,7 +14,7 @@ public class ToggleController : MonoBehaviour
         // Populate the dictionary with Toggle names from the editor and corresponding actions
         toggleActions.Add("Cutscenes_Toggle", T_Cutscenes);
         toggleActions.Add("Health_Toggle", T_Health);
-        toggleActions.Add("Hints_Toggle", T_Hints);
+        toggleActions.Add("HUD_Toggle", T_HUD);
         toggleActions.Add("Dialogue_Toggle", T_Dialogue);
         toggleActions.Add("Load_Toggle", T_Load);
         toggleActions.Add("Pause_Toggle", T_Pause);
@@ -62,9 +62,10 @@ public class ToggleController : MonoBehaviour
         GameManager.gMan.healthCheck = value;
     }
 
-    public void T_Hints(bool value)
+    public void T_HUD(bool value)
     {
-        GameManager.gMan.hintsCheck = value;
+        GameManager.gMan.HUDCheck = value;
+        GameManager.gMan.HUDPanel.SetActive(value);
     }
 
     public void T_Dialogue(bool value)
@@ -79,7 +80,7 @@ public class ToggleController : MonoBehaviour
     
     public void T_Pause(bool value)
     {
-        GameManager.gMan.pauseCheck = value;
+        GameManager.gMan.staticPauseCheck = value;
     }
     
     public void T_Death(bool value)

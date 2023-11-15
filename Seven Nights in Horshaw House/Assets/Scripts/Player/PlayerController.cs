@@ -27,8 +27,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("Game Properties")]
     public GameObject pauseScreen = null;
-    public bool locked = false;
+    public bool isLocked = false;
     public bool isPaused = false;
+    public bool isInventoryOpen = false;
     private bool analogMovement = false;
     private float gravityValue = -9.81f;
 
@@ -86,11 +87,6 @@ public class PlayerController : MonoBehaviour
 
     [Header("Hints")]
     [SerializeField] private Text interactionText = null;
-    [SerializeField] private bool itemPrompt = false;
-    [SerializeField] private bool objectPrompt = false;
-    [SerializeField] private bool accessPointPrompt = false;
-    [SerializeField] private bool corpsePrompt = false;
-    [SerializeField] private bool doorPrompt = false;
 
     private void Awake()
     {
@@ -199,7 +195,7 @@ public class PlayerController : MonoBehaviour
 
     private void Movement()
     {
-        if (locked) { return; }
+        if (isLocked) { return; }
         // set target speed based on move speed, sprint speed and if sprint is pressed
         float targetSpeed = moveSpeed;
 
@@ -265,7 +261,7 @@ public class PlayerController : MonoBehaviour
 
     private void CameraRotation()
     {
-        if (locked) { return; }
+        if (isLocked) { return; }
 
         // if there is an input
         if (GetMouseDelta().sqrMagnitude >= threshold)
@@ -323,7 +319,7 @@ public class PlayerController : MonoBehaviour
 
     private void JumpCheck()
     {
-        if (grounded && !locked && !isPaused)
+        if (grounded && !isLocked && !isPaused)
         {
             jump = true;
 
@@ -363,12 +359,15 @@ public class PlayerController : MonoBehaviour
 
     public void Inventory(InputAction.CallbackContext callbackContext)
     {
-        if (GameManager.gMan.mainMenu) { return; }
-        if (playerInventory.inventoryUI.isActiveAndEnabled == false)
+        if (isPaused || GameManager.gMan.mainMenu) { return; }
+
+        isInventoryOpen = !isInventoryOpen;
+        LockUser(isInventoryOpen);
+
+        if (isInventoryOpen)
         {
-            LockUser(true);
             playerInventory.inventoryUI.Show();
-            foreach (var item in inventorySO.GetCurrInventoryState()) // returns a dictionary
+            foreach (var item in inventorySO.GetCurrInventoryState()) // Returns a dictionary
             {
                 playerInventory.inventoryUI.UpdateData(item.Key, item.Value.itemSO.ItemImage, item.Value.count);
             }
@@ -376,10 +375,11 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            LockUser(false);
             playerInventory.inventoryUI.Hide();
             GameManager.gMan.PlayerActionMap(true);
         }
+
+        Time.timeScale = (isInventoryOpen && GameManager.gMan.staticInventoryCheck) ? 0f : 1f;
     }
 
     #region Item & Object Interaction
@@ -394,7 +394,6 @@ public class PlayerController : MonoBehaviour
                 if (Physics.Raycast(cam.position, cam.forward.normalized, out hit, pickUpRange, interactableLayer))
                 {
                     PickUpObject(hit.transform.gameObject);
-                    objectPrompt = true;
                 }
             }
         }
@@ -450,18 +449,15 @@ public class PlayerController : MonoBehaviour
                 case "AccessPoint":
                     AccessPoint accessPoint = hit.transform.GetComponent<AccessPoint>();
                     accessPoint.Interact();
-                    accessPointPrompt = true;
                     break;
                 case "Corpse":
                     gameObject.transform.position = hit.transform.position;
                     Destroy(target.gameObject);
                     playerStats.ToggleSpiritRealm(false, -1);
-                    corpsePrompt = true;
                     break;
                 case "Door":
                     Door door = hit.transform.GetComponent<Door>();
                     door.Interact();
-                    doorPrompt = true;
                     break;
                 case "Item":
                     Item item = hit.transform.GetComponent<Item>();
@@ -482,7 +478,6 @@ public class PlayerController : MonoBehaviour
                             item.Count = remainder;
                         }
                     }
-                    itemPrompt = true;
                     break;
             }
             interact = true;
@@ -508,26 +503,26 @@ public class PlayerController : MonoBehaviour
             {
                 case "AccessPoint":
                     sprite = interactionSprite[grabSpriteIndex];
-                    if (!accessPointPrompt) prompt = "Interact [E]";
+                    if (GameManager.gMan.HUDCheck) prompt = "Interact [E]";
                     break;
                 case "Corpse":
                     sprite = interactionSprite[grabSpriteIndex];
-                    if (!corpsePrompt) prompt = "Interact [E]";
+                    if (GameManager.gMan.HUDCheck) prompt = "Interact [E]";
                     break;
                 case "Door":
                     sprite = interactionSprite[touchSpriteIndex];
-                    if (!doorPrompt) prompt = "Open Door [E]";
+                    if (GameManager.gMan.HUDCheck) prompt = "Open Door [E]";
                     break;
                 case "Item":
                     if (playerStats.spiritRealm) return;
                     sprite = interactionSprite[grabSpriteIndex];
-                    if (!itemPrompt) prompt = "Interact [E]";
+                    if (GameManager.gMan.HUDCheck) prompt = "Interact [E]";
                     break;
                 case "Object":
                     if (!grabbing)
                     {
                         sprite = interactionSprite[touchSpriteIndex];
-                        if (!objectPrompt) prompt = "Pick Up [LMB]";
+                        if (GameManager.gMan.HUDCheck) prompt = "Pick Up [LMB]";
                     }
                     else sprite = interactionSprite[grabSpriteIndex];
                     break;
@@ -555,6 +550,7 @@ public class PlayerController : MonoBehaviour
 
     private void Pause(InputAction.CallbackContext callbackContext)
     {
+        if (isInventoryOpen) { return; }
         isPaused = !isPaused;
         if (isPaused)
         {
@@ -573,14 +569,14 @@ public class PlayerController : MonoBehaviour
         pauseScreen.SetActive(isPaused);
         LockUser(isPaused);
         GameManager.gMan.PlayerActionMap(!isPaused);
-        Time.timeScale = isPaused && GameManager.gMan.pauseCheck ? 0f : 1f;
+        Time.timeScale = isPaused && GameManager.gMan.staticPauseCheck ? 0f : 1f;
     }
 
     #region Other
 
     public void LockUser(bool state)
     {
-        locked = state;
+        isLocked = state;
         if (state)
             Cursor.lockState = CursorLockMode.None;
         else
@@ -603,7 +599,6 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(GameObject.Find("Player's Corpse"));
             playerStats.ToggleSpiritRealm(false, -1);
-            corpsePrompt = true;
         }
     }
 
