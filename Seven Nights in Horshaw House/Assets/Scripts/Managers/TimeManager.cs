@@ -199,7 +199,7 @@ public class TimeManager : MonoBehaviour
 
         // Get the current hour from the currentTime
         int currentHour = currentTime.Hour;
-        const int enemySpawnDay = 2;
+        const int enemySpawnDay = 1;
 
         // Check if the enemy should be active during the evening (between sunsetHour and sunriseHour)
         if ((currentHour >= sunsetHour && currentHour < 24) || (currentHour >= 0 && currentHour < sunriseHour))
