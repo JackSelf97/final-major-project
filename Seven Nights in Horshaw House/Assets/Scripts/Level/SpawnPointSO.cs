@@ -4,4 +4,5 @@ using UnityEngine;
 public class SpawnPointSO : ScriptableObject
 {
     public Vector3[] spawnPoint;
+    public Vector3[] spawnRotation;
 }

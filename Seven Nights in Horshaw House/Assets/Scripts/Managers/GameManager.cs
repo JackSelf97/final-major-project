@@ -195,7 +195,9 @@ public class GameManager : MonoBehaviour
             }
 
             Vector3 spawnPosition = skullSpawnPointSO.spawnPoint[randomSpawnIndex];
-            GameObject newSkull = Instantiate(skullPrefab, spawnPosition, Quaternion.identity);
+            Vector3 spawnRotation = skullSpawnPointSO.spawnRotation[randomSpawnIndex];
+
+            GameObject newSkull = Instantiate(skullPrefab, spawnPosition, Quaternion.Euler(spawnRotation.x, spawnRotation.y, spawnRotation.z));
 
             occupiedSpawnIndices.Add(randomSpawnIndex);
             skulls.Add(newSkull);
