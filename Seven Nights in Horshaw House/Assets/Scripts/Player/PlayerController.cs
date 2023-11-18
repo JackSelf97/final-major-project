@@ -1,7 +1,9 @@
 using Inventory;
 using Inventory.Model;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -91,6 +93,17 @@ public class PlayerController : MonoBehaviour
     [Header("Hints")]
     [SerializeField] private Text interactionText = null;
 
+    [Header("Sound")]
+    [SerializeField] private AudioSource audioSource = null;
+    [SerializeField] private List<AudioClip> footstepSounds = new List<AudioClip>();
+    [SerializeField] private AudioClip jumpSound = null;
+    [SerializeField] private AudioClip landSound = null;
+    [SerializeField] private float stepInterval = 0f;
+    [SerializeField] [Range(0,1)] private float runStepLengthen = 0f;
+    private FootstepSwapper footstepSwapper = null;
+    private float lastFootstepTime;
+    private float footstepDelay = 0.3f;
+
     private void Awake()
     {
         Application.targetFrameRate = 60;
@@ -164,6 +177,9 @@ public class PlayerController : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         playerInventory = GetComponent<PlayerInventory>();
         playerStats = GetComponent<PlayerStats>();
+        audioSource = GetComponent<AudioSource>();
+        footstepSwapper = GetComponent<FootstepSwapper>();
+
         cam = Camera.main.transform;
         pauseScreen.SetActive(false);
     }
@@ -263,6 +279,8 @@ public class PlayerController : MonoBehaviour
         }
 
         #endregion
+
+        Footsteps();
     }
 
     private void CameraRotation()
@@ -362,6 +380,62 @@ public class PlayerController : MonoBehaviour
             verticalVelocity += gravityValue * Time.deltaTime;
         }
     }
+
+    #region Audio
+
+    private void Footsteps()
+    {
+        if (characterController.velocity.sqrMagnitude > 0 && (direction.x != 0 || direction.z != 0))
+        {
+            // Check if enough time has passed since the last footstep
+            if (Time.time - lastFootstepTime > footstepDelay)
+            {
+                PlayFootstepAudio();
+                lastFootstepTime = Time.time;
+            }
+        }
+    }
+
+    public AudioMixerGroup SFX;
+    private int lastSoundPlayed = -1;
+
+    private void PlayFootstepAudio()
+    {
+        if (!grounded) { return; }
+
+        footstepSwapper.CheckLayers();
+
+        int ranNo;
+        do
+        {
+            ranNo = Random.Range(0, footstepSounds.Count);
+        } while (ranNo == lastSoundPlayed);
+
+        audioSource.clip = footstepSounds[ranNo];
+        audioSource.PlayOneShot(audioSource.clip);
+        audioSource.outputAudioMixerGroup = SFX;
+
+        lastSoundPlayed = ranNo;
+
+        // Move it to the first element so the sound is not picked next time
+        footstepSounds[ranNo] = footstepSounds[0];
+        footstepSounds[0] = audioSource.clip;
+
+        Debug.Log(audioSource.clip);
+    }
+
+    public void SwapFootsteps(FootstepCollection collection)
+    {
+        footstepSounds.Clear();
+        for (int i = 0; i < collection.footstepSpunds.Count; i++)
+        {
+            footstepSounds.Add(collection.footstepSpunds[i]); 
+        }
+        jumpSound = collection.jumpSound;
+        landSound = collection.landSound;
+    }
+
+    #endregion
 
     private void Flashlight(InputAction.CallbackContext callbackContext)
     {
