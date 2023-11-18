@@ -93,16 +93,16 @@ public class PlayerController : MonoBehaviour
     [Header("Hints")]
     [SerializeField] private Text interactionText = null;
 
-    [Header("Sound")]
+    [Header("Character Sound")]
+    [SerializeField] private AudioMixerGroup audioMixerGroup = null;
     [SerializeField] private AudioSource audioSource = null;
     [SerializeField] private List<AudioClip> footstepSounds = new List<AudioClip>();
     [SerializeField] private AudioClip jumpSound = null;
     [SerializeField] private AudioClip landSound = null;
-    [SerializeField] private float stepInterval = 0f;
-    [SerializeField] [Range(0,1)] private float runStepLengthen = 0f;
     private FootstepSwapper footstepSwapper = null;
     private float lastFootstepTime;
     private float footstepDelay = 0.3f;
+    private Queue<int> lastSoundsQueue = new Queue<int>();
 
     private void Awake()
     {
@@ -396,9 +396,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public AudioMixerGroup SFX;
-    private int lastSoundPlayed = -1;
-
     private void PlayFootstepAudio()
     {
         if (!grounded) { return; }
@@ -409,23 +406,31 @@ public class PlayerController : MonoBehaviour
         do
         {
             ranNo = Random.Range(0, footstepSounds.Count);
-        } while (ranNo == lastSoundPlayed);
+        } while (lastSoundsQueue.Contains(ranNo));
 
         audioSource.clip = footstepSounds[ranNo];
+
+        // Set a random pitch between 1 and 2
+        float randomPitch = Random.Range(1f, 2f);
+        audioSource.pitch = randomPitch;
+
         audioSource.PlayOneShot(audioSource.clip);
-        audioSource.outputAudioMixerGroup = SFX;
-
-        lastSoundPlayed = ranNo;
-
-        // Move it to the first element so the sound is not picked next time
-        footstepSounds[ranNo] = footstepSounds[0];
-        footstepSounds[0] = audioSource.clip;
-
         Debug.Log(audioSource.clip);
+        audioSource.outputAudioMixerGroup = audioMixerGroup;
+
+        // Enqueue the recently played sound
+        lastSoundsQueue.Enqueue(ranNo);
+
+        // Keep the queue size at 2, removing the oldest sound
+        if (lastSoundsQueue.Count > 2)
+        {
+            lastSoundsQueue.Dequeue();
+        }
     }
 
     public void SwapFootsteps(FootstepCollection collection)
     {
+        Debug.Log("CLEAR!");
         footstepSounds.Clear();
         for (int i = 0; i < collection.footstepSpunds.Count; i++)
         {
@@ -434,6 +439,7 @@ public class PlayerController : MonoBehaviour
         jumpSound = collection.jumpSound;
         landSound = collection.landSound;
     }
+
 
     #endregion
 

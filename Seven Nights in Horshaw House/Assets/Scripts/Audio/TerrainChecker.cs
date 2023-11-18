@@ -22,6 +22,7 @@ public class TerrainChecker
 
     public string GetLayerName(Vector3 playerPos, Terrain terrain)
     {
+        //Debug.Log("Getting Layer Name...");
         float[] cellmix = GetTextureMix(playerPos, terrain);
         float strongest = 0;
         int maxIndex = 0;

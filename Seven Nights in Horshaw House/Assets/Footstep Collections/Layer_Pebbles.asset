@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Layer_Pebbles
   m_EditorClassIdentifier: 
   footstepSpunds:
-  - {fileID: 8300000, guid: 335ef5dc5ec3890499836d8f5063d8ed, type: 3}
-  - {fileID: 8300000, guid: 83227347e16eb954c9ba6c8c28340773, type: 3}
-  - {fileID: 8300000, guid: 9ecb03b5690ce954da56559d3a33e8b9, type: 3}
-  - {fileID: 8300000, guid: 3dca54e40d21653459a5a829d5232769, type: 3}
+  - {fileID: 8300000, guid: 3743aa4b6c856e543b5592778b241d7c, type: 3}
+  - {fileID: 8300000, guid: ebcf6dc1252fdb0409b95dc79569791d, type: 3}
+  - {fileID: 8300000, guid: 09ac84aef1d0c4c48a8295e74460b796, type: 3}
+  - {fileID: 8300000, guid: e2f2ac20f344c1e4ebd68bea62c19d7d, type: 3}
+  - {fileID: 8300000, guid: f233125df78235a47b7f45407bb2651f, type: 3}
+  - {fileID: 8300000, guid: 9fe2f482e9856c544885cebea3d3a551, type: 3}
   jumpSound: {fileID: 0}
   landSound: {fileID: 0}

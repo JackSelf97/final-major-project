@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Layer_Grass_02
   m_EditorClassIdentifier: 
   footstepSpunds:
-  - {fileID: 8300000, guid: 335ef5dc5ec3890499836d8f5063d8ed, type: 3}
-  - {fileID: 8300000, guid: 83227347e16eb954c9ba6c8c28340773, type: 3}
-  - {fileID: 8300000, guid: 9ecb03b5690ce954da56559d3a33e8b9, type: 3}
-  - {fileID: 8300000, guid: 3dca54e40d21653459a5a829d5232769, type: 3}
+  - {fileID: 8300000, guid: 0e22483654d503a44889b2d53e9d342a, type: 3}
+  - {fileID: 8300000, guid: 2b23e2ce9374c3941b7036b45b65c1bc, type: 3}
+  - {fileID: 8300000, guid: 2f1cc537a4923f34580ec7c14c6bf529, type: 3}
+  - {fileID: 8300000, guid: 4159b90dc45eea64e8aab259c2dde365, type: 3}
+  - {fileID: 8300000, guid: 4f22d759f22d97a459122fe5811b17d5, type: 3}
+  - {fileID: 8300000, guid: 1c22a476acb2a5647979ac566283653c, type: 3}
   jumpSound: {fileID: 0}
   landSound: {fileID: 0}

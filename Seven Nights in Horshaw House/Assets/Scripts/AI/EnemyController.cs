@@ -142,7 +142,7 @@ public class EnemyController : MonoBehaviour
         travelling = true;
         navMeshAgent.speed = patrolSpeed;
         animator.SetBool("isWalking", true);
-        Debug.Log(currWaypoint.name);
+        //Debug.Log(currWaypoint.name);
     }
 
     private void UpdateWaypoints()

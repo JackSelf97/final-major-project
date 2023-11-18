@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 320215efc6e6ec6489b66fe85caeb2b7, type: 3}
+  m_Name: Layer_Wood
+  m_EditorClassIdentifier: 
+  footstepSpunds:
+  - {fileID: 8300000, guid: 43a4cd1864c19d142968afaf1622d86d, type: 3}
+  - {fileID: 8300000, guid: 32d4cce23f199f34db96f51605598df3, type: 3}
+  - {fileID: 8300000, guid: 0a83e92cb312fac4d837b55f7d18595b, type: 3}
+  - {fileID: 8300000, guid: c9aac54288f8dbb4c9c098b76e923382, type: 3}
+  - {fileID: 8300000, guid: 2fc1106d65863994f8671c474ba665f3, type: 3}
+  - {fileID: 8300000, guid: 9cb5f0ef1fc28274da2ff4156469154f, type: 3}
+  jumpSound: {fileID: 0}
+  landSound: {fileID: 0}

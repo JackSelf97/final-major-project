@@ -26,9 +26,12 @@ public class FootstepSwapper : MonoBehaviour
             if (hit.transform.GetComponent<Terrain>() != null)
             {
                 Terrain terrain = hit.transform.GetComponent<Terrain>();
-                if (currLayer != terrainChecker.GetLayerName(transform.position, terrain))
+                string newLayer = terrainChecker.GetLayerName(transform.position, terrain);
+
+                // Check if the new layer is different from the current one
+                if (currLayer != newLayer)
                 {
-                    currLayer = terrainChecker.GetLayerName(transform.position, terrain);
+                    currLayer = newLayer;
                     foreach (FootstepCollection collection in terrainFootstepCollections)
                     {
                         if (currLayer == collection.name) // Name of the asset file
@@ -38,11 +41,17 @@ public class FootstepSwapper : MonoBehaviour
                     }
                 }
             }
-            if (hit.transform.GetComponent<SurfaceType>() != null)
+            else if (hit.transform.GetComponent<SurfaceType>() != null)
             {
                 FootstepCollection collection = hit.transform.GetComponent<SurfaceType>().footstepCollection;
-                currLayer = collection.name;
-                playerController.SwapFootsteps(collection);
+                string newLayer = collection.name;
+
+                // Check if the new layer is different from the current one
+                if (currLayer != newLayer)
+                {
+                    currLayer = newLayer;
+                    playerController.SwapFootsteps(collection);
+                }
             }
         }
     }
