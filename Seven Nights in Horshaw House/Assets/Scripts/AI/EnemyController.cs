@@ -38,7 +38,6 @@ public class EnemyController : MonoBehaviour, IEntityController
     [SerializeField] private AudioClip landSound = null;
     private FootstepSwapper footstepSwapper = null;
     private float lastFootstepTime = 0f;
-    private float footstepDelay = 0.6f;
     private Queue<int> lastSoundsQueue = new Queue<int>();
 
     // Start is called before the first frame update
@@ -248,8 +247,8 @@ public class EnemyController : MonoBehaviour, IEntityController
 
         audioSource.clip = footstepSounds[ranNo];
 
-        // Set a random pitch between 1 and 2
-        float randomPitch = Random.Range(1f, 2f);
+        // Set a random pitch between 1 and 2 with increments of 0.1
+        float randomPitch = Mathf.Round(Random.Range(10f, 20f)) * 0.1f;
         audioSource.pitch = randomPitch;
 
         audioSource.PlayOneShot(audioSource.clip);

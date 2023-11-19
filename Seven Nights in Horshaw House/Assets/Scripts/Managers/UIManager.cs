@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     private GameObject player = null;
     private PlayerController playerController = null;
     private InteractableObject[] interactableObjects = new InteractableObject[0];
+    private Door[] interactableDoors = new Door[0];
 
     [Header("Managers")]
     [SerializeField] private TimeManager timeManager = null;
@@ -73,6 +74,7 @@ public class UIManager : MonoBehaviour
         playerController = player.GetComponent<PlayerController>();
         timeManager = FindObjectOfType<TimeManager>();
         interactableObjects = FindObjectsOfType<InteractableObject>();
+        interactableDoors = FindObjectsOfType<Door>();
 
         // Game Prep
         playerController.LockUser(true);
@@ -363,8 +365,15 @@ public class UIManager : MonoBehaviour
     {
         for (int i = 0; i < interactableObjects.Length; i++)
         {
-            // Reset or perform some operation on interactableObjects[i] here
+            // Reset object's position and rotation
             interactableObjects[i].ResetPositionAndRotation();
+        }
+
+        // Doors
+        for (int i = 0; i < interactableDoors.Length; i++)
+        {
+            // Reset animation and bool
+            interactableDoors[i].ResetAnimation();
         }
     }
 

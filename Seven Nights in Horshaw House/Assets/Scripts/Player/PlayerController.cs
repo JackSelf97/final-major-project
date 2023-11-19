@@ -79,7 +79,6 @@ public class PlayerController : MonoBehaviour, IEntityController
     private InputAction interactAction = null;
     private InputAction inventoryAction = null;
     private InputAction pauseAction = null;
-    private InputAction pickUpAction = null;
     private InputAction flashlightAction = null;
 
     // Actions/UI
@@ -128,7 +127,6 @@ public class PlayerController : MonoBehaviour, IEntityController
         interactAction = playerInput.actions["Interact"];
         inventoryAction = playerInput.actions["Inventory"];
         pauseAction = playerInput.actions["Pause"];
-        pickUpAction = playerInput.actions["PickUp"];
         flashlightAction = playerInput.actions["Flashlight"];
 
         inventoryUIAction = playerInput.actions["InventoryUI"];
@@ -137,13 +135,16 @@ public class PlayerController : MonoBehaviour, IEntityController
         // Subscribing to functions
         moveAction.performed += context => Move(context.ReadValue<Vector2>());
         jumpAction.performed += Jump;
+
         interactAction.performed += Interact;
+        interactAction.performed += context => grabbing = true;
+        interactAction.canceled += context => grabbing = false;
+
         inventoryAction.performed += Inventory;
         pauseAction.performed += Pause;
-        pickUpAction.performed += context => grabbing = true;
-        pickUpAction.canceled += context => grabbing = false;
         flashlightAction.performed += Flashlight;
 
+        // UI
         inventoryUIAction.performed += Inventory;
         pauseUIAction.performed += Pause;
     }
@@ -156,12 +157,14 @@ public class PlayerController : MonoBehaviour, IEntityController
         moveAction.performed -= context => Move(context.ReadValue<Vector2>());
         jumpAction.performed -= Jump;
         interactAction.performed -= Interact;
+        interactAction.performed -= context => grabbing = true;
+        interactAction.canceled -= context => grabbing = false;
+
         inventoryAction.performed -= Inventory;
         pauseAction.performed -= Pause;
-        pickUpAction.performed -= context => grabbing = true;
-        pickUpAction.canceled -= context => grabbing = false;
         flashlightAction.performed -= Flashlight;
 
+        // UI
         inventoryUIAction.performed -= Inventory;
         pauseUIAction.performed -= Pause;
     }
@@ -343,42 +346,30 @@ public class PlayerController : MonoBehaviour, IEntityController
 
     private void JumpCheck()
     {
-        if (grounded && !isLocked && !isPaused)
+        if (isPaused) { return; }
+        
+        if (grounded && !isLocked)
         {
             jump = true;
-
-            // reset the fall timeout timer
             fallTimeoutDelta = fallTimeout;
 
-            // stop our velocity dropping infinitely when grounded
-            if (verticalVelocity < 0.0f)
-            {
-                verticalVelocity = -2f;
-            }
+            // Stop our velocity dropping infinitely when grounded
+            verticalVelocity = Mathf.Max(-2f, verticalVelocity);
 
-            // jump timeout
-            if (jumpTimeoutDelta >= 0.0f)
-            {
-                jumpTimeoutDelta -= Time.deltaTime;
-            }
+            // Jump timeout
+            jumpTimeoutDelta -= Time.deltaTime;
         }
         else
         {
-            // reset the jump timeout timer
+            // Reset the jump timeout timer
             jumpTimeoutDelta = jumpTimeout;
 
-            // fall timeout
-            if (fallTimeoutDelta >= 0.0f)
-            {
-                fallTimeoutDelta -= Time.deltaTime;
-            }
+            // Fall timeout
+            fallTimeoutDelta -= Time.deltaTime;
         }
 
-        // apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
-        if (verticalVelocity < terminalVelocity)
-        {
-            verticalVelocity += gravityValue * Time.deltaTime;
-        }
+        // Apply gravity over time if under terminal
+        verticalVelocity = Mathf.Min(verticalVelocity + gravityValue * Time.deltaTime, terminalVelocity);
     }
 
     #region Audio
@@ -410,8 +401,8 @@ public class PlayerController : MonoBehaviour, IEntityController
 
         audioSource.clip = footstepSounds[ranNo];
 
-        // Set a random pitch between 1 and 2
-        float randomPitch = Random.Range(1f, 2f);
+        // Set a random pitch between 1 and 2 with increments of 0.1
+        float randomPitch = Mathf.Round(Random.Range(10f, 20f)) * 0.1f;
         audioSource.pitch = randomPitch;
 
         audioSource.PlayOneShot(audioSource.clip);
@@ -498,10 +489,16 @@ public class PlayerController : MonoBehaviour, IEntityController
 
     private void MoveObject()
     {
-        if (Vector3.Distance(objectTarget.transform.position, objectDestination.position) > 0.1f)
+        if (objectTarget && objectRb)
         {
-            Vector3 moveDirection = (objectDestination.position - objectTarget.transform.position);
-            objectRb.AddForce(moveDirection * pickUpForce);
+            // Calculate the offset to move the object's origin point lower
+            Vector3 offset = Vector3.up * 0.1f; // Adjust the 0.5f to your desired height
+
+            if (Vector3.Distance(objectTarget.transform.position + offset, objectDestination.position) > 0.1f)
+            {
+                Vector3 moveDirection = (objectDestination.position - (objectTarget.transform.position + offset));
+                objectRb.AddForce(moveDirection * pickUpForce);
+            }
         }
     }
 
@@ -533,47 +530,51 @@ public class PlayerController : MonoBehaviour, IEntityController
         const float rayLength = 3;
 
         Debug.DrawRay(cam.position, cam.forward.normalized * rayLength, Color.cyan);
-        if (Physics.Raycast(cam.position, cam.forward.normalized, out hit, rayLength, interactableLayer))
+        if (!Physics.Raycast(cam.position, cam.forward.normalized, out hit, rayLength, interactableLayer))
         {
-            Debug.Log("Interacting with " + hit.collider.name);
-            var target = hit.transform;
-            switch (target.tag)
-            {
-                case "AccessPoint":
-                    AccessPoint accessPoint = hit.transform.GetComponent<AccessPoint>();
-                    accessPoint.Interact();
-                    break;
-                case "Corpse":
-                    gameObject.transform.position = hit.transform.position;
-                    Destroy(target.gameObject);
-                    playerStats.ToggleSpiritRealm(false, -1);
-                    break;
-                case "Door":
-                    Door door = hit.transform.GetComponent<Door>();
-                    door.Interact();
-                    break;
-                case "Item":
-                    Item item = hit.transform.GetComponent<Item>();
-                    if (item != null)
+            interact = false; // No interaction if not hitting an interactable object
+            return;
+        }
+
+        Debug.Log("Interacting with " + hit.collider.name);
+
+        interact = true; // Assume interaction by default
+
+        switch (hit.transform.tag)
+        {
+            case "AccessPoint":
+                hit.transform.GetComponent<AccessPoint>()?.Interact();
+                break;
+            case "Corpse":
+                gameObject.transform.position = hit.transform.position;
+                Destroy(hit.transform.gameObject);
+                playerStats.ToggleSpiritRealm(false, -1);
+                break;
+            case "Door":
+                hit.transform.GetComponent<Door>()?.Interact();
+                break;
+            case "Item":
+                Item item = hit.transform.GetComponent<Item>();
+                if (item != null && !playerStats.spiritRealm)
+                {
+                    int remainder = inventorySO.AddItem(item.InventoryItem, item.Count);
+                    if (item.GetComponent<Skull>() != null)
                     {
-                        if (playerStats.spiritRealm) { return; }
-                        int remainder = inventorySO.AddItem(item.InventoryItem, item.Count);
-                        if (item.GetComponent<Skull>() != null) // Use this approach to check for puzzle related 'Items'
-                        {
-                            item.GetComponent<Skull>().Interact();
-                        }
-                        if (remainder == 0)
-                        {
-                            item.DestroyItem();
-                        }
-                        else
-                        {
-                            item.Count = remainder;
-                        }
+                        item.GetComponent<Skull>().Interact();
                     }
-                    break;
-            }
-            interact = true;
+                    if (remainder == 0)
+                    {
+                        item.DestroyItem();
+                    }
+                    else
+                    {
+                        item.Count = remainder;
+                    }
+                }
+                break;
+            default:
+                interact = false; // Reset to false for other cases
+                break;
         }
     }
 
@@ -600,7 +601,7 @@ public class PlayerController : MonoBehaviour, IEntityController
                     break;
                 case "Corpse":
                     sprite = interactionSprite[grabSpriteIndex];
-                    if (GameManager.gMan.HUDCheck) prompt = "Interact [E]";
+                    if (GameManager.gMan.HUDCheck) prompt = "Enter Body [E]";
                     break;
                 case "Door":
                     sprite = interactionSprite[touchSpriteIndex];
@@ -609,13 +610,13 @@ public class PlayerController : MonoBehaviour, IEntityController
                 case "Item":
                     if (playerStats.spiritRealm) return;
                     sprite = interactionSprite[grabSpriteIndex];
-                    if (GameManager.gMan.HUDCheck) prompt = "Pick Up [E]";
+                    if (GameManager.gMan.HUDCheck) prompt = "Take [E]";
                     break;
                 case "Object":
                     if (!grabbing)
                     {
                         sprite = interactionSprite[touchSpriteIndex];
-                        if (GameManager.gMan.HUDCheck) prompt = "Pick Up [LMB]";
+                        if (GameManager.gMan.HUDCheck) prompt = "Pick Up [E]";
                     }
                     else sprite = interactionSprite[grabSpriteIndex];
                     break;

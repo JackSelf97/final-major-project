@@ -22,4 +22,10 @@ public class Door : MonoBehaviour, IInteractable
         else
             animator.SetBool("isOpen", false);
     }
+
+    public void ResetAnimation()
+    {
+        isOpen = false;
+        animator.SetBool("isOpen", false);
+    }
 }

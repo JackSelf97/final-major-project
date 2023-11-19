@@ -60,15 +60,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "PickUp",
-                    "type": "Button",
-                    "id": "48dd17b6-3da1-417f-85fa-161cdd848184",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Flashlight",
                     "type": "Button",
                     "id": "e74d1d2b-8a36-411b-90d1-81fa936516f9",
@@ -186,17 +177,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Pause",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "a32fef30-6bae-4bf5-a622-3a4057d59bfc",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "Press(behavior=2)",
-                    "processors": "",
-                    "groups": "",
-                    "action": "PickUp",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
