@@ -37,7 +37,7 @@ public class EnemyController : MonoBehaviour, IEntityController
     [SerializeField] private AudioClip jumpSound = null;
     [SerializeField] private AudioClip landSound = null;
     private FootstepSwapper footstepSwapper = null;
-    private float lastFootstepTime;
+    private float lastFootstepTime = 0f;
     private float footstepDelay = 0.6f;
     private Queue<int> lastSoundsQueue = new Queue<int>();
 
@@ -51,14 +51,19 @@ public class EnemyController : MonoBehaviour, IEntityController
 
     void InitialiseEnemy()
     {
+        // Original position and rotation
         originalPos = transform.position;
         originalRot = transform.rotation;
+
+        // Get components
+        playerStats = GameObject.FindWithTag("Player").GetComponent<PlayerStats>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
         enemyStats = GetComponent<EnemyStats>();
-        playerStats = GameObject.FindWithTag("Player").GetComponent<PlayerStats>();
         audioSource = GetComponent<AudioSource>();
         footstepSwapper = GetComponent<FootstepSwapper>();
+
+        // Set the speed
         navMeshAgent.speed = 2;
     }
 
@@ -107,14 +112,10 @@ public class EnemyController : MonoBehaviour, IEntityController
         if (chasing) { return; }
         
         if (travelling && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
-        {
             HandleDestinationReached();
-        }
 
         if (waiting)
-        {
             HandleWaiting();
-        }
     }
 
     private void HandleDestinationReached()
@@ -144,21 +145,18 @@ public class EnemyController : MonoBehaviour, IEntityController
         }
     }
 
-    #region State Machine Logic
+    #region Navigation
 
     private void SetDestination()
     {
         if (waypointsVisited > 0)
-        {
             UpdateWaypoints();
-        }
 
         Vector3 target = currWaypoint.transform.position;
         navMeshAgent.SetDestination(target);
         travelling = true;
         navMeshAgent.speed = patrolSpeed;
         animator.SetBool("isWalking", true);
-        Debug.Log(currWaypoint.name);
     }
 
     private void UpdateWaypoints()
@@ -240,8 +238,6 @@ public class EnemyController : MonoBehaviour, IEntityController
 
     private void PlayFootstepAudio()
     {
-        //if (!grounded) { return; }
-
         footstepSwapper.CheckLayers();
 
         int ranNo;
@@ -272,7 +268,6 @@ public class EnemyController : MonoBehaviour, IEntityController
 
     public void SwapFootsteps(FootstepCollection collection)
     {
-        Debug.Log("CLEAR!");
         footstepSounds.Clear();
         for (int i = 0; i < collection.footstepSpunds.Count; i++)
         {
@@ -281,7 +276,6 @@ public class EnemyController : MonoBehaviour, IEntityController
         jumpSound = collection.jumpSound;
         landSound = collection.landSound;
     }
-
 
     #endregion
 

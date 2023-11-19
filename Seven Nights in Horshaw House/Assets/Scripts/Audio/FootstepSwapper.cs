@@ -2,6 +2,10 @@ using UnityEngine;
 
 public class FootstepSwapper : MonoBehaviour
 {
+    private TerrainChecker terrainChecker = null;
+    private IEntityController entityController = null;
+    private string currLayer = string.Empty;
+
     // This enum helps differentiate between player and enemy
     public enum EntityType
     {
@@ -10,17 +14,17 @@ public class FootstepSwapper : MonoBehaviour
     }
 
     public EntityType entityType; // Set this in the Inspector for player/enemy
-
-    private TerrainChecker terrainChecker = null;
-    private IEntityController entityController = null;
-    private string currLayer = string.Empty;
     public FootstepCollection[] terrainFootstepCollections;
 
     // Start is called before the first frame update
     void Start()
     {
         terrainChecker = new TerrainChecker();
+        GetEntityType();
+    }
 
+    private void GetEntityType()
+    {
         if (entityType == EntityType.Player)
             entityController = GetComponent<PlayerController>();
         else if (entityType == EntityType.Enemy)
@@ -29,7 +33,7 @@ public class FootstepSwapper : MonoBehaviour
 
     public void CheckLayers()
     {
-        // Raycast downwards
+        // Raycast
         RaycastHit hit;
         if (Physics.Raycast(transform.position, Vector3.down, out hit, 3))
         {

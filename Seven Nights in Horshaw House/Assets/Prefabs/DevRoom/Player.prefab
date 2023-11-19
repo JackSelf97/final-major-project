@@ -141,6 +141,7 @@ GameObject:
   - component: {fileID: 6920557994342071838}
   - component: {fileID: 6920557994342071837}
   - component: {fileID: 6920557994342071834}
+  - component: {fileID: 1013649358}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -176,13 +177,13 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 2
-  m_Radius: 0.5
+  m_Height: 1.8
+  m_Radius: 0.35
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0, z: 0}
+  m_StepOffset: 0.35
+  m_SkinWidth: 0.035
+  m_MinMoveDistance: 0
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!82 &6920557994342071836
 AudioSource:
   m_ObjectHideFlags: 0
@@ -194,8 +195,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_PlayOnAwake: 0
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -297,8 +298,9 @@ MonoBehaviour:
   topClamp: 90
   bottomClamp: -90
   pauseScreen: {fileID: 0}
-  locked: 0
+  isLocked: 0
   isPaused: 0
+  isInventoryOpen: 0
   groundLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -307,6 +309,8 @@ MonoBehaviour:
   jumpTimeout: 0.1
   jumpHeight: 1.2
   direction: {x: 0, y: 0, z: 0}
+  candle: {fileID: 6781173010905183637}
+  candleLit: 0
   interactableLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -333,11 +337,11 @@ MonoBehaviour:
     m_Actions: []
     m_Bindings: []
   interactionText: {fileID: 0}
-  itemPrompt: 0
-  objectPrompt: 0
-  accessPointPrompt: 0
-  corpsePrompt: 0
-  doorPrompt: 0
+  audioMixerGroup: {fileID: -6603422402590985172, guid: 94742c1e1be097b40bb2347cb06f053b, type: 2}
+  audioSource: {fileID: 0}
+  footstepSounds: []
+  jumpSound: {fileID: 0}
+  landSound: {fileID: 0}
 --- !u!114 &6920557994342071839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,10 +378,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cf8d0cd2afad20449aa002621efbbad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  virtualCamera: {fileID: 0}
   playerCorpse: {fileID: 4120375071104092030, guid: 6e4670093d33b7646b58041738ba1cb2, type: 3}
+  virtualCamera: {fileID: 0}
   currHP: 0
-  maxHP: 100
+  isDead: 0
   spiritRealm: 0
 --- !u!114 &6920557994342071837
 MonoBehaviour:
@@ -427,6 +431,24 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1013649358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6920557994342071815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb87ce258141fdc4ebb436a1cbf00e57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityType: 0
+  terrainFootstepCollections:
+  - {fileID: 11400000, guid: 0c131ecdf4edbd442978608ff61798cf, type: 2}
+  - {fileID: 11400000, guid: 74b9ac625b00beb46be2b04532a08b79, type: 2}
+  - {fileID: 11400000, guid: caaa0516fd3ac8f4b83a028392cef648, type: 2}
+  - {fileID: 11400000, guid: cc3c3a09398e058419c1aa0ee041b13f, type: 2}
 --- !u!1 &6920557994437144255
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,7 +475,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6920557994437144255}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -534,7 +556,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6920557995045558449}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.8, z: 0}
+  m_LocalPosition: {x: 0, y: 1.375, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -551,6 +573,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6920557995045558448}
     m_Modifications:
+    - target: {fileID: 4596196724387366411, guid: ebbc84902327daa488efa0baaf832f4f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4947930492659532064, guid: ebbc84902327daa488efa0baaf832f4f, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -608,6 +634,11 @@ PrefabInstance:
 --- !u!4 &6147484136086466351 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4947930492659532064, guid: ebbc84902327daa488efa0baaf832f4f, type: 3}
+  m_PrefabInstance: {fileID: 1295581837430877711}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6781173010905183637 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5755956830878292890, guid: ebbc84902327daa488efa0baaf832f4f, type: 3}
   m_PrefabInstance: {fileID: 1295581837430877711}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2672847295201586922

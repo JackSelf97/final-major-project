@@ -14,13 +14,14 @@ GameObject:
   - component: {fileID: 5316031274519180891}
   - component: {fileID: 5316031274519180890}
   - component: {fileID: 5316031274519180893}
+  - component: {fileID: 235879568}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5316031274519180888
 Transform:
   m_ObjectHideFlags: 0
@@ -71,17 +72,17 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 10
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -116,7 +117,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -188,12 +189,17 @@ MonoBehaviour:
   lookRadius: 8
   chaseSpeed: 6
   patrolSpeed: 2
-  totalWaitTime: 10
+  totalWaitTime: 2
   patrolWaiting: 1
   travelling: 0
   waiting: 0
   chasing: 0
   parentSpawner: {fileID: 0}
+  audioMixerGroup: {fileID: -6603422402590985172, guid: 94742c1e1be097b40bb2347cb06f053b, type: 2}
+  audioSource: {fileID: 0}
+  footstepSounds: []
+  jumpSound: {fileID: 0}
+  landSound: {fileID: 0}
 --- !u!114 &5316031274519180893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,6 +213,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDead: 0
+--- !u!114 &235879568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5316031274519180886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb87ce258141fdc4ebb436a1cbf00e57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityType: 1
+  terrainFootstepCollections:
+  - {fileID: 11400000, guid: 0c131ecdf4edbd442978608ff61798cf, type: 2}
+  - {fileID: 11400000, guid: 74b9ac625b00beb46be2b04532a08b79, type: 2}
+  - {fileID: 11400000, guid: caaa0516fd3ac8f4b83a028392cef648, type: 2}
+  - {fileID: 11400000, guid: cc3c3a09398e058419c1aa0ee041b13f, type: 2}
 --- !u!1 &9080447531803901629
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,6 +287,14 @@ PrefabInstance:
     - target: {fileID: 2442680538641616767, guid: 7f478d3fe8bdc824ba8ea7910afe8df5, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3466225162428464301, guid: 7f478d3fe8bdc824ba8ea7910afe8df5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.68747425
+      objectReference: {fileID: 0}
+    - target: {fileID: 3466225162428464301, guid: 7f478d3fe8bdc824ba8ea7910afe8df5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.38722545
       objectReference: {fileID: 0}
     - target: {fileID: 6085621194043624132, guid: 7f478d3fe8bdc824ba8ea7910afe8df5, type: 3}
       propertyPath: m_Name

@@ -415,7 +415,6 @@ public class PlayerController : MonoBehaviour, IEntityController
         audioSource.pitch = randomPitch;
 
         audioSource.PlayOneShot(audioSource.clip);
-        Debug.Log(audioSource.clip);
         audioSource.outputAudioMixerGroup = audioMixerGroup;
 
         // Enqueue the recently played sound
@@ -430,7 +429,6 @@ public class PlayerController : MonoBehaviour, IEntityController
 
     public void SwapFootsteps(FootstepCollection collection)
     {
-        Debug.Log("CLEAR!");
         footstepSounds.Clear();
         for (int i = 0; i < collection.footstepSpunds.Count; i++)
         {
