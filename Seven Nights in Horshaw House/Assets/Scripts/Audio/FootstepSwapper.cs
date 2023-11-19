@@ -1,11 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FootstepSwapper : MonoBehaviour
 {
+    // This enum helps differentiate between player and enemy
+    public enum EntityType
+    {
+        Player,
+        Enemy
+    }
+
+    public EntityType entityType; // Set this in the Inspector for player/enemy
+
     private TerrainChecker terrainChecker = null;
-    private PlayerController playerController = null;
+    private IEntityController entityController = null;
     private string currLayer = string.Empty;
     public FootstepCollection[] terrainFootstepCollections;
 
@@ -13,7 +20,11 @@ public class FootstepSwapper : MonoBehaviour
     void Start()
     {
         terrainChecker = new TerrainChecker();
-        playerController = GetComponent<PlayerController>();
+
+        if (entityType == EntityType.Player)
+            entityController = GetComponent<PlayerController>();
+        else if (entityType == EntityType.Enemy)
+            entityController = GetComponent<EnemyController>();
     }
 
     public void CheckLayers()
@@ -36,7 +47,7 @@ public class FootstepSwapper : MonoBehaviour
                     {
                         if (currLayer == collection.name) // Name of the asset file
                         {
-                            playerController.SwapFootsteps(collection);
+                            entityController.SwapFootsteps(collection);
                         }
                     }
                 }
@@ -50,7 +61,7 @@ public class FootstepSwapper : MonoBehaviour
                 if (currLayer != newLayer)
                 {
                     currLayer = newLayer;
-                    playerController.SwapFootsteps(collection);
+                    entityController.SwapFootsteps(collection);
                 }
             }
         }

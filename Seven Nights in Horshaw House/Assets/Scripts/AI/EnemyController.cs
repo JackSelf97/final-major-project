@@ -1,9 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Audio;
 
 // https://www.youtube.com/watch?v=xppompv1DBg&ab_channel=Brackeys
 // https://www.youtube.com/watch?v=NK1TssMD5mE&t=1s&ab_channel=TableFlipGames
-public class EnemyController : MonoBehaviour
+public class EnemyController : MonoBehaviour, IEntityController
 {
     [Header("Stats")]
     [SerializeField] private Transform target = null;
@@ -28,6 +30,17 @@ public class EnemyController : MonoBehaviour
     public bool chasing = false;
     public Spawner parentSpawner = null;
 
+    [Header("Character Sound")]
+    [SerializeField] private AudioMixerGroup audioMixerGroup = null;
+    [SerializeField] private AudioSource audioSource = null;
+    [SerializeField] private List<AudioClip> footstepSounds = new List<AudioClip>();
+    [SerializeField] private AudioClip jumpSound = null;
+    [SerializeField] private AudioClip landSound = null;
+    private FootstepSwapper footstepSwapper = null;
+    private float lastFootstepTime;
+    private float footstepDelay = 0.6f;
+    private Queue<int> lastSoundsQueue = new Queue<int>();
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +57,8 @@ public class EnemyController : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         enemyStats = GetComponent<EnemyStats>();
         playerStats = GameObject.FindWithTag("Player").GetComponent<PlayerStats>();
+        audioSource = GetComponent<AudioSource>();
+        footstepSwapper = GetComponent<FootstepSwapper>();
         navMeshAgent.speed = 2;
     }
 
@@ -88,8 +103,9 @@ public class EnemyController : MonoBehaviour
 
     private void Update()
     {
+        Footsteps();
         if (chasing) { return; }
-
+        
         if (travelling && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
         {
             HandleDestinationReached();
@@ -142,7 +158,7 @@ public class EnemyController : MonoBehaviour
         travelling = true;
         navMeshAgent.speed = patrolSpeed;
         animator.SetBool("isWalking", true);
-        //Debug.Log(currWaypoint.name);
+        Debug.Log(currWaypoint.name);
     }
 
     private void UpdateWaypoints()
@@ -201,6 +217,71 @@ public class EnemyController : MonoBehaviour
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.fixedDeltaTime * 5f);
     }
+
+    #endregion
+
+    #region Audio
+
+    private void Footsteps()
+    {
+        // Set footstep delay based on whether the enemy is chasing or not
+        float currentFootstepDelay = chasing ? 0.35f : 0.6f;
+
+        if (navMeshAgent.velocity.sqrMagnitude > 0 && travelling)
+        {
+            // Check if enough time has passed since the last footstep
+            if (Time.time - lastFootstepTime > currentFootstepDelay)
+            {
+                PlayFootstepAudio();
+                lastFootstepTime = Time.time;
+            }
+        }
+    }
+
+    private void PlayFootstepAudio()
+    {
+        //if (!grounded) { return; }
+
+        footstepSwapper.CheckLayers();
+
+        int ranNo;
+        do
+        {
+            ranNo = Random.Range(0, footstepSounds.Count);
+        } while (lastSoundsQueue.Contains(ranNo));
+
+        audioSource.clip = footstepSounds[ranNo];
+
+        // Set a random pitch between 1 and 2
+        float randomPitch = Random.Range(1f, 2f);
+        audioSource.pitch = randomPitch;
+
+        audioSource.PlayOneShot(audioSource.clip);
+        Debug.Log(audioSource.clip);
+        audioSource.outputAudioMixerGroup = audioMixerGroup;
+
+        // Enqueue the recently played sound
+        lastSoundsQueue.Enqueue(ranNo);
+
+        // Keep the queue size at 2, removing the oldest sound
+        if (lastSoundsQueue.Count > 2)
+        {
+            lastSoundsQueue.Dequeue();
+        }
+    }
+
+    public void SwapFootsteps(FootstepCollection collection)
+    {
+        Debug.Log("CLEAR!");
+        footstepSounds.Clear();
+        for (int i = 0; i < collection.footstepSpunds.Count; i++)
+        {
+            footstepSounds.Add(collection.footstepSpunds[i]);
+        }
+        jumpSound = collection.jumpSound;
+        landSound = collection.landSound;
+    }
+
 
     #endregion
 

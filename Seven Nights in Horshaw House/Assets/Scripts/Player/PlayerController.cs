@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(CharacterController))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IEntityController
 {
     // Player Components
     private CharacterController characterController = null;
