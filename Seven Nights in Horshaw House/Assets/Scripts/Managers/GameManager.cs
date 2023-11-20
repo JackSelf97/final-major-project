@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private SpawnPointSO playerSpawnPointSO = null;
     [SerializeField] private GameObject player = null;
+    [SerializeField] private GameObject enemy = null;
     private PlayerController playerController = null;
     public Transform startPos = null;
     public bool mainMenu = true;
@@ -17,13 +18,12 @@ public class GameManager : MonoBehaviour
     public int collectedSkulls = 0;
 
     [Header("Jump Scare")]
-    [SerializeField] private GameObject monster = null;
     [SerializeField] private GameObject jumpScareMonster = null;
     [SerializeField] private float rotationSpeed = 20f;
     private GameObject playerCamPos = null;
     private Vector3 lastMonsterPos = Vector3.zero;
     private float headHeightOffset = 1.4f;
-    public bool isjumpScaring = false;
+    public bool isJumpScaring = false;
 
     [Header("Game State")]
     public GameObject endGamePanel = null;
@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (isjumpScaring)
+        if (isJumpScaring)
             RotateCameraTowardsMonster();
     }
 
@@ -207,19 +207,22 @@ public class GameManager : MonoBehaviour
     public void JumpScare(bool state)
     {
         // Rotate the camera
-        lastMonsterPos = monster.transform.position;
+        lastMonsterPos = enemy.transform.position;
 
         // Activate the 'Jump Scare Monster'
-        isjumpScaring = state;
-        monster.SetActive(!state);
+        isJumpScaring = state;
+        enemy.SetActive(!state);
         jumpScareMonster.SetActive(state);
 
         // Lock the player
         playerController.LockUser(state);
 
         // Shake the player's Vcamera
-        if (isjumpScaring)
+        if (isJumpScaring)
+        {
             CameraShake.instance.ShakeCamera(2.5f, 3.5f); // Animation time
+            jumpScareMonster.GetComponent<JumpScare>().PlayMonsterScream();
+        }
     }
 
     public bool EnableEndGameState()

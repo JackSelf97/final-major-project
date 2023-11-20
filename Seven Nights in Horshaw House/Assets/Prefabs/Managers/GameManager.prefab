@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6035902564179297159}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -44,23 +44,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ea6369f2f402774696a04443df9776d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpawnPointSO: {fileID: 11400000, guid: 094d88bac6cac754ea3fd185d058b216, type: 2}
+  playerSpawnPointSO: {fileID: 11400000, guid: ea00238870f990e46b6d15f725d838ef, type: 2}
   player: {fileID: 0}
   startPos: {fileID: 0}
   mainMenu: 1
   skulls: []
-  skullSpawnPointSO: {fileID: 11400000, guid: 4561b9b5a04761145b45de219b1bd06b, type: 2}
+  skullSpawnPointSO: {fileID: 11400000, guid: 21865ec8b1008244fae1aa6981642410, type: 2}
   skullPrefab: {fileID: 1633148191495636234, guid: 1fc83e91a03ca0a4982c3e5d37dd7350, type: 3}
   totalSkulls: 8
   collectedSkulls: 0
+  enemy: {fileID: 0}
+  jumpScareMonster: {fileID: 0}
+  rotationSpeed: 20
+  isJumpScaring: 0
   endGamePanel: {fileID: 0}
   gameWon: 0
+  HUDPanel: {fileID: 0}
   cutscenesCheck: 0
   healthCheck: 0
-  hintsCheck: 0
+  HUDCheck: 0
   dialogueCheck: 0
   loadCheck: 0
-  pauseCheck: 0
+  staticPauseCheck: 0
   deathCheck: 0
   quickTimeEventsCheck: 0
   safeRoomsCheck: 0
