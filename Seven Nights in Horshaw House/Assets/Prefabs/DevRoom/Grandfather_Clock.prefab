@@ -352,7 +352,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8556363181457539475}
   m_Layer: 0
-  m_Name: SmallHand
+  m_Name: Small_Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -468,7 +468,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8556363181664238283}
   m_Layer: 0
-  m_Name: BigHand
+  m_Name: Big_Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

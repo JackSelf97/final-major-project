@@ -11,6 +11,7 @@ public class AccessPoint : MonoBehaviour, IInteractable
     public void Interact()
     {
         isTimePaused = !isTimePaused;
+        Debug.LogWarning("Please ensure there is only one 'AccessPoint' active at a time. Check TimeManager to identify the active one.");
     }
 
     // Start is called before the first frame update

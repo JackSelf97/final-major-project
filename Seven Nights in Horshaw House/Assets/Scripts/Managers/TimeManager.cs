@@ -15,7 +15,8 @@ public class TimeManager : MonoBehaviour
     public DateTime currentTime;
     public Text dayText = null;
     [SerializeField] private Text timeText = null;
-    private int lastRecordedDay = 0;
+    public int lastRecordedRealWorldDay = 0;
+    [SerializeField] private CandleExtinguisher candleExtinguisher = null;
 
     [Header("Sunlight")]
     [SerializeField] private Light sunlight = null;
@@ -34,7 +35,7 @@ public class TimeManager : MonoBehaviour
 
     [Header("Game Properties")]
     public GameObject enemy = null;
-    public AccessPoint accessPoint = null;
+    public AccessPoint activeAccessPoint = null;
 
     [Header("Post-Processing Effects")]
     [SerializeField] private PostProcessVolume nightProfile = null;
@@ -48,17 +49,23 @@ public class TimeManager : MonoBehaviour
 
     void InitialiseTimeOfDay()
     {
+        // Set time
         currentTime = DateTime.Now.Date + TimeSpan.FromHours(startHour);
         sunriseTime = TimeSpan.FromHours(sunriseHour);
         sunsetTime = TimeSpan.FromHours(sunsetHour);
-        lastRecordedDay = currentTime.Day;
+        lastRecordedRealWorldDay = currentTime.Day;
+
+        // Set enemy
         enemy.SetActive(false);
+
+        // Candles
+        candleExtinguisher = GetComponent<CandleExtinguisher>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!accessPoint.isTimePaused && !GameManager.gMan.mainMenu)
+        if (!activeAccessPoint.isTimePaused && !GameManager.gMan.mainMenu)
         {
             UpdateTimeOfDay();
             RotateSun();
@@ -71,34 +78,49 @@ public class TimeManager : MonoBehaviour
     {
         currentTime = currentTime.AddSeconds(Time.deltaTime * timeMultiplier);
 
+        UpdateTimeText();
+
+        if (dayText != null)
+        {
+            HandleNewDay();
+        }
+
+        CheckEndGameState();
+    }
+
+    private void UpdateTimeText()
+    {
         if (timeText != null)
         {
             timeText.text = currentTime.ToString("hh:mm tt");
         }
+    }
 
-        if (dayText != null)
+    private void HandleNewDay()
+    {
+        int currentDay = currentTime.Day;
+        if (currentDay != lastRecordedRealWorldDay)
         {
-            UpdateDayText();
+            days++;
+            candleExtinguisher.ExtinguishCandles(days);
+            lastRecordedRealWorldDay = currentDay;
         }
+        UpdateDayText();
+    }
 
-        // End Game State
+    private void UpdateDayText()
+    {
+        dayText.text = "DAY " + days.ToString();
+    }
+
+    private void CheckEndGameState()
+    {
         if (days >= maxDays && !GameManager.gMan.gameWon)
         {
             GameManager.gMan.EnableEndGameState();
             Time.timeScale = 0f;
             ResetTimeOfDay();
         }
-    }
-
-    private void UpdateDayText()
-    {
-        int currentDay = currentTime.Day;
-        if (currentDay != lastRecordedDay)
-        {
-            days++;
-            lastRecordedDay = currentDay;
-        }
-        dayText.text = "DAY " + days.ToString();
     }
 
     private void RotateSun()
@@ -186,7 +208,7 @@ public class TimeManager : MonoBehaviour
     public void ResetTimeOfDay()
     {
         currentTime = DateTime.Now.Date + TimeSpan.FromHours(startHour);
-        lastRecordedDay = currentTime.Day;
+        lastRecordedRealWorldDay = currentTime.Day;
         days = 0;
     }
 

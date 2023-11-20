@@ -596,16 +596,20 @@ public class PlayerController : MonoBehaviour, IEntityController
             switch (target.tag)
             {
                 case "AccessPoint":
-                    sprite = interactionSprite[grabSpriteIndex];
-                    if (GameManager.gMan.HUDCheck) prompt = "Touch [E]";
+                    sprite = interactionSprite[touchSpriteIndex];
+                    if (GameManager.gMan.HUDCheck) prompt = "Stop Time [E]";
                     break;
                 case "Corpse":
                     sprite = interactionSprite[grabSpriteIndex];
-                    if (GameManager.gMan.HUDCheck) prompt = "Enter Body [E]";
+                    if (GameManager.gMan.HUDCheck) prompt = "Exit Spirit Realm [E]";
                     break;
                 case "Door":
                     sprite = interactionSprite[touchSpriteIndex];
-                    if (GameManager.gMan.HUDCheck) prompt = "Use Door [E]";
+                    if (GameManager.gMan.HUDCheck)
+                    {
+                        bool isOpen = target.GetComponent<Door>().isOpen;
+                        prompt = isOpen ? "Close Door [E]" : "Open Door [E]";
+                    }
                     break;
                 case "Item":
                     if (playerStats.spiritRealm) return;

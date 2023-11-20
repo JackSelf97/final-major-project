@@ -340,8 +340,8 @@ public class UIManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         timeManager.ResetTimeOfDay();
-        if (timeManager.accessPoint.isTimePaused)
-            timeManager.accessPoint.isTimePaused = false;
+        if (timeManager.activeAccessPoint.isTimePaused)
+            timeManager.activeAccessPoint.isTimePaused = false;
     }
 
     private void ResetEndGame()

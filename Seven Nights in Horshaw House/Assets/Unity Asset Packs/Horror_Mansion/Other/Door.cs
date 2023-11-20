@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 public class Door : MonoBehaviour, IInteractable
 {
-    [SerializeField] private bool isOpen = false;
+    public bool isOpen = false;
     private Animator animator;
 
     UnityEvent IInteractable.onInteract { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
