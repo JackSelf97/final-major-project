@@ -21,7 +21,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TimeManager timeManager = null;
 
     [Header("General Menu Properties")]
-    [SerializeField] private GameObject backButton = null;
+    [SerializeField] private Button backButton = null;
     [SerializeField] private int backButtonIndex = 0;
 
     [Header("Player Menu Properties")]
@@ -59,7 +59,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text promptText = null;
     [SerializeField] private Button promptYes = null;
 
-    private readonly int RMSIndex = 2, SIndex = 3;
+    [Header("Credits")]
+    [SerializeField] private Credits credits = null;
+
+    private readonly int RMSIndex = 2, SIndex = 3, CIndex = 4;
 
     // Start is called before the first frame update
     void Start()
@@ -75,6 +78,7 @@ public class UIManager : MonoBehaviour
         timeManager = FindObjectOfType<TimeManager>();
         interactableObjects = FindObjectsOfType<InteractableObject>();
         interactableDoors = FindObjectsOfType<Door>();
+        credits = GetComponent<Credits>();
 
         // Game Prep
         playerController.LockUser(true);
@@ -130,13 +134,17 @@ public class UIManager : MonoBehaviour
                 SubmenuTemplate(settingPanel, false, 0);
                 SubmenuTemplate(audioPanel, true, 2);
                 break;
+            case "Credits":
+                SubmenuTemplate(null, true, CIndex);
+                backButton.onClick.AddListener(() => credits.SkipCredits());
+                break;
         }
     }
 
     private void SubmenuTemplate(GameObject panel, bool state, int index)
     {
         // Control back button and title. 
-        backButton.SetActive(state);
+        backButton.gameObject.SetActive(state);
         gameTitle.SetActive(!state);
         mainButtonPanel.SetActive(!state);
 
@@ -229,6 +237,10 @@ public class UIManager : MonoBehaviour
         {
             SubmenuTemplate(settingPanel, true, -2);
             TogglePanels(new GameObject[] { gamePanel, controlPanel, displayPanel, graphicPanel, audioPanel }, false);
+        }
+        else if (backButtonIndex == CIndex)
+        {
+            ResetCredits();
         }
     }
 
@@ -396,6 +408,12 @@ public class UIManager : MonoBehaviour
             volumes[i].value = 100f;
         }
         ShowPrompt(false);
+    }
+
+    public void ResetCredits()
+    {
+        SubmenuTemplate(null, false, -CIndex);
+        backButton.onClick.RemoveAllListeners();
     }
 
     private void QuitGame()
