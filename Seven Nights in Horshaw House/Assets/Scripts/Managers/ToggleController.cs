@@ -21,7 +21,7 @@ public class ToggleController : MonoBehaviour
         toggleActions.Add("Death_Toggle", T_Death);
         toggleActions.Add("QTE_Toggle", T_QTE);
         toggleActions.Add("SafeRooms_Toggle", T_SafeRooms);
-        toggleActions.Add("SavePoints", T_Save);
+        toggleActions.Add("SavePoints_Toggle", T_Save);
         toggleActions.Add("Inventory_Toggle", T_Inventory);
         toggleActions.Add("Tutorial_Toggle", T_Tutorial);
         

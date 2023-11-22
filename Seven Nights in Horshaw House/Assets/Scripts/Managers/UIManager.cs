@@ -35,6 +35,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Settings/Game")]
     [SerializeField] private GameObject gamePanel = null;
+    [SerializeField] private Toggle classicModeToggle = null;
 
     [Header("Settings/Controls")]
     [SerializeField] private GameObject controlPanel = null;
@@ -83,10 +84,13 @@ public class UIManager : MonoBehaviour
         interactableDoors = FindObjectsOfType<Door>();
         credits = GetComponent<Credits>();
 
-        // Game Prep
+        // Player setup
         playerController.LockUser(true);
         SubmenuTemplate(null, false, 0);
         GameManager.gMan.PlayerActionMap(false);
+
+        // Game
+        classicModeToggle.onValueChanged.AddListener(OnToggleChanged);
     }
 
     // Anything regarding "Prompts" will not be used inside the switch statement.
@@ -285,8 +289,12 @@ public class UIManager : MonoBehaviour
         if (togglePanel.activeSelf)
             promptYes.onClick.AddListener(() => ResetRespiteMechanics());
 
+        if (gamePanel.activeSelf)
+            promptYes.onClick.AddListener(() => ResetGameValues());
+
         if (audioPanel.activeSelf)
             promptYes.onClick.AddListener(() => ResetAudioValues());
+
     }
 
     public void P_RestartGame()
@@ -433,6 +441,12 @@ public class UIManager : MonoBehaviour
         ShowPrompt(false);
     }
 
+    private void ResetGameValues()
+    {
+        classicModeToggle.isOn = false;
+        ShowPrompt(false);
+    }
+
     public void ResetCredits()
     {
         SubmenuTemplate(null, false, -CIndex);
@@ -443,6 +457,29 @@ public class UIManager : MonoBehaviour
     {
         Application.Quit();
         ShowPrompt(false);
+    }
+
+    #endregion
+
+    #region Settings/Game
+
+    public void OnToggleChanged(bool newValue)
+    {
+        // Set the state of all respite mechanics based on the new value
+        SetAllRespiteMechanics(newValue);
+    }
+
+    private void SetAllRespiteMechanics(bool enable)
+    {
+        Toggle[] respiteToggles = GetComponent<ToggleController>().respiteToggles;
+
+        foreach (Toggle toggle in respiteToggles)
+        {
+            toggle.isOn = enable;
+            toggle.interactable = !enable;
+        }
+
+        Debug.Log(enable ? "RM ON" : "RM OFF");
     }
 
     #endregion
