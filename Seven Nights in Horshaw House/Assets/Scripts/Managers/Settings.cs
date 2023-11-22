@@ -4,8 +4,15 @@ using UnityEngine.UI;
 
 public class Settings : MonoBehaviour
 {
+    [Header("Display")]
+    public Dropdown resolutionDropdown;
+    public Resolution[] resolutions;
+    public int resolutionIndex;
+    public Dropdown screenModeDropdown;
+    public int screenMode;
+
     // Audio
-    [Header("Audio Settings")]
+    [Header("Audio")]
     public AudioMixer audioMixer;
     public float masterVolume = 0f;
     public Slider masterVolumeSlider = null;
@@ -23,6 +30,16 @@ public class Settings : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // Display
+        resolutionDropdown.onValueChanged.AddListener(delegate { OnResolutionChange(); });
+        screenModeDropdown.onValueChanged.AddListener(delegate { OnScreenModeChange(screenModeDropdown.value); });
+        resolutions = Screen.resolutions;
+        foreach (Resolution resolution in resolutions)
+        {
+            resolutionDropdown.options.Add(new Dropdown.OptionData(resolution.ToString()));
+        }
+        resolutionDropdown.value = resolutions.Length;
+
         // Audio 
         masterVolumeSlider.onValueChanged.AddListener(delegate { SetMasterVolume(masterVolumeSlider.value); });
         musicVolumeSlider.onValueChanged.AddListener(delegate { SetMusicVolume(musicVolumeSlider.value); });
@@ -30,8 +47,36 @@ public class Settings : MonoBehaviour
         SFXVolumeSlider.onValueChanged.AddListener(delegate { SetSFXVolume(SFXVolumeSlider.value); });
     }
 
+    #region Display
+
+    public void OnResolutionChange()
+    {
+        Screen.SetResolution(resolutions[resolutionDropdown.value].width, resolutions[resolutionDropdown.value].height, Screen.fullScreen);
+        resolutionIndex = resolutionDropdown.value;
+    }
+
+    public void OnScreenModeChange(int screenModeInts)
+    {
+        screenMode = screenModeInts;
+        switch (screenModeInts)
+        {
+            case 0:
+                Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
+                break;
+            case 1:
+                Screen.fullScreenMode = FullScreenMode.Windowed;
+                break;
+            case 2:
+                Screen.fullScreenMode = FullScreenMode.FullScreenWindow; // windowed borderless
+                break;
+            default:
+                break;
+        }
+    }
+
+    #endregion
+
     #region Audio (Logic)
-    // currently results in long floats -- try rounding to two decimal places
 
     public void SetMasterVolume(float volume)
     {
