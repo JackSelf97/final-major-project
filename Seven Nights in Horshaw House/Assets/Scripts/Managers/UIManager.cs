@@ -26,6 +26,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private int backButtonIndex = 0;
     [SerializeField] private GameObject disclaimerPanel;
     [SerializeField] private float disclaimerDuration = 10f;
+    [SerializeField] private bool isDisclaimerOn = false;
 
     [Header("Player Menu Properties")]
     [SerializeField] private GameObject pauseButtonPanel = null;
@@ -99,7 +100,17 @@ public class UIManager : MonoBehaviour
         switch (menuName)
         {
             case "Play":
-                ShowDisclaimer();
+                // Check if the disclaimer is enabled
+                if (isDisclaimerOn)
+                {
+                    // Show the disclaimer panel
+                    ShowDisclaimer();
+                }
+                else
+                {
+                    // Skip the disclaimer and start the game immediately
+                    PlayAction();
+                }
                 break;
             case "Respite Mechanics":
                 RespiteMechanicsAction();
