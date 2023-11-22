@@ -11,7 +11,14 @@ public class Settings : MonoBehaviour
     public Dropdown screenModeDropdown;
     public int screenMode;
 
-    // Audio
+    [Header("Graphics")]
+    public Dropdown textureQualityDropdown;
+    public int textureQuality;
+    public Dropdown shadowTypeDropdown;
+    public int shadowType;
+    public Dropdown shadowResolutionDropdown;
+    public int shadowResolution;
+
     [Header("Audio")]
     public AudioMixer audioMixer;
     public float masterVolume = 0f;
@@ -40,6 +47,11 @@ public class Settings : MonoBehaviour
         }
         resolutionDropdown.value = resolutions.Length;
 
+        // Graphics
+        textureQualityDropdown.onValueChanged.AddListener(delegate { OnTextureQualityChange(); });
+        shadowTypeDropdown.onValueChanged.AddListener(delegate { SetShadows(shadowTypeDropdown.value); });
+        shadowResolutionDropdown.onValueChanged.AddListener(delegate { OnShadowResolutionChange(shadowResolutionDropdown.value); });
+
         // Audio 
         masterVolumeSlider.onValueChanged.AddListener(delegate { SetMasterVolume(masterVolumeSlider.value); });
         musicVolumeSlider.onValueChanged.AddListener(delegate { SetMusicVolume(musicVolumeSlider.value); });
@@ -47,7 +59,7 @@ public class Settings : MonoBehaviour
         SFXVolumeSlider.onValueChanged.AddListener(delegate { SetSFXVolume(SFXVolumeSlider.value); });
     }
 
-    #region Display
+    #region Display (Logic)
 
     public void OnResolutionChange()
     {
@@ -68,6 +80,69 @@ public class Settings : MonoBehaviour
                 break;
             case 2:
                 Screen.fullScreenMode = FullScreenMode.FullScreenWindow; // windowed borderless
+                break;
+            default:
+                break;
+        }
+    }
+
+    #endregion
+
+    #region Graphics (Logic)
+
+    public void OnTextureQualityChange()
+    {
+        QualitySettings.masterTextureLimit = textureQuality = textureQualityDropdown.value;
+    }
+
+    public void SetShadows(int shadowTypeInts)
+    {
+        bool shadowActive = true;
+        shadowType = shadowTypeInts;
+        switch (shadowTypeInts)
+        {
+            case 0:
+                QualitySettings.shadows = ShadowQuality.All; // hard and soft
+                shadowActive = true;
+                break;
+            case 1:
+                QualitySettings.shadows = ShadowQuality.HardOnly;
+                shadowActive = true;
+                break;
+            case 2:
+                QualitySettings.shadows = ShadowQuality.Disable;
+                shadowActive = false;
+                break;
+            default:
+                break;
+        }
+
+        if (shadowActive)
+        {
+            CanvasGroupChanges(shadowResolutionDropdown.GetComponent<CanvasGroup>(), false);
+        }
+        else
+        {
+            CanvasGroupChanges(shadowResolutionDropdown.GetComponent<CanvasGroup>(), true);
+        }
+    }
+
+    public void OnShadowResolutionChange(int shadowResInts)
+    {
+        shadowResolution = shadowResInts;
+        switch (shadowResInts)
+        {
+            case 0:
+                QualitySettings.shadowResolution = ShadowResolution.VeryHigh; // default
+                break;
+            case 1:
+                QualitySettings.shadowResolution = ShadowResolution.High;
+                break;
+            case 2:
+                QualitySettings.shadowResolution = ShadowResolution.Medium;
+                break;
+            case 3:
+                QualitySettings.shadowResolution = ShadowResolution.Low;
                 break;
             default:
                 break;
@@ -107,4 +182,10 @@ public class Settings : MonoBehaviour
     }
 
     #endregion
+
+    private void CanvasGroupChanges(CanvasGroup currSelectedGroup, bool active)
+    {
+        currSelectedGroup.blocksRaycasts = !active;
+        currSelectedGroup.interactable = !active;
+    }
 }
