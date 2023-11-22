@@ -1,4 +1,5 @@
 using Inventory;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +24,8 @@ public class UIManager : MonoBehaviour
     [Header("General Menu Properties")]
     [SerializeField] private Button backButton = null;
     [SerializeField] private int backButtonIndex = 0;
+    [SerializeField] private GameObject disclaimerPanel;
+    [SerializeField] private float disclaimerDuration = 10f;
 
     [Header("Player Menu Properties")]
     [SerializeField] private GameObject pauseButtonPanel = null;
@@ -91,8 +94,8 @@ public class UIManager : MonoBehaviour
     {
         switch (menuName)
         {
-            case "Continue":
-                ContinueAction();
+            case "Play":
+                ShowDisclaimer();
                 break;
             case "Respite Mechanics":
                 RespiteMechanicsAction();
@@ -167,7 +170,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void ContinueAction()
+    private void PlayAction()
     {
         stateDrivenCameraAnimator.Play("Player");
         menuCanvas.SetActive(false);
@@ -175,6 +178,26 @@ public class UIManager : MonoBehaviour
         playerController.LockUser(false);
         GameManager.gMan.mainMenu = false;
         GameManager.gMan.PlayerActionMap(true);
+    }
+
+    private void ShowDisclaimer()
+    {
+        disclaimerPanel.SetActive(true);
+
+        // Start a coroutine to hide the disclaimer after a specified duration
+        StartCoroutine(HideDisclaimerAfterDelay(disclaimerDuration));
+    }
+
+    private IEnumerator HideDisclaimerAfterDelay(float delay)
+    {
+        // Wait for the specified duration
+        yield return new WaitForSeconds(delay);
+
+        // Hide the disclaimer panel
+        disclaimerPanel.SetActive(false);
+
+        // Start the game or load the main scene
+        PlayAction();
     }
 
     private void RespiteMechanicsAction()
