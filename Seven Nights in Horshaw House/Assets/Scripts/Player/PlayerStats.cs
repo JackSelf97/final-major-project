@@ -73,13 +73,18 @@ public class PlayerStats : MonoBehaviour
         corpseObj.name = "Player's Corpse";
 
         // Reset the player's position and toggle the spirit realm
-        transform.position = GameManager.gMan.GetPlayerSpawnPoint();
+        Vector3 playerSpawnPosition;
+        Vector3 playerSpawnRotation;
+        GameManager.gMan.GetSpawnPoint(GameManager.gMan.playerSpawnPointSO, out playerSpawnPosition, out playerSpawnRotation);
+        transform.position = playerSpawnPosition;
+        transform.rotation = Quaternion.Euler(playerSpawnRotation.x, playerSpawnRotation.y, playerSpawnRotation.z);
+
         ToggleSpiritRealm(true, 1);
     }
 
     public void Permadeath()
     {
-        transform.position = GameManager.gMan.GetPlayerSpawnPoint();
+        //transform.position = GameManager.gMan.GetSpawnPoint(GameManager.gMan.playerSpawnPointSO);
     }
 
     public void ToggleSpiritRealm(bool state, float percentage)

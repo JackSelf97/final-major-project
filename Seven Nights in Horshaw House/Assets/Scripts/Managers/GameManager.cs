@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private SpawnPointSO playerSpawnPointSO = null;
+    public SpawnPointSO playerSpawnPointSO = null;
+    public SpawnPointSO enemySpawnPointSO = null;
+
     [SerializeField] private GameObject player = null;
     [SerializeField] private GameObject enemy = null;
     private PlayerController playerController = null;
@@ -102,11 +104,16 @@ public class GameManager : MonoBehaviour
 
     #region Player Functions
 
-    public Vector3 GetPlayerSpawnPoint()
+    public void GetSpawnPoint(SpawnPointSO spawnPointSO, out Vector3 position, out Vector3 rotation)
     {
-        int ranNo = Random.Range(0, playerSpawnPointSO.spawnPoint.Length);
+        int ranNo = Random.Range(0, spawnPointSO.spawnPoint.Length);
+
+        position = spawnPointSO.spawnPoint[ranNo];
+        rotation = spawnPointSO.spawnRotation[ranNo];
+
         Debug.Log("Spawn point: " + ranNo);
-        return playerSpawnPointSO.spawnPoint[ranNo];
+        Debug.Log("Spawn position: " + position);
+        Debug.Log("Spawn rotation: " + rotation);
     }
 
     private int GetRandomUnoccupiedSpawnIndex(List<int> occupiedIndices)

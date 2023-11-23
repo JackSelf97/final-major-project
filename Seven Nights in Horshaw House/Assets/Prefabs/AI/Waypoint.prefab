@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugDrawRadius: 0.5
-  connectivityRadius: 10
+  connectivityRadius: 20

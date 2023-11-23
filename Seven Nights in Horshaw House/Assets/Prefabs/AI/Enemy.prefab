@@ -203,7 +203,7 @@ MonoBehaviour:
   lookRadius: 8
   chaseSpeed: 6
   patrolSpeed: 2
-  totalWaitTime: 2
+  totalWaitTime: 4
   patrolWaiting: 1
   travelling: 0
   waiting: 0
@@ -214,6 +214,7 @@ MonoBehaviour:
   footstepSounds: []
   jumpSound: {fileID: 0}
   landSound: {fileID: 0}
+  smokeParticle: {fileID: 0}
 --- !u!114 &5316031274519180893
 MonoBehaviour:
   m_ObjectHideFlags: 0
