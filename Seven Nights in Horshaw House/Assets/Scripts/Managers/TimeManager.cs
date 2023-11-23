@@ -56,7 +56,7 @@ public class TimeManager : MonoBehaviour
         lastRecordedRealWorldDay = currentTime.Day;
 
         // Set enemy
-        enemy.SetActive(false);
+        //enemy.SetActive(false);
 
         // Candles
         candleExtinguisher = GetComponent<CandleExtinguisher>();
@@ -70,7 +70,7 @@ public class TimeManager : MonoBehaviour
             UpdateTimeOfDay();
             RotateSun();
             UpdateLightSettings();
-            ManageEnemyActivation();
+            //ManageEnemyActivation();
         }
     }
 

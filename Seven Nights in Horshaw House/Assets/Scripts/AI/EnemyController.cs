@@ -252,7 +252,6 @@ public class EnemyController : MonoBehaviour, IEntityController
         audioSource.pitch = randomPitch;
 
         audioSource.PlayOneShot(audioSource.clip);
-        Debug.Log(audioSource.clip);
         audioSource.outputAudioMixerGroup = audioMixerGroup;
 
         // Enqueue the recently played sound
