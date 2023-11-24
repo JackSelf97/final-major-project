@@ -536,8 +536,6 @@ public class PlayerController : MonoBehaviour, IEntityController
             return;
         }
 
-        Debug.Log("Interacting with " + hit.collider.name);
-
         interact = true; // Assume interaction by default
 
         switch (hit.transform.tag)

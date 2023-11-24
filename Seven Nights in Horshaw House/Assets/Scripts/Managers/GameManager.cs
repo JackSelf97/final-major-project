@@ -111,9 +111,9 @@ public class GameManager : MonoBehaviour
         position = spawnPointSO.spawnPoint[ranNo];
         rotation = spawnPointSO.spawnRotation[ranNo];
 
-        Debug.Log("Spawn point: " + ranNo);
-        Debug.Log("Spawn position: " + position);
-        Debug.Log("Spawn rotation: " + rotation);
+        //Debug.Log("Spawn point: " + ranNo);
+        //Debug.Log("Spawn position: " + position);
+        //Debug.Log("Spawn rotation: " + rotation);
     }
 
     private int GetRandomUnoccupiedSpawnIndex(List<int> occupiedIndices)

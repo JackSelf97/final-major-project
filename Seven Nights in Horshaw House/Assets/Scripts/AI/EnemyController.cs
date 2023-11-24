@@ -9,26 +9,32 @@ using UnityEngine.Audio;
 public class EnemyController : MonoBehaviour, IEntityController
 {
     [Header("Stats")]
+    private PlayerStats playerStats = null;
     [SerializeField] private Transform target = null;
     [SerializeField] private float lookRadius = 8f;
-    [SerializeField] private int chaseSpeed = 7;
+    [SerializeField] private int chaseSpeed = 4;
     [SerializeField] private int patrolSpeed = 2;
     private NavMeshAgent navMeshAgent = null;
-    private EnemyStats enemyStats = null;
     private Animator animator = null;
-    private Vector3 originalPos = Vector3.zero;
-    private Quaternion originalRot = Quaternion.identity;
-    private PlayerStats playerStats = null;
     
     [Header("Navigation")]
     [SerializeField] private float totalWaitTime = 3f;
     [SerializeField] private bool patrolWaiting = false;
-    [SerializeField] private bool travelling = false;
-    [SerializeField] private bool waiting = false;
     private ConnectedWaypoint currWaypoint = null, prevWaypoint = null;
-    private float waitTimer = 0f;
-    private int waypointsVisited = 0;
-    public bool chasing = false;
+    public float waitTimer = 0f;
+    public int waypointsVisited = 0;
+    public bool foundTarget = false;
+    public float distance = 0f;
+
+    public enum EnemyState
+    {
+        Idle,
+        Walking,
+        Chasing,
+        Attacking
+    }
+
+    public EnemyState currentState = EnemyState.Idle;
 
     [Header("Character Sound")]
     [SerializeField] private AudioMixerGroup audioMixerGroup = null;
@@ -54,15 +60,10 @@ public class EnemyController : MonoBehaviour, IEntityController
 
     private void InitialiseEnemy()
     {
-        // Original position and rotation
-        originalPos = transform.position;
-        originalRot = transform.rotation;
-
         // Get components
         playerStats = GameObject.FindWithTag("Player").GetComponent<PlayerStats>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
-        enemyStats = GetComponent<EnemyStats>();
         audioSource = GetComponent<AudioSource>();
         footstepSwapper = GetComponent<FootstepSwapper>();
 
@@ -95,40 +96,55 @@ public class EnemyController : MonoBehaviour, IEntityController
 
         // Wait for the specified delay
         yield return new WaitForSeconds(delay);
-
-        // Move to the destination after the delay
-        SetDestination();
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        if (enemyStats.isDead) { return; }
-        HandleChase();
-    }
+        distance = Vector3.Distance(target.position, transform.position);
 
-    private void Update()
-    {
         Footsteps();
-        if (chasing) { return; }
+        if (!playerStats.spiritRealm)
+            Searching();
 
-        if (travelling && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
-            HandleDestinationReached();
-
-        if (waiting)
-            HandleWaiting();
+        switch (currentState)
+        {
+            case EnemyState.Idle:
+                HandleIdleState();
+                animator.SetBool("isWalking", false);
+                animator.SetBool("isChasing", false);
+                animator.SetBool("isAttacking", false);
+                break;
+            case EnemyState.Walking:
+                HandleWalkingState();
+                animator.SetBool("isWalking", true);
+                animator.SetBool("isChasing", false);
+                animator.SetBool("isAttacking", false);
+                break;
+            case EnemyState.Chasing:
+                HandleChasingState();
+                animator.SetBool("isChasing", true);
+                animator.SetBool("isAttacking", false);
+                animator.SetBool("isWalking", false);
+                break;
+            case EnemyState.Attacking:
+                HandleAttackingState();
+                animator.SetBool("isAttacking", true);
+                animator.SetBool("isChasing", false);
+                animator.SetBool("isWalking", false);
+                break;
+        }
     }
 
-    private void HandleDestinationReached()
+    void HandleIdleState()
     {
-        travelling = false;
-        waypointsVisited++;
-
         if (patrolWaiting)
         {
-            waiting = true;
-            animator.SetBool("isWalking", false);
-            waitTimer = 0f;
+            waitTimer += Time.deltaTime;
+            if (waitTimer >= totalWaitTime)
+            {
+                SetDestination();
+                waitTimer = 0f;
+            }
         }
         else
         {
@@ -136,13 +152,71 @@ public class EnemyController : MonoBehaviour, IEntityController
         }
     }
 
-    private void HandleWaiting()
+    void HandleWalkingState()
     {
-        waitTimer += Time.fixedDeltaTime;
-        if (waitTimer >= totalWaitTime)
+        if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance &&
+            navMeshAgent.velocity.sqrMagnitude == 0f)
         {
-            waiting = false;
-            SetDestination();
+            waypointsVisited++;
+            Debug.Log(gameObject.name + " has reached: " + currWaypoint.name);
+
+            if (patrolWaiting)
+            {
+                waitTimer = 0f;
+            }
+            currentState = EnemyState.Idle;
+        }
+    }
+
+    private void Searching()
+    {
+        if (distance <= lookRadius && !foundTarget)
+        {
+            Debug.Log("I've found the player!");
+            foundTarget = true;
+            currentState = EnemyState.Chasing;
+        }
+        else if (distance >= lookRadius && foundTarget)
+        {
+            Debug.Log("I've lost the player!");
+            foundTarget = false;
+            navMeshAgent.ResetPath();
+            currentState = EnemyState.Idle;
+        }
+    }
+
+    private void HandleChasingState()
+    {
+        if (patrolWaiting)
+        {
+            waitTimer = 0f;
+        }
+
+        navMeshAgent.speed = chaseSpeed;
+        navMeshAgent.SetDestination(target.position);
+
+        // Attack the target if it is close
+        if (distance <= navMeshAgent.stoppingDistance)
+        {
+            currentState = EnemyState.Attacking;
+            FaceTarget();
+        }
+    }
+
+    private void HandleAttackingState()
+    {
+        // Confirmed kill
+        if (playerStats.spiritRealm)
+        {
+            foundTarget = false;
+            currentState = EnemyState.Idle;
+            return;
+        }
+
+        // Go back to chasing if the target has evaded
+        if (distance >= navMeshAgent.stoppingDistance)
+        {
+            currentState = EnemyState.Chasing;
         }
     }
 
@@ -155,10 +229,11 @@ public class EnemyController : MonoBehaviour, IEntityController
 
         Vector3 target = currWaypoint.transform.position;
         navMeshAgent.SetDestination(target);
-        travelling = true;
         navMeshAgent.speed = patrolSpeed;
-        animator.SetBool("isWalking", true);
-        Debug.Log("Off I go!");
+
+        Debug.Log(gameObject.name + " is going to " + currWaypoint.name);
+
+        currentState = EnemyState.Walking;
     }
 
     private void UpdateWaypoints()
@@ -177,7 +252,6 @@ public class EnemyController : MonoBehaviour, IEntityController
                 int random = Random.Range(0, allWaypoints.Length);
                 ConnectedWaypoint startingWaypoint = allWaypoints[random].GetComponent<ConnectedWaypoint>();
 
-                // We found a waypoint
                 if (startingWaypoint != null)
                 {
                     currWaypoint = startingWaypoint;
@@ -194,43 +268,6 @@ public class EnemyController : MonoBehaviour, IEntityController
 
     #region Actions
 
-    private void HandleChase()
-    {
-        float distance = Vector3.Distance(target.position, transform.position);
-        if (distance <= lookRadius && !playerStats.spiritRealm)
-        {
-            ChaseTarget();
-
-            if (distance <= navMeshAgent.stoppingDistance)
-            {
-                // Attack and face the target
-                animator.SetBool("isAttacking", true);
-                FaceTarget();
-            }
-        }
-        else
-        {
-            chasing = false;
-        }
-    }
-
-    private void ChaseTarget()
-    {
-        // Set the bool
-        chasing = true;
-
-        // Set the animation
-        animator.SetBool("isWalking", false);
-        animator.SetBool("isAttacking", false);
-        animator.SetBool("isChasing", true);
-
-        // Set the scripts
-        navMeshAgent.speed = chaseSpeed;
-
-        // Set the target
-        navMeshAgent.SetDestination(target.position);
-    }
-
     private void FaceTarget()
     {
         Vector3 direction = (target.position - transform.position).normalized;
@@ -245,9 +282,9 @@ public class EnemyController : MonoBehaviour, IEntityController
     private void Footsteps()
     {
         // Set footstep delay based on whether the enemy is chasing or not
-        float currentFootstepDelay = chasing ? 0.35f : 0.6f;
+        float currentFootstepDelay = currentState == EnemyState.Chasing ? 0.4f : 0.6f;
 
-        if (navMeshAgent.velocity.sqrMagnitude > 0 && travelling)
+        if (navMeshAgent.velocity.sqrMagnitude > 0 && currentState == EnemyState.Walking || navMeshAgent.velocity.sqrMagnitude > 0 && currentState == EnemyState.Chasing)
         {
             // Check if enough time has passed since the last footstep
             if (Time.time - lastFootstepTime > currentFootstepDelay)
@@ -309,13 +346,8 @@ public class EnemyController : MonoBehaviour, IEntityController
 
     public void EnemyReset()
     {
-        // Reset the position and rotation
-        transform.position = originalPos;
-        transform.rotation = originalRot;
-
-        // Stop chasing
-        if (chasing)
-            chasing = false;
+        navMeshAgent.ResetPath();
+        SetRandomPositionAndRotation();
     }
 
     private void OnDrawGizmosSelected()

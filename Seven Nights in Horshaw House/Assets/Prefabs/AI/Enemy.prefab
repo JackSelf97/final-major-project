@@ -201,14 +201,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   lookRadius: 8
-  chaseSpeed: 6
+  chaseSpeed: 4
   patrolSpeed: 2
   totalWaitTime: 4
   patrolWaiting: 1
-  travelling: 0
-  waiting: 0
-  chasing: 0
-  parentSpawner: {fileID: 0}
+  waitTimer: 0
+  waypointsVisited: 0
+  foundTarget: 0
+  distance: 0
+  currentState: 0
   audioMixerGroup: {fileID: -6603422402590985172, guid: 94742c1e1be097b40bb2347cb06f053b, type: 2}
   audioSource: {fileID: 0}
   footstepSounds: []
