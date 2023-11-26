@@ -378,7 +378,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cf8d0cd2afad20449aa002621efbbad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCorpse: {fileID: 4120375071104092030, guid: 6e4670093d33b7646b58041738ba1cb2, type: 3}
+  playerCorpse: {fileID: 3605008301157028145, guid: 1fa1f15e5a361294aae727c5da342c88, type: 3}
   virtualCamera: {fileID: 0}
   currHP: 0
   isDead: 0

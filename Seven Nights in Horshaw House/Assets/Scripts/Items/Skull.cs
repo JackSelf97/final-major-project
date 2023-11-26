@@ -8,7 +8,7 @@ public class Skull : MonoBehaviour, IInteractable
     public void Interact()
     {
         GameManager.gMan.collectedSkulls++;
-        if (GameManager.gMan.collectedSkulls == GameManager.gMan.totalSkulls)
-            GameManager.gMan.EnableEndGameState();
+        //if (GameManager.gMan.collectedSkulls == GameManager.gMan.totalSkulls)
+        //    GameManager.gMan.EnableEndGameState();
     }
 }

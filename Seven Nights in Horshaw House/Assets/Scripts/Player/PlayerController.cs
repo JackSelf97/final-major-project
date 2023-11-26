@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour, IEntityController
     private const float threshold = 0.01f;
 
     [Header("Game Properties")]
+    public KingOfTheHill kingOfTheHill = null;
     public GameObject pauseScreen = null;
     public bool isLocked = false;
     public bool isPaused = false;

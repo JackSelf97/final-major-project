@@ -91,6 +91,7 @@ public class PlayerStats : MonoBehaviour
     {
         spiritRealm = state;
         isDead = false;
+        playerController.kingOfTheHill.playerInside = !state;
         currHP = maxHP;
 
         if (timeManager != null)

@@ -17,8 +17,9 @@ public class EnemyController : MonoBehaviour, IEntityController
     [SerializeField] private int patrolSpeed = 2;
     private NavMeshAgent navMeshAgent = null;
     private Animator animator = null;
-    
+
     [Header("Navigation")]
+    [SerializeField] private KingOfTheHill kingOfTheHill = null;
     [SerializeField] private float totalWaitTime = 3f;
     [SerializeField] private bool patrolWaiting = false;
     private ConnectedWaypoint currWaypoint = null, prevWaypoint = null;
@@ -57,7 +58,6 @@ public class EnemyController : MonoBehaviour, IEntityController
         InitialiseEnemy();
         GetWaypoints();
         EnemyReset();
-        StartCoroutine(StartMovingAfterDelay());
     }
 
     private void InitialiseEnemy()
@@ -105,6 +105,7 @@ public class EnemyController : MonoBehaviour, IEntityController
     {
         distance = Vector3.Distance(target.position, transform.position);
 
+        HandleLookRadius();
         Footsteps();
         if (!playerStats.spiritRealm && searching)
             Searching();
@@ -280,6 +281,11 @@ public class EnemyController : MonoBehaviour, IEntityController
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.fixedDeltaTime * 5f);
     }
 
+    private void HandleLookRadius()
+    {
+        lookRadius = kingOfTheHill.enemyInside ? 4 : 8;
+    }
+
     #endregion
 
     #region Audio
@@ -354,6 +360,7 @@ public class EnemyController : MonoBehaviour, IEntityController
         navMeshAgent.ResetPath();
         SetRandomPositionAndRotation();
         searching = false;
+        kingOfTheHill.enemyInside = false;
         waypointsVisited = 0;
     }
 

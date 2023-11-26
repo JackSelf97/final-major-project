@@ -400,18 +400,18 @@ public class UIManager : MonoBehaviour
 
     private void ResetEndGame()
     {
-        if (GameManager.gMan.endGamePanel.activeSelf)
+        if (GameManager.gMan.endGameScreen.activeSelf)
         {
             if (GameManager.gMan.gameWon)
             {
                 GameManager.gMan.gameWon = false;
-                GameManager.gMan.endGamePanel.transform.GetChild(0).gameObject.SetActive(false);
+                GameManager.gMan.endGameScreen.transform.GetChild(0).gameObject.SetActive(false);
             }
             else
             {
-                GameManager.gMan.endGamePanel.transform.GetChild(1).gameObject.SetActive(false);
+                GameManager.gMan.endGameScreen.transform.GetChild(1).gameObject.SetActive(false);
             }
-            GameManager.gMan.endGamePanel.SetActive(false);
+            GameManager.gMan.endGameScreen.SetActive(false);
         }
     }
 

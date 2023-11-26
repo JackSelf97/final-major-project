@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour
     public bool mainMenu = true;
 
     [Header("Proof of Concept")]
+    [SerializeField] private KingOfTheHill kingOfTheHill = null;
     [SerializeField] private List<GameObject> skulls = new List<GameObject>();
     [SerializeField] private SpawnPointSO skullSpawnPointSO = null;
     [SerializeField] private GameObject skullPrefab = null;
@@ -28,7 +30,8 @@ public class GameManager : MonoBehaviour
     public bool isJumpScaring = false;
 
     [Header("Game State")]
-    public GameObject endGamePanel = null;
+    public GameObject endGameScreen = null;
+    public Text endGameSkullCount = null;
     public bool gameWon = false;
 
     [Header("Respite Mechanics")]
@@ -82,8 +85,8 @@ public class GameManager : MonoBehaviour
 
         // Proof of Concept
         InstantiateSkulls();
-        if (endGamePanel != null)
-            endGamePanel.SetActive(false);
+        if (endGameScreen != null)
+            endGameScreen.SetActive(false);
     }
 
     private void SetDefaultRespiteMechanics()
@@ -234,20 +237,29 @@ public class GameManager : MonoBehaviour
 
     public bool EnableEndGameState()
     {
-        gameWon = collectedSkulls == totalSkulls;
+        // Check if skulls are collected
+        bool skullsCollected = collectedSkulls == totalSkulls;
+
+        // Check if the slider is at max value
+        bool sliderMaxed = kingOfTheHill.controlPointSlider.value == 1;
+
+        // Check if both conditions are met
+        gameWon = skullsCollected && sliderMaxed;
 
         if (gameWon)
         {
             Debug.Log("You Win!");
-            endGamePanel.transform.GetChild(1).gameObject.SetActive(true);
+            endGameScreen.transform.GetChild(1).gameObject.SetActive(true);
+            endGameSkullCount.text = "Skulls Collected: " + collectedSkulls + "/" + totalSkulls;
         }
         else
         {
             Debug.Log("You Lose!");
-            endGamePanel.transform.GetChild(2).gameObject.SetActive(true);
+            endGameScreen.transform.GetChild(2).gameObject.SetActive(true);
+            endGameSkullCount.text = "Skulls Collected: " + collectedSkulls + "/" + totalSkulls;
         }
 
-        endGamePanel.SetActive(true);
+        endGameScreen.SetActive(true);
         PlayerActionMap(false);
         playerController.LockUser(true);
 
