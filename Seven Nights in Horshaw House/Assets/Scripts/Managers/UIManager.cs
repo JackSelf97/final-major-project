@@ -347,7 +347,7 @@ public class UIManager : MonoBehaviour
         // Reset Functions
         ResetTime();
         ResetAllObjects();
-        ResetEndGame();
+        GameManager.gMan.ResetEndGame();
         playerController.ResetPlayer();
 
         // Disable the Enemy
@@ -366,7 +366,7 @@ public class UIManager : MonoBehaviour
         ResetUI();
         ResetTime();
         ResetAllObjects();
-        ResetEndGame();
+        GameManager.gMan.ResetEndGame();
         playerController.ResetPlayer();
 
         // Disable the Enemy
@@ -396,23 +396,6 @@ public class UIManager : MonoBehaviour
         timeManager.ResetTimeOfDay();
         if (timeManager.activeAccessPoint.isTimePaused)
             timeManager.activeAccessPoint.isTimePaused = false;
-    }
-
-    private void ResetEndGame()
-    {
-        if (GameManager.gMan.endGameScreen.activeSelf)
-        {
-            if (GameManager.gMan.gameWon)
-            {
-                GameManager.gMan.gameWon = false;
-                GameManager.gMan.endGameScreen.transform.GetChild(0).gameObject.SetActive(false);
-            }
-            else
-            {
-                GameManager.gMan.endGameScreen.transform.GetChild(1).gameObject.SetActive(false);
-            }
-            GameManager.gMan.endGameScreen.SetActive(false);
-        }
     }
 
     private void ResetAllObjects()

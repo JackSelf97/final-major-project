@@ -44,7 +44,6 @@ public class PlayerStats : MonoBehaviour
         currHP -= damage;
         if (currHP <= 0)
         {
-            isDead = true;
             StartCoroutine(PlayerDeath());
         }
     }
@@ -90,8 +89,8 @@ public class PlayerStats : MonoBehaviour
     public void ToggleSpiritRealm(bool state, float percentage)
     {
         spiritRealm = state;
-        isDead = false;
-        playerController.kingOfTheHill.playerInside = !state;
+        isDead = state;
+        GameManager.gMan.kingOfTheHill.playerInside = !state;
         currHP = maxHP;
 
         if (timeManager != null)

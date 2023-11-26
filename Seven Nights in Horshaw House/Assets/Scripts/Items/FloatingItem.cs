@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class FloatingItem : MonoBehaviour
 {
-    public float floatSpeed = 0.1f; // Speed of floating
-    public float rotationSpeed = 30f; // Speed of rotation in degrees per second
+    public float floatSpeed = 0.1f;
+    public float rotationSpeed = 30f;
     private float timer = 0f;
-    public float floatDuration = 60f; // Duration of floating in seconds
+    public float floatDuration = 60f;
 
     void Update()
     {

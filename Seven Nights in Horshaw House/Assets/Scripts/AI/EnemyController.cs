@@ -19,7 +19,6 @@ public class EnemyController : MonoBehaviour, IEntityController
     private Animator animator = null;
 
     [Header("Navigation")]
-    [SerializeField] private KingOfTheHill kingOfTheHill = null;
     [SerializeField] private float totalWaitTime = 3f;
     [SerializeField] private bool patrolWaiting = false;
     private ConnectedWaypoint currWaypoint = null, prevWaypoint = null;
@@ -283,7 +282,7 @@ public class EnemyController : MonoBehaviour, IEntityController
 
     private void HandleLookRadius()
     {
-        lookRadius = kingOfTheHill.enemyInside ? 4 : 8;
+        lookRadius = GameManager.gMan.kingOfTheHill.enemyInside ? 4 : 8;
     }
 
     #endregion
@@ -360,7 +359,7 @@ public class EnemyController : MonoBehaviour, IEntityController
         navMeshAgent.ResetPath();
         SetRandomPositionAndRotation();
         searching = false;
-        kingOfTheHill.enemyInside = false;
+        GameManager.gMan.kingOfTheHill.enemyInside = false;
         waypointsVisited = 0;
     }
 
