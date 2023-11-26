@@ -4651,7 +4651,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.2
+  m_Radius: 0.4
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &8823520847171307260
 MonoBehaviour:
@@ -4666,7 +4666,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 25
-  playerStats: {fileID: 0}
 --- !u!1 &7924634061461692574
 GameObject:
   m_ObjectHideFlags: 0

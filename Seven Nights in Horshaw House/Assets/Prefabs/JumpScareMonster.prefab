@@ -3955,7 +3955,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 8532173785465469094}
   jumpScareSounds:
-  - {fileID: 8300000, guid: 5ef59894b27eddd468b233bdf5d5b6a0, type: 3}
   - {fileID: 8300000, guid: 556d35b243cd85a4fab86d6cbdf029f1, type: 3}
   - {fileID: 8300000, guid: bff30658bd5ae78448c55c2aa8190946, type: 3}
 --- !u!1 &6027803974457225844

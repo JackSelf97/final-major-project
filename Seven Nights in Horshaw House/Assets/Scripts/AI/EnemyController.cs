@@ -11,6 +11,7 @@ public class EnemyController : MonoBehaviour, IEntityController
     [Header("Stats")]
     private PlayerStats playerStats = null;
     [SerializeField] private Transform target = null;
+    [SerializeField] private Collider meleeCollider = null;
     [SerializeField] private float lookRadius = 8f;
     [SerializeField] private int chaseSpeed = 4;
     [SerializeField] private int patrolSpeed = 2;
@@ -23,6 +24,7 @@ public class EnemyController : MonoBehaviour, IEntityController
     private ConnectedWaypoint currWaypoint = null, prevWaypoint = null;
     public float waitTimer = 0f;
     public int waypointsVisited = 0;
+    public bool searching = false;
     public bool foundTarget = false;
     public float distance = 0f;
 
@@ -53,9 +55,9 @@ public class EnemyController : MonoBehaviour, IEntityController
     void Start()
     {
         InitialiseEnemy();
-        SetWaypoints();
-        SetRandomPositionAndRotation();
-        StartCoroutine(StartMovingAfterDelay(5f));
+        GetWaypoints();
+        EnemyReset();
+        StartCoroutine(StartMovingAfterDelay());
     }
 
     private void InitialiseEnemy()
@@ -71,7 +73,7 @@ public class EnemyController : MonoBehaviour, IEntityController
         navMeshAgent.speed = 2;
     }
 
-    private void SetWaypoints()
+    private void GetWaypoints()
     {
         if (currWaypoint == null)
         {
@@ -89,13 +91,14 @@ public class EnemyController : MonoBehaviour, IEntityController
         transform.rotation = Quaternion.Euler(enemySpawnRotation.x, enemySpawnRotation.y, enemySpawnRotation.z);
     }
 
-    IEnumerator StartMovingAfterDelay(float delay)
+    public IEnumerator StartMovingAfterDelay()
     {
         // Play the smoke particle effect
         smokeParticle.Play();
 
         // Wait for the specified delay
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(totalWaitTime);
+        searching = true;
     }
 
     void Update()
@@ -103,8 +106,10 @@ public class EnemyController : MonoBehaviour, IEntityController
         distance = Vector3.Distance(target.position, transform.position);
 
         Footsteps();
-        if (!playerStats.spiritRealm)
+        if (!playerStats.spiritRealm && searching)
             Searching();
+
+        meleeCollider.enabled = currentState == EnemyState.Attacking;
 
         switch (currentState)
         {
@@ -348,6 +353,8 @@ public class EnemyController : MonoBehaviour, IEntityController
     {
         navMeshAgent.ResetPath();
         SetRandomPositionAndRotation();
+        searching = false;
+        waypointsVisited = 0;
     }
 
     private void OnDrawGizmosSelected()

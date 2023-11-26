@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.UI;
@@ -223,6 +224,9 @@ public class TimeManager : MonoBehaviour
         int currentHour = currentTime.Hour;
         const int enemySpawnDay = 1;
 
+        // Get the enemy controller
+        EnemyController enemyController = enemy.GetComponent<EnemyController>();
+
         // Check if the enemy should be active during the evening (between sunsetHour and sunriseHour)
         if ((currentHour >= sunsetHour && currentHour < 24) || (currentHour >= 0 && currentHour < sunriseHour))
         {
@@ -230,6 +234,7 @@ public class TimeManager : MonoBehaviour
             {
                 // Activate the enemy during the evening
                 enemy.SetActive(true);
+                StartCoroutine(enemyController.StartMovingAfterDelay());
 
                 // Change enemy behavior for night
                 // For example, you can set the enemy to be more aggressive or move faster
@@ -243,7 +248,7 @@ public class TimeManager : MonoBehaviour
             if (enemy.activeSelf)
             {
                 // Reset the enemy
-                enemy.GetComponent<EnemyController>().EnemyReset();
+                enemyController.EnemyReset();
 
                 // Deactivate the enemy outside the evening hours
                 enemy.SetActive(false);
