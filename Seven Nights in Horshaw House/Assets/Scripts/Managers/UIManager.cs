@@ -1,4 +1,3 @@
-using Inventory;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,9 +23,6 @@ public class UIManager : MonoBehaviour
     [Header("General Menu Properties")]
     [SerializeField] private Button backButton = null;
     [SerializeField] private int backButtonIndex = 0;
-    [SerializeField] private GameObject disclaimerPanel;
-    [SerializeField] private float disclaimerDuration = 10f;
-    [SerializeField] private bool isDisclaimerOn = false;
 
     [Header("Player Menu Properties")]
     [SerializeField] private GameObject pauseButtonPanel = null;
@@ -101,7 +97,7 @@ public class UIManager : MonoBehaviour
         {
             case "Play":
                 // Check if the disclaimer is enabled
-                if (isDisclaimerOn)
+                if (GameManager.gMan.isDisclaimerOn)
                 {
                     // Show the disclaimer panel
                     ShowDisclaimer();
@@ -197,10 +193,10 @@ public class UIManager : MonoBehaviour
 
     private void ShowDisclaimer()
     {
-        disclaimerPanel.SetActive(true);
+        GameManager.gMan.disclaimerPanel.SetActive(true);
 
         // Start a coroutine to hide the disclaimer after a specified duration
-        StartCoroutine(HideDisclaimerAfterDelay(disclaimerDuration));
+        StartCoroutine(HideDisclaimerAfterDelay(GameManager.gMan.disclaimerDuration));
     }
 
     private IEnumerator HideDisclaimerAfterDelay(float delay)
@@ -209,7 +205,7 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         // Hide the disclaimer panel
-        disclaimerPanel.SetActive(false);
+        GameManager.gMan.disclaimerPanel.SetActive(false);
 
         // Start the game or load the main scene
         PlayAction();
@@ -314,6 +310,12 @@ public class UIManager : MonoBehaviour
         promptYes.onClick.AddListener(() => RestartGame());
     }
 
+    public void P_LoadLastCheckpoint()
+    {
+        ShowPrompt(true, "ARE YOU SURE YOU WANT TO LOAD THE LAST CHECKPOINT?\nDay: " + timeManager.dayStamp + " | Time: " + timeManager.timeStamp.ToString("hh:mm tt"));
+        promptYes.onClick.AddListener(() => LoadLastCheckpoint());
+    }
+
     public void P_ExitGame()
     {
         ShowPrompt(true, "ARE YOU SURE YOU WANT TO EXIT TO MAIN MENU?\nALL UNSAVED PROGRESS WILL BE LOST.");
@@ -357,6 +359,12 @@ public class UIManager : MonoBehaviour
         // Reset the Skulls
         GameManager.gMan.InstantiateSkulls();
 
+        ShowPrompt(false);
+    }
+
+    private void LoadLastCheckpoint()
+    {
+        timeManager.GoToCheckpoint();
         ShowPrompt(false);
     }
 

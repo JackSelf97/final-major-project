@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5748707141222579457}
   - component: {fileID: 5748707141222579486}
   - component: {fileID: 5748707141222579456}
+  - component: {fileID: 3701272753557350501}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -49,12 +50,17 @@ MonoBehaviour:
   playerCanvas: {fileID: 0}
   menuCanvas: {fileID: 0}
   gameTitle: {fileID: 0}
-  mainPanel: {fileID: 0}
+  mainButtonPanel: {fileID: 0}
   timeManager: {fileID: 0}
   backButton: {fileID: 0}
   backButtonIndex: 0
+  disclaimerPanel: {fileID: 0}
+  disclaimerDuration: 10
+  isDisclaimerOn: 0
+  pauseButtonPanel: {fileID: 0}
   settingPanel: {fileID: 0}
   gamePanel: {fileID: 0}
+  classicModeToggle: {fileID: 0}
   controlPanel: {fileID: 0}
   displayPanel: {fileID: 0}
   graphicPanel: {fileID: 0}
@@ -65,6 +71,7 @@ MonoBehaviour:
   promptPanel: {fileID: 0}
   promptText: {fileID: 0}
   promptYes: {fileID: 0}
+  credits: {fileID: 0}
 --- !u!114 &5748707141222579456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,3 +97,19 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+--- !u!114 &3701272753557350501
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5748707141222579487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e57bb4e836e70e547853b7a6a48350d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  creditsPanel: {fileID: 0}
+  animationDuration: 40
+  startPositionOffset: -1080
+  endPosition: 1080

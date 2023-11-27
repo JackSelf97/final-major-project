@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.VisualScripting.Dependencies.NCalc;
 
 public class ToggleController : MonoBehaviour
 {
@@ -12,16 +13,16 @@ public class ToggleController : MonoBehaviour
     private void Start()
     {
         // Populate the dictionary with Toggle names from the editor and corresponding actions
-        toggleActions.Add("Cutscenes_Toggle", T_Cutscenes);
-        toggleActions.Add("Health_Toggle", T_Health);
+        toggleActions.Add("Cutscene_Toggle", T_Cutscene);
+        toggleActions.Add("ExtraHealth_Toggle", T_Health);
         toggleActions.Add("HUD_Toggle", T_HUD);
         toggleActions.Add("Dialogue_Toggle", T_Dialogue);
-        toggleActions.Add("Load_Toggle", T_Load);
+        toggleActions.Add("LoadingScreen_Toggle", T_LoadScreen);
         toggleActions.Add("Pause_Toggle", T_Pause);
         toggleActions.Add("Death_Toggle", T_Death);
         toggleActions.Add("QTE_Toggle", T_QTE);
-        toggleActions.Add("SafeRooms_Toggle", T_SafeRooms);
-        toggleActions.Add("SavePoints_Toggle", T_Save);
+        toggleActions.Add("SafeRooms_Toggle", T_SafeRoom);
+        toggleActions.Add("Checkpoint_Toggle", T_Checkpoint);
         toggleActions.Add("Inventory_Toggle", T_Inventory);
         toggleActions.Add("Tutorial_Toggle", T_Tutorial);
         
@@ -52,14 +53,15 @@ public class ToggleController : MonoBehaviour
 
     #region Toggle Functions
 
-    public void T_Cutscenes(bool value)
+    public void T_Cutscene(bool value)
     {
-        GameManager.gMan.cutscenesCheck = value;
+        GameManager.gMan.cutsceneCheck = value;
     }
 
     public void T_Health(bool value)
     {
-        GameManager.gMan.healthCheck = value;
+        GameManager.gMan.extraHealthCheck = value;
+        GameManager.gMan.enemyMelee.damage = value ? 25 : 100;
     }
 
     public void T_HUD(bool value)
@@ -73,9 +75,10 @@ public class ToggleController : MonoBehaviour
         GameManager.gMan.dialogueCheck = value;
     }
     
-    public void T_Load(bool value)
+    public void T_LoadScreen(bool value)
     {
-        GameManager.gMan.loadCheck = value;
+        GameManager.gMan.loadingScreenCheck = value;
+        GameManager.gMan.isDisclaimerOn = value;
     }
     
     public void T_Pause(bool value)
@@ -90,17 +93,18 @@ public class ToggleController : MonoBehaviour
     
     public void T_QTE(bool value)
     {
-        GameManager.gMan.quickTimeEventsCheck = value;
+        GameManager.gMan.QTECheck = value;
     }
     
-    public void T_SafeRooms(bool value)
+    public void T_SafeRoom(bool value)
     {
-        GameManager.gMan.safeRoomsCheck = value;
+        GameManager.gMan.safeRoomCheck = value;
     }
     
-    public void T_Save(bool value)
+    public void T_Checkpoint(bool value)
     {
-        GameManager.gMan.savePointsCheck = value;
+        GameManager.gMan.checkpointCheck = value;
+        GameManager.gMan.loadLastCheckpointButton.interactable = value;
     }
     
     public void T_Inventory(bool value)

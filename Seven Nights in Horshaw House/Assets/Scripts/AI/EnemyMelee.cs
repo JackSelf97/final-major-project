@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyMelee : MonoBehaviour
 {
-    [SerializeField] private int damage = 25;
+    public int damage = 100;
     private GameObject player = null;
     private PlayerStats playerStats = null;
     

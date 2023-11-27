@@ -200,6 +200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  meleeCollider: {fileID: 0}
   lookRadius: 8
   chaseSpeed: 4
   patrolSpeed: 2
@@ -207,6 +208,7 @@ MonoBehaviour:
   patrolWaiting: 1
   waitTimer: 0
   waypointsVisited: 0
+  searching: 0
   foundTarget: 0
   distance: 0
   currentState: 0
@@ -313,10 +315,6 @@ PrefabInstance:
     - target: {fileID: 6863389724673790078, guid: 7f478d3fe8bdc824ba8ea7910afe8df5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8823520847171307260, guid: 7f478d3fe8bdc824ba8ea7910afe8df5, type: 3}
-      propertyPath: damage
-      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8823520847171307260, guid: 7f478d3fe8bdc824ba8ea7910afe8df5, type: 3}
       propertyPath: m_Enabled

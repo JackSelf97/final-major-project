@@ -41,20 +41,27 @@ public class GameManager : MonoBehaviour
 
     [Header("Respite Mechanics")]
     public GameObject HUDPanel = null;
+    public Button loadLastCheckpointButton = null;
+    public EnemyMelee enemyMelee = null;
 
     [Header("RM/Checks")]
-    public bool cutscenesCheck = false;
-    public bool healthCheck = false;
+    public bool cutsceneCheck = false;
+    public bool extraHealthCheck = false;
     public bool HUDCheck = false;
     public bool dialogueCheck = false;
-    public bool loadCheck = false;
+    public bool loadingScreenCheck = false;
     public bool staticPauseCheck = false;
     public bool deathCheck = false;
-    public bool quickTimeEventsCheck = false;
-    public bool safeRoomsCheck = false;
-    public bool savePointsCheck = false;
+    public bool QTECheck = false;
+    public bool safeRoomCheck = false;
+    public bool checkpointCheck = false;
     public bool staticInventoryCheck = false;
     public bool tutorialCheck = false;
+
+    [Header("Loading Screens")]
+    public GameObject disclaimerPanel;
+    public float disclaimerDuration = 10f;
+    public bool isDisclaimerOn = false;
 
     #region Singleton & Awake
     public static GameManager gMan = null;
@@ -78,7 +85,7 @@ public class GameManager : MonoBehaviour
     {
         InitialiseGameManager();
         SetDefaultRespiteMechanics();
-        SetSoundTracks();
+        SetSoundtracks();
     }
 
     private void InitialiseGameManager()
@@ -100,7 +107,7 @@ public class GameManager : MonoBehaviour
         HUDPanel.SetActive(false);
     }
 
-    private void SetSoundTracks()
+    private void SetSoundtracks()
     {
         FindObjectOfType<AudioManager>().Play("House");
     }

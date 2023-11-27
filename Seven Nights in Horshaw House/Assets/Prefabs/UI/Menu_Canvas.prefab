@@ -4489,7 +4489,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Allowing players to stop the game at any moment.
+  m_Text: Game mechanic allowing players to pause the game at any point, with a fixed
+    view.
 --- !u!1 &2985624617984810197
 GameObject:
   m_ObjectHideFlags: 0
@@ -4814,7 +4815,7 @@ RectTransform:
   - {fileID: 2985624618574081568}
   - {fileID: 2985624618457086959}
   m_Father: {fileID: 2985624618758868900}
-  m_RootOrder: 3
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5201,7 +5202,7 @@ RectTransform:
   - {fileID: 2985624618765652092}
   - {fileID: 2985624619126229233}
   m_Father: {fileID: 2985624618758868900}
-  m_RootOrder: 5
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5416,7 +5417,7 @@ RectTransform:
   - {fileID: 2985624618770316388}
   - {fileID: 2985624619361276506}
   m_Father: {fileID: 2985624618758868900}
-  m_RootOrder: 7
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -6423,8 +6424,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Sections when the game is preparing to transition the player to another
-    area.
+  m_Text: Transitional screens displayed during game loading, providing context,
+    disclaimers or hints.
 --- !u!1 &2985624618230856068
 GameObject:
   m_ObjectHideFlags: 0
@@ -6459,11 +6460,11 @@ RectTransform:
   - {fileID: 2985624618694255783}
   - {fileID: 2985624618599957399}
   m_Father: {fileID: 2985624618758868900}
-  m_RootOrder: 10
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 107.5, y: -98}
+  m_AnchoredPosition: {x: 107.5, y: -166}
   m_SizeDelta: {x: 215, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2985624618230856071
@@ -7167,7 +7168,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 107.5, y: -137}
+  m_AnchoredPosition: {x: 107.5, y: -239}
   m_SizeDelta: {x: 215, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2985624618324615596
@@ -8849,7 +8850,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Providing clues or guidance when players are stuck.
+  m_Text: Real-time visual interface providing essential information within the player's
+    view.
 --- !u!1 &2985624618694255782
 GameObject:
   m_ObjectHideFlags: 0
@@ -9016,7 +9018,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2985624618758868900}
   - component: {fileID: 2985624618758868903}
-  - component: {fileID: 2985624618758868902}
   - component: {fileID: 2985624618758868901}
   m_Layer: 5
   m_Name: Panel
@@ -9037,17 +9038,17 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2985624619271569900}
-  - {fileID: 2985624619365175152}
+  - {fileID: 2985624619006561214}
   - {fileID: 2985624619055420466}
-  - {fileID: 2985624618037215273}
   - {fileID: 2985624619742576557}
+  - {fileID: 2985624619365175152}
+  - {fileID: 2985624618230856069}
+  - {fileID: 2985624618923227262}
+  - {fileID: 2985624619271569900}
+  - {fileID: 2985624618037215273}
   - {fileID: 2985624618084676133}
   - {fileID: 2985624619624421649}
   - {fileID: 2985624618087316259}
-  - {fileID: 2985624619006561214}
-  - {fileID: 2985624618923227262}
-  - {fileID: 2985624618230856069}
   - {fileID: 2985624617950422535}
   - {fileID: 2985624618324615593}
   m_Father: {fileID: 2985624618086377006}
@@ -9066,36 +9067,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2985624618758868899}
   m_CullTransparentMesh: 1
---- !u!114 &2985624618758868902
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2985624618758868899}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
-  m_RaycastTarget: 0
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &2985624618758868901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9704,11 +9675,11 @@ RectTransform:
   - {fileID: 2985624618146702708}
   - {fileID: 2985624619076894595}
   m_Father: {fileID: 2985624618758868900}
-  m_RootOrder: 9
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 107.5, y: -64}
+  m_AnchoredPosition: {x: 107.5, y: -200}
   m_SizeDelta: {x: 215, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2985624618923227232
@@ -10615,12 +10586,12 @@ GameObject:
   - component: {fileID: 2985624619006561184}
   - component: {fileID: 2985624619006561215}
   m_Layer: 5
-  m_Name: SavePoints_Toggle
+  m_Name: Checkpoint_Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2985624619006561214
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10637,12 +10608,12 @@ RectTransform:
   - {fileID: 2985624619138263372}
   - {fileID: 2985624619119579935}
   m_Father: {fileID: 2985624618758868900}
-  m_RootOrder: 8
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 20}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 107.5, y: -30}
+  m_SizeDelta: {x: 215, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2985624619006561184
 MonoBehaviour:
@@ -10816,7 +10787,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Opportunities for players to save progress and retry from a specific point.
+  m_Text: Opportunities for the player to save progress and retry from a specific
+    point.
 --- !u!1 &2985624619036161953
 GameObject:
   m_ObjectHideFlags: 0
@@ -11065,11 +11037,11 @@ RectTransform:
   - {fileID: 2985624618954499425}
   - {fileID: 2985624618966430924}
   m_Father: {fileID: 2985624618758868900}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 107.5, y: -30}
+  m_AnchoredPosition: {x: 107.5, y: -64}
   m_SizeDelta: {x: 215, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2985624619055420468
@@ -11994,7 +11966,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: SAVE POINTS
+  m_Text: CHECKPOINTS
 --- !u!1 &2985624619145007503
 GameObject:
   m_ObjectHideFlags: 0
@@ -12416,7 +12388,7 @@ GameObject:
   - component: {fileID: 2985624619271569902}
   - component: {fileID: 2985624619271569901}
   m_Layer: 5
-  m_Name: Cutscenes_Toggle
+  m_Name: Cutscene_Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12438,7 +12410,7 @@ RectTransform:
   - {fileID: 2985624618025989327}
   - {fileID: 2985624618312233206}
   m_Father: {fileID: 2985624618758868900}
-  m_RootOrder: 0
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -13109,12 +13081,12 @@ GameObject:
   - component: {fileID: 2985624619365175154}
   - component: {fileID: 2985624619365175153}
   m_Layer: 5
-  m_Name: Health_Toggle
+  m_Name: ExtraHealth_Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2985624619365175152
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13131,12 +13103,12 @@ RectTransform:
   - {fileID: 2985624619747835799}
   - {fileID: 2985624619166838324}
   m_Father: {fileID: 2985624618758868900}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 20}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 107.5, y: -132}
+  m_SizeDelta: {x: 215, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2985624619365175154
 MonoBehaviour:
@@ -13499,7 +13471,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Allowing the player to restore health. '
+  m_Text: Toggle that adjusts the player's resilience by reducing the damage inflicted
+    by enemies, enhancing survivability.
 --- !u!1 &2985624619434553975
 GameObject:
   m_ObjectHideFlags: 0
@@ -14114,7 +14087,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Taking time to organise items.
+  m_Text: Fixed inventory system for managing and accessing collected items throughout
+    the game.
 --- !u!1 &2985624619615096415
 GameObject:
   m_ObjectHideFlags: 0
@@ -14271,7 +14245,7 @@ RectTransform:
   - {fileID: 2985624619043732285}
   - {fileID: 2985624619330528432}
   m_Father: {fileID: 2985624618758868900}
-  m_RootOrder: 6
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -15119,12 +15093,12 @@ GameObject:
   - component: {fileID: 2985624619742576559}
   - component: {fileID: 2985624619742576558}
   m_Layer: 5
-  m_Name: Load_Toggle
+  m_Name: LoadingScreen_Toggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2985624619742576557
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15141,12 +15115,12 @@ RectTransform:
   - {fileID: 2985624619434553976}
   - {fileID: 2985624618054333362}
   m_Father: {fileID: 2985624618758868900}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 20}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 107.5, y: -98}
+  m_SizeDelta: {x: 215, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2985624619742576559
 MonoBehaviour:
@@ -15454,7 +15428,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: HEALTH RECOVERY
+  m_Text: PLAYER HEALTH
 --- !u!1 &2985624619771341805
 GameObject:
   m_ObjectHideFlags: 0

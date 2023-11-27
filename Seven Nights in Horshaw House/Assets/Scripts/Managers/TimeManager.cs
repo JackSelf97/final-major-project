@@ -34,8 +34,15 @@ public class TimeManager : MonoBehaviour
     [SerializeField] private float maxMoonlightIntensity = 0f;
 
     [Header("Game Properties")]
+    public GameObject player = null;
     public GameObject enemy = null;
     public AccessPoint activeAccessPoint = null;
+
+    [Header("Checkpoint")]
+    [HideInInspector] public int dayStamp = 0;
+    [HideInInspector] public DateTime timeStamp;
+    private Vector3 playerStartPosition;
+    private bool hasCheckpoint = false;
 
     [Header("Post-Processing Effects")]
     [SerializeField] private PostProcessVolume nightProfile = null;
@@ -44,7 +51,15 @@ public class TimeManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        InitialiseTimeManager();
         InitialiseTimeOfDay();
+    }
+
+    void InitialiseTimeManager()
+    {
+        player = GameObject.FindWithTag("Player");
+        enemy = GameObject.FindWithTag("Enemy");
+        //enemy.SetActive(false);
     }
 
     void InitialiseTimeOfDay()
@@ -54,9 +69,6 @@ public class TimeManager : MonoBehaviour
         sunriseTime = TimeSpan.FromHours(sunriseHour);
         sunsetTime = TimeSpan.FromHours(sunsetHour);
         lastRecordedRealWorldDay = currentTime.Day;
-
-        // Set enemy
-        enemy.SetActive(false);
 
         // Candles
         candleExtinguisher = GetComponent<CandleExtinguisher>();
@@ -70,7 +82,7 @@ public class TimeManager : MonoBehaviour
             UpdateTimeOfDay();
             RotateSun();
             UpdateLightSettings();
-            ManageEnemyActivation();
+            //ManageEnemyActivation();
         }
     }
 
@@ -207,6 +219,7 @@ public class TimeManager : MonoBehaviour
 
     public void ResetTimeOfDay()
     {
+        hasCheckpoint = false;
         currentTime = DateTime.Now.Date + TimeSpan.FromHours(startHour);
         lastRecordedRealWorldDay = currentTime.Day;
         days = 0;
@@ -258,6 +271,31 @@ public class TimeManager : MonoBehaviour
 
                 Debug.Log("Daytime: Deactivate the enemy with day behavior.");
             }
+        }
+    }
+
+    public void SetCheckpoint()
+    {
+        dayStamp = days;
+        timeStamp = currentTime;
+        playerStartPosition = player.transform.position;
+        hasCheckpoint = true;
+        Debug.Log("Checkpoint set at Day " + dayStamp + ", " + timeStamp.ToString("hh:mm tt"));
+    }
+
+    public void GoToCheckpoint()
+    {
+        if (hasCheckpoint)
+        {
+            currentTime = timeStamp;
+            lastRecordedRealWorldDay = currentTime.Day;
+            player.transform.position = playerStartPosition;
+            days = dayStamp;
+            Debug.Log("Returned to Day " + dayStamp + ", " + timeStamp.ToString("hh:mm tt"));
+        }
+        else
+        {
+            Debug.LogWarning("No checkpoint available.");
         }
     }
 

@@ -57,6 +57,7 @@ public class EnemyController : MonoBehaviour, IEntityController
         InitialiseEnemy();
         GetWaypoints();
         EnemyReset();
+        StartCoroutine(StartMovingAfterDelay());
     }
 
     private void InitialiseEnemy()
@@ -127,12 +128,14 @@ public class EnemyController : MonoBehaviour, IEntityController
                 break;
             case EnemyState.Chasing:
                 HandleChasingState();
+                FaceTarget();
                 animator.SetBool("isChasing", true);
                 animator.SetBool("isAttacking", false);
                 animator.SetBool("isWalking", false);
                 break;
             case EnemyState.Attacking:
                 HandleAttackingState();
+                FaceTarget();
                 animator.SetBool("isAttacking", true);
                 animator.SetBool("isChasing", false);
                 animator.SetBool("isWalking", false);
@@ -204,7 +207,6 @@ public class EnemyController : MonoBehaviour, IEntityController
         if (distance <= navMeshAgent.stoppingDistance)
         {
             currentState = EnemyState.Attacking;
-            FaceTarget();
         }
     }
 
@@ -282,7 +284,7 @@ public class EnemyController : MonoBehaviour, IEntityController
 
     private void HandleLookRadius()
     {
-        lookRadius = GameManager.gMan.kingOfTheHill.enemyInside ? 4 : 8;
+        lookRadius = GameManager.gMan.kingOfTheHill.enemyInside ? 5 : 8;
     }
 
     #endregion
