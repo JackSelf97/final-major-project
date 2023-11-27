@@ -57,7 +57,7 @@ public class EnemyController : MonoBehaviour, IEntityController
         InitialiseEnemy();
         GetWaypoints();
         EnemyReset();
-        StartCoroutine(StartMovingAfterDelay());
+        //StartCoroutine(StartMovingAfterDelay());
     }
 
     private void InitialiseEnemy()

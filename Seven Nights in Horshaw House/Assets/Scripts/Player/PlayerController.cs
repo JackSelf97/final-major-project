@@ -2,6 +2,7 @@ using Inventory;
 using Inventory.Model;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
@@ -621,6 +622,9 @@ public class PlayerController : MonoBehaviour, IEntityController
                         if (GameManager.gMan.HUDCheck) prompt = "Pick Up [E]";
                     }
                     else sprite = interactionSprite[grabSpriteIndex];
+                    break;
+                default:
+                    shouldChangeSprite = false;
                     break;
             }
 

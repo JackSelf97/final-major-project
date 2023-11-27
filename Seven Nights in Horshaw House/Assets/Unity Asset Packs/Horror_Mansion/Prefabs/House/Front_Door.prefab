@@ -113,8 +113,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOpen: 0
-  smooth: 2
-  doorOpenAngle: 90
 --- !u!1 &1204967510069863273
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,7 +123,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2014014190966651347}
   - component: {fileID: 6748970137860640418}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Front_Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -193,7 +191,7 @@ GameObject:
   - component: {fileID: 278831939145381310}
   - component: {fileID: 5958669272466265191}
   - component: {fileID: 3339555416508231272}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Front_Door_Wall_LOD2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -445,7 +443,7 @@ GameObject:
   - component: {fileID: 4378689017197931094}
   - component: {fileID: 106039986588614222}
   - component: {fileID: 5386943863874681200}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Front_Door_Wall_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -531,7 +529,7 @@ GameObject:
   - component: {fileID: 2858538389820344740}
   - component: {fileID: 4325729230662846606}
   - component: {fileID: 5972275407078938894}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Front_Door_Wall_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -616,7 +614,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4652687810047445370}
   - component: {fileID: 6091109199409975672}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Front_Door_Wall_Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}

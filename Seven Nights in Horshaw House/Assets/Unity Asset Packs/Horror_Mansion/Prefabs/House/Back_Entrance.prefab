@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 8495452284844021857}
   - component: {fileID: 9087181530515711355}
   - component: {fileID: 6370758112637627943}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Back_Entrance_Wall_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -261,7 +261,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4289316206011442438}
   - component: {fileID: 9069310616387048055}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Back_Entrance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -461,7 +461,7 @@ GameObject:
   m_Component:
   - component: {fileID: 424568073255643467}
   - component: {fileID: 9046815378203264875}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Back_Entrance_Wall_Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -508,7 +508,7 @@ GameObject:
   - component: {fileID: 8046542530297251143}
   - component: {fileID: 2927330772798540624}
   - component: {fileID: 2543785348310355120}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Back_Entrance_Wall_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

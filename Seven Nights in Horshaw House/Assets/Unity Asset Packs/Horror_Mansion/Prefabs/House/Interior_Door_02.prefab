@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8783909883734969862}
   - component: {fileID: 3263411371225621142}
   - component: {fileID: 402028310632132972}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Interior_Door_Wall_02_LOD0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1513599798537559029}
   - component: {fileID: 6006532336485772420}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Interior_Door_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -460,7 +460,7 @@ GameObject:
   m_Component:
   - component: {fileID: 60276319627001876}
   - component: {fileID: 5195833047320986222}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Interior_Door_Wall_02_Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -507,7 +507,7 @@ GameObject:
   - component: {fileID: 7706407532477357923}
   - component: {fileID: 24922909927313281}
   - component: {fileID: 3719851933511096900}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Interior_Door_Wall_02_LOD1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

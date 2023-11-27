@@ -59,7 +59,7 @@ public class TimeManager : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player");
         enemy = GameObject.FindWithTag("Enemy");
-        //enemy.SetActive(false);
+        enemy.SetActive(false);
     }
 
     void InitialiseTimeOfDay()
@@ -82,7 +82,7 @@ public class TimeManager : MonoBehaviour
             UpdateTimeOfDay();
             RotateSun();
             UpdateLightSettings();
-            //ManageEnemyActivation();
+            ManageEnemyActivation();
         }
     }
 
