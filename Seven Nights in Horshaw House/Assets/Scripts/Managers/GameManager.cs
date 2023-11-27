@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     private GameObject playerCamPos = null;
     private Vector3 lastMonsterPos = Vector3.zero;
     private float headHeightOffset = 1.4f;
-    public bool isJumpScaring = false;
+    [HideInInspector] public bool isJumpScaring = false;
 
     [Header("Game Over")]
     [SerializeField] private GameObject endGameScreen = null;

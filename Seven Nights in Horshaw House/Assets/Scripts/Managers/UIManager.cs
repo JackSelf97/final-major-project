@@ -60,8 +60,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text promptText = null;
     [SerializeField] private Button promptYes = null;
 
-    [Header("Credits")]
-    [SerializeField] private Credits credits = null;
+    // Credits
+    private Credits credits = null;
 
     private readonly int RMSIndex = 2, SIndex = 3, CIndex = 4;
 

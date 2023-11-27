@@ -15,7 +15,7 @@ public class EventTrigger : MonoBehaviour
         {
             if (other.CompareTag("Player"))
             {
-                other.GetComponent<PlayerStats>().Permadeath();
+                Debug.Log("Permadeath?");
             }
         }
     }

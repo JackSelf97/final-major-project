@@ -45,13 +45,15 @@ public class KingOfTheHill : MonoBehaviour
 
     private void UpdateControlPointStatus()
     {
-        if (playerInside && !enemyInside)
+        if (playerInside && !enemyInside && !playerStats.spiritRealm)
         {
             // Increase the control point slider value
             controlPointSlider.value += captureRate * Time.deltaTime;
 
             // Ensure the value doesn't exceed the maximum
             controlPointSlider.value = Mathf.Clamp(controlPointSlider.value, 0f, maxCaptureValue);
+
+            Debug.Log("Going up!");
         }
         else if (!playerInside && enemyInside || playerStats.spiritRealm)
         {
@@ -60,6 +62,8 @@ public class KingOfTheHill : MonoBehaviour
 
             // Ensure the value doesn't go below 0
             controlPointSlider.value = Mathf.Clamp(controlPointSlider.value, 0f, maxCaptureValue);
+
+            Debug.Log("Going down!");
         }
 
         // Keep the slider at the maximum value when fully captured

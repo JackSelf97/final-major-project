@@ -11,7 +11,7 @@ public class PlayerStats : MonoBehaviour
     private Vector3 originalCameraPosition;
     private Quaternion originalCameraRotation;
     private int maxHP = 100;
-    public CinemachineVirtualCamera virtualCamera = null;
+    private CinemachineVirtualCamera virtualCamera = null;
     public int currHP = 0;
     public bool isDead = false;
     public bool spiritRealm = false;
@@ -81,16 +81,10 @@ public class PlayerStats : MonoBehaviour
         ToggleSpiritRealm(true, 1);
     }
 
-    public void Permadeath()
-    {
-        //transform.position = GameManager.gMan.GetSpawnPoint(GameManager.gMan.playerSpawnPointSO);
-    }
-
     public void ToggleSpiritRealm(bool state, float percentage)
     {
         spiritRealm = state;
         isDead = state;
-        GameManager.gMan.kingOfTheHill.playerInside = !state;
         currHP = maxHP;
 
         if (timeManager != null)
