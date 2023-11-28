@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using Unity.VisualScripting.Dependencies.NCalc;
 
 public class ToggleController : MonoBehaviour
 {
@@ -60,14 +59,12 @@ public class ToggleController : MonoBehaviour
 
     public void T_Health(bool value)
     {
-        GameManager.gMan.extraHealthCheck = value;
-        GameManager.gMan.enemyMelee.damage = value ? 25 : 100;
+        GameManager.gMan.ExtraHealth(value);
     }
 
     public void T_HUD(bool value)
     {
-        GameManager.gMan.HUDCheck = value;
-        GameManager.gMan.HUDPanel.SetActive(value);
+        GameManager.gMan.HUD(value);
     }
 
     public void T_Dialogue(bool value)
@@ -77,13 +74,12 @@ public class ToggleController : MonoBehaviour
     
     public void T_LoadScreen(bool value)
     {
-        GameManager.gMan.loadingScreenCheck = value;
-        GameManager.gMan.isDisclaimerOn = value;
+        GameManager.gMan.LoadingScreen(value);
     }
     
     public void T_Pause(bool value)
     {
-        GameManager.gMan.staticPauseCheck = value;
+        GameManager.gMan.StaticPause(value);
     }
     
     public void T_Death(bool value)
@@ -103,13 +99,12 @@ public class ToggleController : MonoBehaviour
     
     public void T_Checkpoint(bool value)
     {
-        GameManager.gMan.checkpointCheck = value;
-        GameManager.gMan.loadLastCheckpointButton.interactable = value;
+        GameManager.gMan.Checkpoint(value);
     }
     
     public void T_Inventory(bool value)
     {
-        GameManager.gMan.staticInventoryCheck = value;
+        GameManager.gMan.StaticInventory(value);
     }
     
     public void T_Tutorial(bool value)

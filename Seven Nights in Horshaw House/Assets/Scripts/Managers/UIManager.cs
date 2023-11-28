@@ -187,8 +187,11 @@ public class UIManager : MonoBehaviour
         menuCanvas.SetActive(false);
         playerCanvas.SetActive(true);
         playerController.LockUser(false);
+
         GameManager.gMan.mainMenu = false;
         GameManager.gMan.PlayerActionMap(true);
+
+        GameManager.gMan.InstantiateSkulls();
     }
 
     private void ShowDisclaimer()

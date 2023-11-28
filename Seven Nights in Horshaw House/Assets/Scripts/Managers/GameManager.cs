@@ -40,9 +40,9 @@ public class GameManager : MonoBehaviour
     private bool gameWon = false;
 
     [Header("Respite Mechanics")]
-    public GameObject HUDPanel = null;
-    public Button loadLastCheckpointButton = null;
-    public EnemyMelee enemyMelee = null;
+    [SerializeField] private GameObject HUDPanel = null;
+    [SerializeField] private Button loadLastCheckpointButton = null;
+    [SerializeField] private EnemyMelee enemyMelee = null;
 
     [Header("RM/Checks")]
     public bool cutsceneCheck = false;
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Loading Screens")]
     public GameObject disclaimerPanel;
-    public float disclaimerDuration = 10f;
+    public  float disclaimerDuration = 10f;
     public bool isDisclaimerOn = false;
 
     #region Singleton & Awake
@@ -97,7 +97,6 @@ public class GameManager : MonoBehaviour
         playerCamPos = playerController.camPos;
 
         // Alpha
-        InstantiateSkulls();
         if (endGameScreen != null)
             endGameScreen.SetActive(false);
     }
@@ -298,4 +297,42 @@ public class GameManager : MonoBehaviour
 
         gMan.endGameScreen.SetActive(false);
     }
+
+    #region Respite Mechanic Functions
+
+    public void ExtraHealth(bool value)
+    {
+        extraHealthCheck = value;
+        enemyMelee.damage = value ? 25 : 100;
+    }
+
+    public void HUD(bool value)
+    {
+        HUDCheck = value;
+        HUDPanel.SetActive(value);
+    }
+
+    public void LoadingScreen(bool value)
+    {
+        loadingScreenCheck = value;
+        isDisclaimerOn = value;
+    }
+
+    public void StaticPause(bool value)
+    {
+        staticPauseCheck = value;
+    }
+
+    public void StaticInventory(bool value)
+    {
+        staticInventoryCheck = value;
+    }
+
+    public void Checkpoint(bool value)
+    {
+        checkpointCheck = value;
+        loadLastCheckpointButton.interactable = value;
+    }
+
+    #endregion
 }
