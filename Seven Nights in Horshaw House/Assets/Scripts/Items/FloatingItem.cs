@@ -21,8 +21,8 @@ public class FloatingItem : MonoBehaviour
         // Check if the duration has elapsed
         if (timer >= floatDuration)
         {
-            // Deactivate the GameObject
-            gameObject.SetActive(false);
+            // Game over
+            GameManager.gMan.EnableEndGameState();
         }
     }
 }

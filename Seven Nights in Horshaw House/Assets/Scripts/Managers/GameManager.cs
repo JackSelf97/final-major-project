@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject player = null;
     [SerializeField] private GameObject enemy = null;
     private PlayerController playerController = null;
+    private TimeManager timeManager = null;
     public SpawnPointSO playerSpawnPointSO = null;
     public SpawnPointSO enemySpawnPointSO = null;
     public Transform startPos = null;
@@ -92,6 +93,7 @@ public class GameManager : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player");
         enemy = GameObject.FindWithTag("Enemy");
+        timeManager = FindObjectOfType<TimeManager>();
         startPos = GameObject.Find("StartPos").gameObject.transform;
         playerController = player.GetComponent<PlayerController>();
         playerCamPos = playerController.camPos;
@@ -216,6 +218,7 @@ public class GameManager : MonoBehaviour
             Vector3 spawnRotation = skullSpawnPointSO.spawnRotation[randomSpawnIndex];
 
             GameObject newSkull = Instantiate(skullPrefab, spawnPosition, Quaternion.Euler(spawnRotation.x, spawnRotation.y, spawnRotation.z));
+            newSkull.name = "Skull"; 
 
             occupiedSpawnIndices.Add(randomSpawnIndex);
             skulls.Add(newSkull);
@@ -273,8 +276,12 @@ public class GameManager : MonoBehaviour
         endGameSkullCount.text = "Skulls Collected: " + collectedSkulls + "/" + totalSkulls;
         endGameHillCheck.text = "House Occupied: " + sliderMaxed.ToString();
         endGameScreen.SetActive(true);
+
         PlayerActionMap(false);
         playerController.LockUser(true);
+
+        Time.timeScale = 0f;
+        timeManager.ResetTimeOfDay();
 
         return gameWon;
     }

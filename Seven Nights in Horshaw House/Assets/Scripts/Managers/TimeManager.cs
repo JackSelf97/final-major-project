@@ -130,8 +130,6 @@ public class TimeManager : MonoBehaviour
         if (days >= maxDays)
         {
             GameManager.gMan.EnableEndGameState();
-            Time.timeScale = 0f;
-            ResetTimeOfDay();
         }
     }
 

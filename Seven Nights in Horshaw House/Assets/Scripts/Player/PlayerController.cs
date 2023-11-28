@@ -613,13 +613,13 @@ public class PlayerController : MonoBehaviour, IEntityController
                 case "Item":
                     if (playerStats.spiritRealm) return;
                     sprite = interactionSprite[grabSpriteIndex];
-                    if (GameManager.gMan.HUDCheck) prompt = "Take [E]";
+                    if (GameManager.gMan.HUDCheck) prompt = "Take " + target.name + " [E]";
                     break;
                 case "Object":
                     if (!grabbing)
                     {
                         sprite = interactionSprite[touchSpriteIndex];
-                        if (GameManager.gMan.HUDCheck) prompt = "Pick Up [E]";
+                        if (GameManager.gMan.HUDCheck) prompt = "Pick Up " + target.name + " [E]";
                     }
                     else sprite = interactionSprite[grabSpriteIndex];
                     break;

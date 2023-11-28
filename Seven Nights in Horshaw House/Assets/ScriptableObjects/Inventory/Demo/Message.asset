@@ -15,27 +15,16 @@ MonoBehaviour:
   <IsStackable>k__BackingField: 0
   <MaxStackSize>k__BackingField: 1
   <ItemName>k__BackingField: Letter
-  <ItemDescription>k__BackingField: 'Dear Inspector Ward,
-
-
-    Your immediate attention
-    is required at Horshaw House. The Tillers, custodians of the mansion, are urgently
-    seeking to sell the property in seven days. They insist that you locate and remove
-    eight skulls of the deceased hidden within the house.
-
-
-    A word of caution:
-    Horshaw House harbors a sinister presence that emerges after dark. Your reputation
-    for fearlessness and experience with the unexplained make you the ideal choice
-    for this task. Please keep me updated on your progress and, if needed, seek assistance
-    from local authorities.
-
-
-    Yours sincerely,
-
-
-    Detective Chief Inspector
-    Robert Marlowe'
+  <ItemDescription>k__BackingField: "\rDear Inspector Ward,\r\n\r\nYour immediate
+    attention is required at Horshaw House. The Tillers, custodians of the mansion,
+    are urgently seeking to sell the property in seven days. They insist that you
+    locate and remove eight skulls of the deceased hidden within the house and its
+    grounds.\r\n\r\nFurthermore, it has come to our attention that to fully dispel
+    the malevolent forces within the mansion, you must remain inside for a significant
+    period before the seven days elapse.\r\n\r\nA word of caution: Horshaw House
+    harbors a sinister presence that emerges after dark. Your experience with the
+    unexplained make you the ideal choice for this task. \n\r\nYours sincerely,\r\n\rDetective
+    Chief Inspector Robert Marlowe"
   <ItemImage>k__BackingField: {fileID: 21300000, guid: c0dee3c637e6ad54c9485029e5064742, type: 3}
   <DefaultParametersList>k__BackingField: []
   modifierData: []
