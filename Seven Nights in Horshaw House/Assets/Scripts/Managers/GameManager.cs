@@ -241,10 +241,11 @@ public class GameManager : MonoBehaviour
         // Shake the player's Vcamera
         if (isJumpScaring)
         {
-            CameraShake.instance.ShakeCamera(2.5f, 3.5f); // Animation time
             jumpScareMonster.GetComponent<JumpScare>().PlayMonsterScream();
+            CameraShake.instance.ShakeCamera(2.5f, 3.5f); // Animation time
         }
     }
+
 
     public bool EnableEndGameState()
     {

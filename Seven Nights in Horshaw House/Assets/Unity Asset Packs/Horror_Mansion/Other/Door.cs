@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.Events;
+using System.Collections;
 
 public class Door : MonoBehaviour, IInteractable
 {
     public bool isOpen = false;
     private Animator animator;
+    private AudioSource audioSource = null;
+    [SerializeField] private AudioClip[] audioClip = null;
 
     UnityEvent IInteractable.onInteract { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
@@ -13,15 +15,28 @@ public class Door : MonoBehaviour, IInteractable
     void Start()
     {
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void Interact()
     {
         isOpen = !isOpen;
+        animator.SetBool("isOpen", isOpen);
+
         if (isOpen)
-            animator.SetBool("isOpen", true);
+        {
+            audioSource.PlayOneShot(audioClip[0]);
+        }
         else
-            animator.SetBool("isOpen", false);
+        {
+            StartCoroutine(PlayClosedDoorSoundDelayed());
+        }
+    }
+
+    private IEnumerator PlayClosedDoorSoundDelayed()
+    {
+        yield return new WaitForSeconds(1);
+        audioSource.PlayOneShot(audioClip[1]);
     }
 
     public void ResetAnimation()

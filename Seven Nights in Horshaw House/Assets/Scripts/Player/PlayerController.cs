@@ -103,6 +103,7 @@ public class PlayerController : MonoBehaviour, IEntityController
     private float lastFootstepTime;
     private float footstepDelay = 0.3f;
     private Queue<int> lastSoundsQueue = new Queue<int>();
+    private AudioManager audioManager = null;
 
     private void Awake()
     {
@@ -183,6 +184,7 @@ public class PlayerController : MonoBehaviour, IEntityController
         playerStats = GetComponent<PlayerStats>();
         audioSource = GetComponent<AudioSource>();
         footstepSwapper = GetComponent<FootstepSwapper>();
+        audioManager = FindObjectOfType<AudioManager>();
 
         cam = Camera.main.transform;
         pauseScreen.SetActive(false);

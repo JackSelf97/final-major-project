@@ -44,6 +44,7 @@ public class EnemyController : MonoBehaviour, IEntityController
     [SerializeField] private List<AudioClip> footstepSounds = new List<AudioClip>();
     [SerializeField] private AudioClip jumpSound = null;
     [SerializeField] private AudioClip landSound = null;
+    [SerializeField] private AudioClip roarSound = null;
     private FootstepSwapper footstepSwapper = null;
     private float lastFootstepTime = 0f;
     private Queue<int> lastSoundsQueue = new Queue<int>();
@@ -95,6 +96,9 @@ public class EnemyController : MonoBehaviour, IEntityController
     {
         // Play the smoke particle effect
         smokeParticle.Play();
+
+        // Play the roar sound
+        audioSource.PlayOneShot(roarSound);
 
         // Wait for the specified delay
         yield return new WaitForSeconds(totalWaitTime);

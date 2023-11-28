@@ -48,8 +48,16 @@ MonoBehaviour:
   - name: House
     clip: {fileID: 8300000, guid: ee5970c284ca70a45b6539fe411f8bd2, type: 3}
     mixerGroup: {fileID: -4231998029217629052, guid: 94742c1e1be097b40bb2347cb06f053b, type: 2}
-    volume: 0.5
+    volume: 0.1
     pitch: 1
     loop: 1
+    bypassListenerEffects: 0
+    audioSource: {fileID: 0}
+  - name: Skull Pick Up
+    clip: {fileID: 8300000, guid: e12247ca5b0dab145aa52e59997451f4, type: 3}
+    mixerGroup: {fileID: -6603422402590985172, guid: 94742c1e1be097b40bb2347cb06f053b, type: 2}
+    volume: 0.2
+    pitch: 1
+    loop: 0
     bypassListenerEffects: 0
     audioSource: {fileID: 0}

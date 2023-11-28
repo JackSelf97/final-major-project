@@ -3856,8 +3856,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -6603422402590985172, guid: 94742c1e1be097b40bb2347cb06f053b, type: 2}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_PlayOnAwake: 0
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -3955,8 +3955,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 8532173785465469094}
   jumpScareSounds:
-  - {fileID: 8300000, guid: 556d35b243cd85a4fab86d6cbdf029f1, type: 3}
-  - {fileID: 8300000, guid: bff30658bd5ae78448c55c2aa8190946, type: 3}
+  - {fileID: 8300000, guid: a10382f6626be7646b0e3a31c88ad311, type: 3}
+  - {fileID: 8300000, guid: 8c13d15740182774daa98cddc5fc8cce, type: 3}
+  - {fileID: 8300000, guid: a1e5ff348557e0745bc1827eab1858b9, type: 3}
 --- !u!1 &6027803974457225844
 GameObject:
   m_ObjectHideFlags: 0
