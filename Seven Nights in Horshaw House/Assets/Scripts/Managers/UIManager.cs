@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Managers")]
     [SerializeField] private TimeManager timeManager = null;
+    private AudioManager audioManager = null;
 
     [Header("General Menu Properties")]
     [SerializeField] private Button backButton = null;
@@ -80,6 +81,7 @@ public class UIManager : MonoBehaviour
         interactableObjects = FindObjectsOfType<InteractableObject>();
         interactableDoors = FindObjectsOfType<Door>();
         credits = GetComponent<Credits>();
+        audioManager = FindObjectOfType<AudioManager>();
 
         // Player setup
         playerController.LockUser(true);
@@ -190,8 +192,11 @@ public class UIManager : MonoBehaviour
 
         GameManager.gMan.mainMenu = false;
         GameManager.gMan.PlayerActionMap(true);
-
         GameManager.gMan.InstantiateSkulls();
+
+        // Manage the soundtrack
+        audioManager.Stop("Horshaw Theme");
+        audioManager.Play("House");
     }
 
     private void ShowDisclaimer()

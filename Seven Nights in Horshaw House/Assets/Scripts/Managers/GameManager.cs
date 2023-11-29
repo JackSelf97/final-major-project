@@ -112,7 +112,7 @@ public class GameManager : MonoBehaviour
 
     private void SetSoundtracks()
     {
-        FindObjectOfType<AudioManager>().Play("House");
+        FindObjectOfType<AudioManager>().Play("Horshaw Theme");
     }
 
     void Update()

@@ -61,3 +61,27 @@ MonoBehaviour:
     loop: 0
     bypassListenerEffects: 0
     audioSource: {fileID: 0}
+  - name: Horshaw Theme
+    clip: {fileID: 8300000, guid: 55ac5b92d2f497a4890ec3b978697e91, type: 3}
+    mixerGroup: {fileID: 3496108880833627761, guid: 94742c1e1be097b40bb2347cb06f053b, type: 2}
+    volume: 0.2
+    pitch: 1
+    loop: 1
+    bypassListenerEffects: 0
+    audioSource: {fileID: 0}
+  - name: UI Hover
+    clip: {fileID: 8300000, guid: f744dafbb099deb46ba2c3307a2fc7ab, type: 3}
+    mixerGroup: {fileID: -6603422402590985172, guid: 94742c1e1be097b40bb2347cb06f053b, type: 2}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    bypassListenerEffects: 0
+    audioSource: {fileID: 0}
+  - name: UI Click
+    clip: {fileID: 8300000, guid: 147c020348c64a144a67f2ece4dcac26, type: 3}
+    mixerGroup: {fileID: -6603422402590985172, guid: 94742c1e1be097b40bb2347cb06f053b, type: 2}
+    volume: 0.3
+    pitch: 1
+    loop: 0
+    bypassListenerEffects: 0
+    audioSource: {fileID: 0}

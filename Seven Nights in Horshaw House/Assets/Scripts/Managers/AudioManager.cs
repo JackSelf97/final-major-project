@@ -43,17 +43,4 @@ public class AudioManager : MonoBehaviour
         }
         item.audioSource.Stop();
     }
-
-    #region UI Sound Effect Functions
-
-    public void OnSelectSound()
-    {
-        Play("Selected");
-    }
-    public void OnPressSound()
-    {
-        Play("Pressed");
-    }
-
-    #endregion
 }

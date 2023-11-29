@@ -3955,9 +3955,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 8532173785465469094}
   jumpScareSounds:
-  - {fileID: 8300000, guid: a10382f6626be7646b0e3a31c88ad311, type: 3}
-  - {fileID: 8300000, guid: 8c13d15740182774daa98cddc5fc8cce, type: 3}
-  - {fileID: 8300000, guid: a1e5ff348557e0745bc1827eab1858b9, type: 3}
+  - {fileID: 8300000, guid: fc8956f4c1e316c489bce1c575379d3d, type: 3}
+  - {fileID: 8300000, guid: 65ebb2da65a434f46914ff283d055d4c, type: 3}
 --- !u!1 &6027803974457225844
 GameObject:
   m_ObjectHideFlags: 0

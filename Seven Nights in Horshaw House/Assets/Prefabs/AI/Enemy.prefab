@@ -217,7 +217,7 @@ MonoBehaviour:
   footstepSounds: []
   jumpSound: {fileID: 0}
   landSound: {fileID: 0}
-  roarSound: {fileID: 8300000, guid: af3f956111eb59c4b9d753f7f7958431, type: 3}
+  roarSound: {fileID: 8300000, guid: 668d5c9703a31044cbf7b47f26f3cb70, type: 3}
   smokeParticle: {fileID: 0}
 --- !u!114 &5316031274519180893
 MonoBehaviour:

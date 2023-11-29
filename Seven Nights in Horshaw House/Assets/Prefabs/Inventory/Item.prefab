@@ -93,8 +93,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8330657324471480500}
   - component: {fileID: 8330657324471480503}
-  - component: {fileID: 8330657324471480490}
   - component: {fileID: 8330657324471480491}
+  - component: {fileID: 8330657324471480490}
   m_Layer: 6
   m_Name: Item
   m_TagString: Item
@@ -131,22 +131,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8330657324471480490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8330657324471480496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49262af418b703844a69009b2e01e032, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <InventoryItem>k__BackingField: {fileID: 11400000, guid: 57e6c7ec6df533d48a194f3974c3cd87, type: 2}
-  <Count>k__BackingField: 5
-  audioSource: {fileID: 8330657324471480491}
-  duration: 0.3
 --- !u!82 &8330657324471480491
 AudioSource:
   m_ObjectHideFlags: 0
@@ -243,3 +227,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8330657324471480490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8330657324471480496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49262af418b703844a69009b2e01e032, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <InventoryItem>k__BackingField: {fileID: 11400000, guid: 57e6c7ec6df533d48a194f3974c3cd87, type: 2}
+  <Count>k__BackingField: 5
+  audioSource: {fileID: 8330657324471480491}
+  duration: 0.3
