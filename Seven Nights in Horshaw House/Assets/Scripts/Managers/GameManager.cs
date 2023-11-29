@@ -233,8 +233,11 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < 3; i++)
             {
-                Material material = skull.transform.GetChild(i).GetComponent<MeshRenderer>().material;
-                SetEmissionState(material, state);
+                if (skull != null)
+                {
+                    Material material = skull.transform.GetChild(i).GetComponent<MeshRenderer>().material;
+                    SetEmissionState(material, state);
+                }
             }
         }
     }

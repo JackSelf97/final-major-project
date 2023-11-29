@@ -2,7 +2,6 @@ using Inventory;
 using Inventory.Model;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
