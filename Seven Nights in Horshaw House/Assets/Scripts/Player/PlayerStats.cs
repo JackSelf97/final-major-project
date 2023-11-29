@@ -96,6 +96,8 @@ public class PlayerStats : MonoBehaviour
             CinemachinePostProcessing postProcessing = virtualCamera.GetComponent<CinemachinePostProcessing>();
             postProcessing.enabled = state;
         }
+
+        GameManager.gMan.UpdateEmissionMaterial(state);
     }
 
     #endregion

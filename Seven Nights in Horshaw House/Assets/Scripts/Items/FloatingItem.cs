@@ -22,6 +22,7 @@ public class FloatingItem : MonoBehaviour
         if (timer >= floatDuration)
         {
             // Game over
+            GameManager.gMan.lostPlayerSkull = true;
             GameManager.gMan.EnableEndGameState();
         }
     }

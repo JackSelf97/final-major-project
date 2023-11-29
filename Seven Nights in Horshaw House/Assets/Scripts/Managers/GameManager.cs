@@ -15,9 +15,9 @@ public class GameManager : MonoBehaviour
     public bool mainMenu = true;
 
     [Header("Alpha")]
-    [SerializeField] private List<GameObject> skulls = new List<GameObject>();
     [SerializeField] private SpawnPointSO skullSpawnPointSO = null;
     [SerializeField] private GameObject skullPrefab = null;
+    [SerializeField] private List<GameObject> skulls = new List<GameObject>();
     public int totalSkulls = 8;
     public int collectedSkulls = 0;
     public KingOfTheHill kingOfTheHill = null;
@@ -38,7 +38,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject defeatPromptNoSkulls = null;
     [SerializeField] private GameObject defeatPromptNoHill = null;
     [SerializeField] private GameObject defeatPromptBoth = null;
+    [SerializeField] private GameObject defeatPromptLostSkull = null;
     private bool gameWon = false;
+    public bool lostPlayerSkull = false;
 
     [Header("Respite Mechanics")]
     [SerializeField] private GameObject HUDPanel = null;
@@ -225,6 +227,30 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void UpdateEmissionMaterial(bool state)
+    {
+        foreach (GameObject skull in skulls)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                Material material = skull.transform.GetChild(i).GetComponent<MeshRenderer>().material;
+                SetEmissionState(material, state);
+            }
+        }
+    }
+
+    private void SetEmissionState(Material material, bool state)
+    {
+        if (state)
+        {
+            material.EnableKeyword("_EMISSION");
+        }
+        else
+        {
+            material.DisableKeyword("_EMISSION");
+        }
+    }
+
     public void JumpScare(bool state)
     {
         // Rotate the camera
@@ -266,12 +292,19 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            if (skullsCollected && !sliderMaxed)
-                defeatPromptNoHill.SetActive(true);
-            else if (!skullsCollected && sliderMaxed)
-                defeatPromptNoSkulls.SetActive(true);
-            else if (!skullsCollected && !sliderMaxed)
-                defeatPromptBoth.SetActive(true);
+            if (!lostPlayerSkull)
+            {
+                if (skullsCollected && !sliderMaxed)
+                    defeatPromptNoHill.SetActive(true);
+                else if (!skullsCollected && sliderMaxed)
+                    defeatPromptNoSkulls.SetActive(true);
+                else if (!skullsCollected && !sliderMaxed)
+                    defeatPromptBoth.SetActive(true);
+            }
+            else
+            {
+                defeatPromptLostSkull.SetActive(true);
+            }
         }
 
         endGameSkullCount.text = "Skulls Collected: " + collectedSkulls + "/" + totalSkulls;
@@ -301,8 +334,10 @@ public class GameManager : MonoBehaviour
             defeatPromptNoSkulls.SetActive(false);
             defeatPromptNoHill.SetActive(false);
             defeatPromptBoth.SetActive(false);
+            defeatPromptLostSkull.SetActive(false);
         }
 
+        lostPlayerSkull = false;
         gMan.endGameScreen.SetActive(false);
     }
 
