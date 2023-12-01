@@ -11,17 +11,19 @@ public class EnemyController : MonoBehaviour, IEntityController
     [Header("Stats")]
     private PlayerStats playerStats = null;
     [SerializeField] private Transform target = null;
-    [SerializeField] private Collider meleeCollider = null;
+    [HideInInspector] [SerializeField] private Collider meleeCollider = null;
     [SerializeField] private float lookRadius = 8f;
     [SerializeField] private int chaseSpeed = 4;
     [SerializeField] private int patrolSpeed = 2;
     private NavMeshAgent navMeshAgent = null;
-    private Animator animator = null;
+    public Animator animator = null;
+    public bool isActive = false;
 
     [Header("Navigation")]
     [SerializeField] private float totalWaitTime = 3f;
     [SerializeField] private bool patrolWaiting = false;
     private ConnectedWaypoint currWaypoint = null, prevWaypoint = null;
+    private Coroutine startMovingCoroutine;
     public float waitTimer = 0f;
     public int waypointsVisited = 0;
     public bool searching = false;
@@ -58,7 +60,6 @@ public class EnemyController : MonoBehaviour, IEntityController
         InitialiseEnemy();
         GetWaypoints();
         EnemyReset();
-        //StartCoroutine(StartMovingAfterDelay());
     }
 
     private void InitialiseEnemy()
@@ -71,7 +72,7 @@ public class EnemyController : MonoBehaviour, IEntityController
         footstepSwapper = GetComponent<FootstepSwapper>();
 
         // Set the speed
-        navMeshAgent.speed = 2;
+        navMeshAgent.speed = patrolSpeed;
     }
 
     private void GetWaypoints()
@@ -92,21 +93,46 @@ public class EnemyController : MonoBehaviour, IEntityController
         transform.rotation = Quaternion.Euler(enemySpawnRotation.x, enemySpawnRotation.y, enemySpawnRotation.z);
     }
 
+    public void SetStartPos()
+    {
+        // Warp only works when the rigidbody interpolation is set to none
+        navMeshAgent.Warp(GameManager.gMan.enemyStartPos.position);
+    }
+
     public IEnumerator StartMovingAfterDelay()
     {
         // Play the smoke particle effect
         smokeParticle.Play();
 
         // Play the roar sound
-        audioSource.PlayOneShot(roarSound);
+        if (audioSource != null)
+            audioSource.PlayOneShot(roarSound);
 
         // Wait for the specified delay
         yield return new WaitForSeconds(totalWaitTime);
+
         searching = true;
+
+        // Set the coroutine reference to null to indicate it has completed
+        startMovingCoroutine = null;
+    }
+
+    public void StartMovingCoroutine()
+    {
+        // Stop the previous coroutine if it's running
+        if (startMovingCoroutine != null)
+        {
+            StopCoroutine(startMovingCoroutine);
+        }
+
+        // Start the new coroutine
+        startMovingCoroutine = StartCoroutine(StartMovingAfterDelay());
     }
 
     void Update()
     {
+        if (!searching || !isActive) { return; }
+
         distance = Vector3.Distance(target.position, transform.position);
 
         HandleLookRadius();
@@ -149,6 +175,7 @@ public class EnemyController : MonoBehaviour, IEntityController
 
     void HandleIdleState()
     {
+        navMeshAgent.speed = patrolSpeed;
         if (patrolWaiting)
         {
             waitTimer += Time.deltaTime;
@@ -166,6 +193,7 @@ public class EnemyController : MonoBehaviour, IEntityController
 
     void HandleWalkingState()
     {
+        navMeshAgent.speed = patrolSpeed;
         if (!navMeshAgent.pathPending && navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance &&
             navMeshAgent.velocity.sqrMagnitude == 0f)
         {
@@ -224,6 +252,8 @@ public class EnemyController : MonoBehaviour, IEntityController
             return;
         }
 
+        navMeshAgent.speed = chaseSpeed;
+
         // Go back to chasing if the target has evaded
         if (distance >= navMeshAgent.stoppingDistance)
         {
@@ -240,7 +270,6 @@ public class EnemyController : MonoBehaviour, IEntityController
 
         Vector3 target = currWaypoint.transform.position;
         navMeshAgent.SetDestination(target);
-        navMeshAgent.speed = patrolSpeed;
 
         Debug.Log(gameObject.name + " is going to " + currWaypoint.name);
 
@@ -362,11 +391,32 @@ public class EnemyController : MonoBehaviour, IEntityController
 
     public void EnemyReset()
     {
+        // Stop the coroutine if it's running
+        if (startMovingCoroutine != null)
+        {
+            StopCoroutine(startMovingCoroutine);
+            startMovingCoroutine = null; // Set the reference to null to indicate it has been stopped
+        }
+
         navMeshAgent.ResetPath();
-        SetRandomPositionAndRotation();
-        searching = false;
-        GameManager.gMan.kingOfTheHill.enemyInside = false;
+        SetStartPos();
         waypointsVisited = 0;
+        distance = 0;
+        
+        if (foundTarget)
+            foundTarget = false;
+
+        // Set the state
+        currentState = EnemyState.Idle;
+        HandleIdleState();
+        animator.SetBool("isWalking", false);
+        animator.SetBool("isChasing", false);
+        animator.SetBool("isAttacking", false);
+
+        GameManager.gMan.kingOfTheHill.enemyInside = false;
+        meleeCollider.enabled = currentState == EnemyState.Attacking;
+        searching = false;
+        waitTimer = 0;
     }
 
     private void OnDrawGizmosSelected()

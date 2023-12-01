@@ -59,7 +59,6 @@ public class TimeManager : MonoBehaviour
     {
         player = GameObject.FindWithTag("Player");
         enemy = GameObject.FindWithTag("Enemy");
-        enemy.SetActive(false);
     }
 
     void InitialiseTimeOfDay()
@@ -82,7 +81,9 @@ public class TimeManager : MonoBehaviour
             UpdateTimeOfDay();
             RotateSun();
             UpdateLightSettings();
-            ManageEnemyActivation();
+
+            if (!GameManager.gMan.testingEnemy)
+                ManageEnemyActivation();
         }
     }
 
@@ -240,11 +241,10 @@ public class TimeManager : MonoBehaviour
         // Check if the enemy should be active during the evening (between sunsetHour and sunriseHour)
         if ((currentHour >= sunsetHour && currentHour < 24) || (currentHour >= 0 && currentHour < sunriseHour))
         {
-            if (!enemy.activeSelf && days >= enemySpawnDay)
+            if (!enemyController.isActive && days >= enemySpawnDay)
             {
                 // Activate the enemy during the evening
-                enemy.SetActive(true);
-                StartCoroutine(enemyController.StartMovingAfterDelay());
+                GameManager.gMan.EnableEnemy();
 
                 // Change enemy behavior for night
                 // For example, you can set the enemy to be more aggressive or move faster
@@ -255,13 +255,10 @@ public class TimeManager : MonoBehaviour
         }
         else
         {
-            if (enemy.activeSelf)
+            if (enemyController.isActive)
             {
-                // Reset the enemy
-                enemyController.EnemyReset();
-
                 // Deactivate the enemy outside the evening hours
-                enemy.SetActive(false);
+                GameManager.gMan.DisableEnemy();
 
                 // Change enemy behavior for the day
                 // For example, you can set the enemy to be less aggressive or move slower

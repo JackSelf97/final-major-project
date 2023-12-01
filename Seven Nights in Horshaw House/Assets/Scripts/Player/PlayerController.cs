@@ -687,8 +687,8 @@ public class PlayerController : MonoBehaviour, IEntityController
     public void ResetPlayer()
     {
         // Reset Character Position
-        if (GameManager.gMan.startPos != null)
-            transform.position = GameManager.gMan.startPos.position;
+        if (GameManager.gMan.playerStartPos != null)
+            transform.position = GameManager.gMan.playerStartPos.position;
 
         // Reset Inventory
         playerInventory.PrepareInventoryData();

@@ -18,4 +18,9 @@ public class JumpScare : MonoBehaviour
             audioSource.PlayOneShot(audioSource.clip);
         }
     }
+
+    public void StopMonsterScream()
+    {
+        audioSource.Stop();
+    }
 }

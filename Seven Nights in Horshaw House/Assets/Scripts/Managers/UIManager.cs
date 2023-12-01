@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour
     // Game Properties
     private GameObject player = null;
     private PlayerController playerController = null;
+    private GameObject enemy = null;
+    private EnemyController enemyController = null;
     private InteractableObject[] interactableObjects = new InteractableObject[0];
     private Door[] interactableDoors = new Door[0];
 
@@ -76,7 +78,9 @@ public class UIManager : MonoBehaviour
     {
         // Locate GameObjects & Scripts
         player = GameObject.FindWithTag("Player");
+        enemy = GameObject.FindWithTag("Enemy");
         playerController = player.GetComponent<PlayerController>();
+        enemyController = enemy.GetComponent<EnemyController>();
         timeManager = FindObjectOfType<TimeManager>();
         interactableObjects = FindObjectsOfType<InteractableObject>();
         interactableDoors = FindObjectsOfType<Door>();
@@ -197,6 +201,10 @@ public class UIManager : MonoBehaviour
         // Manage the soundtrack
         audioManager.Stop("Horshaw Theme");
         audioManager.Play("House");
+
+        // Testing mode
+        if (GameManager.gMan.testingEnemy)
+            GameManager.gMan.EnableEnemy();
     }
 
     private void ShowDisclaimer()
@@ -360,12 +368,18 @@ public class UIManager : MonoBehaviour
         GameManager.gMan.ResetEndGame();
         playerController.ResetPlayer();
 
-        // Disable the Enemy
-        if (timeManager.enemy.activeSelf)
-            timeManager.enemy.SetActive(false);
+        // Jump Scare
+        GameManager.gMan.JumpScareRestart();
 
+        // Disable the Enemy
+        if (enemyController.isActive)
+        {
+            GameManager.gMan.DisableEnemy();
+            GameManager.gMan.EnableEnemy();
+        }
+            
         // Reset the Skulls
-        GameManager.gMan.InstantiateSkulls();
+        GameManager.gMan.ClearSkulls();
 
         ShowPrompt(false);
     }
@@ -385,12 +399,15 @@ public class UIManager : MonoBehaviour
         GameManager.gMan.ResetEndGame();
         playerController.ResetPlayer();
 
-        // Disable the Enemy
-        if (timeManager.enemy.activeSelf)
-            timeManager.enemy.SetActive(false);
+        // Jump Scare
+        GameManager.gMan.JumpScareRestart();
 
-        // Reset the Skulls
-        GameManager.gMan.InstantiateSkulls();
+        // Disable the Enemy
+        if (enemyController.isActive)
+            GameManager.gMan.DisableEnemy();
+
+        // Clear the Skulls
+        GameManager.gMan.ClearSkulls();
 
         ShowPrompt(false);
     }

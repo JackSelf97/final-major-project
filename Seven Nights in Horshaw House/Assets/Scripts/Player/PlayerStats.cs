@@ -57,7 +57,14 @@ public class PlayerStats : MonoBehaviour
         GameManager.gMan.JumpScare(true);
 
         yield return new WaitForSeconds(3.5f);
-        
+
+        // Check to see if the player has restarted or exited the game during the jump scare
+        if (GameManager.gMan.hasGameRestarted)
+        {
+            GameManager.gMan.hasGameRestarted = false;
+            yield break;
+        }
+
         GameManager.gMan.JumpScare(false);
         ResetCameraTransform();
 

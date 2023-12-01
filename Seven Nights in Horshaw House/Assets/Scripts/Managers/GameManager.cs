@@ -6,14 +6,19 @@ public class GameManager : MonoBehaviour
 {
     [Header("Player")]
     [SerializeField] private GameObject player = null;
-    [SerializeField] private GameObject enemy = null;
     private PlayerController playerController = null;
+    public Transform playerStartPos = null;
     private TimeManager timeManager = null;
     public SpawnPointSO playerSpawnPointSO = null;
     public SpawnPointSO enemySpawnPointSO = null;
-    public Transform startPos = null;
     public bool mainMenu = true;
 
+    [Header("Enemy")]
+    [SerializeField] private GameObject enemy = null;
+    private EnemyController enemyController = null;
+    public Transform enemyStartPos = null;
+    public bool testingEnemy = false;
+    
     [Header("Alpha")]
     [SerializeField] private SpawnPointSO skullSpawnPointSO = null;
     [SerializeField] private GameObject skullPrefab = null;
@@ -29,6 +34,7 @@ public class GameManager : MonoBehaviour
     private Vector3 lastMonsterPos = Vector3.zero;
     private float headHeightOffset = 1.4f;
     [HideInInspector] public bool isJumpScaring = false;
+    [HideInInspector] public bool hasGameRestarted = false;
 
     [Header("Game Over")]
     [SerializeField] private GameObject endGameScreen = null;
@@ -96,8 +102,8 @@ public class GameManager : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         enemy = GameObject.FindWithTag("Enemy");
         timeManager = FindObjectOfType<TimeManager>();
-        startPos = GameObject.Find("StartPos").gameObject.transform;
         playerController = player.GetComponent<PlayerController>();
+        enemyController = enemy.GetComponent<EnemyController>();
         playerCamPos = playerController.camPos;
 
         // Alpha
@@ -182,6 +188,27 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
+    #region Enemy Functions
+
+    public void EnableEnemy()
+    {
+        if (!testingEnemy || testingEnemy && !enemyController.isActive)
+        {
+            enemyController.StartMovingCoroutine();
+            enemyController.SetRandomPositionAndRotation();
+            enemyController.animator.SetTrigger("Roar");
+            enemyController.isActive = true;
+        } 
+    }
+
+    public void DisableEnemy()
+    {
+        enemyController.EnemyReset();
+        enemyController.isActive = false;
+    }
+
+    #endregion
+
     public void InstantiateSkulls()
     {
         if (skullSpawnPointSO == null)
@@ -190,13 +217,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // Clear existing skulls and remove them from the scene
-        foreach (GameObject skull in skulls)
-        {
-            Destroy(skull);
-        }
-        skulls.Clear();
-        collectedSkulls = 0;
+        ClearSkulls();
 
         if (totalSkulls > skullSpawnPointSO.spawnPoint.Length)
         {
@@ -225,6 +246,17 @@ public class GameManager : MonoBehaviour
             occupiedSpawnIndices.Add(randomSpawnIndex);
             skulls.Add(newSkull);
         }
+    }
+
+    public void ClearSkulls()
+    {
+        // Clear existing skulls and remove them from the scene
+        foreach (GameObject skull in skulls)
+        {
+            Destroy(skull);
+        }
+        skulls.Clear();
+        collectedSkulls = 0;
     }
 
     public void UpdateEmissionMaterial(bool state)
@@ -265,16 +297,30 @@ public class GameManager : MonoBehaviour
         jumpScareMonster.SetActive(state);
 
         // Lock the player
-        playerController.LockUser(state);
+        if (!playerController.isPaused)
+            playerController.LockUser(state);
 
         // Shake the player's Vcamera
         if (isJumpScaring)
         {
             jumpScareMonster.GetComponent<JumpScare>().PlayMonsterScream();
-            CameraShake.instance.ShakeCamera(2.5f, 3.5f); // Animation time
+            CameraShake.instance.ShakeCamera(2.5f, 3.5f);
         }
     }
 
+    public void JumpScareRestart()
+    {
+        if (isJumpScaring)
+        {
+            lastMonsterPos = Vector3.zero;
+            isJumpScaring = false;
+            enemy.SetActive(true);
+            jumpScareMonster.SetActive(false);
+            jumpScareMonster.GetComponent<JumpScare>().StopMonsterScream();
+            CameraShake.instance.ShakeCamera(0, 0);
+            hasGameRestarted = true;
+        }
+    }
 
     public bool EnableEndGameState()
     {
