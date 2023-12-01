@@ -23,7 +23,7 @@ MonoBehaviour:
     itemSO: {fileID: 11400000, guid: 64a9ac28b3d93104390a97a4d3396f95, type: 2}
     itemState: []
   - count: 1
-    itemSO: {fileID: 11400000, guid: 87f6792f01b773b4a8a6b4c1739425b3, type: 2}
+    itemSO: {fileID: 11400000, guid: 559e199d2b4c5b54dacb218ad821b365, type: 2}
     itemState: []
   - count: 0
     itemSO: {fileID: 0}

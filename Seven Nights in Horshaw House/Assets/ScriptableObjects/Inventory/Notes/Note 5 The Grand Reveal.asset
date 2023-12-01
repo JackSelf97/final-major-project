@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eb18a1d8926b254f876256ad8d336a6, type: 3}
+  m_Name: Note 5 The Grand Reveal
+  m_EditorClassIdentifier: 
+  <IsStackable>k__BackingField: 0
+  <MaxStackSize>k__BackingField: 1
+  <ItemName>k__BackingField: 'Note 5: The Grand Reveal'
+  <ItemDescription>k__BackingField: "Within these haunted halls, revelations await\u2014a
+    tapestry woven with threads of war, tragedy, and personal transformation. Am
+    I a puppet, unwittingly dancing to unseen forces, or the mastermind orchestrating
+    the shadows? \n\nThe Faceless Monster, a manifestation of a tortured soul. I
+    navigate this labyrinth, for the truth lies veiled in the shadows, awaiting its
+    unveiling."
+  <ItemImage>k__BackingField: {fileID: 21300000, guid: 6276fcca20ed73e4392428cab94a6a04, type: 3}
+  <DefaultParametersList>k__BackingField: []
+  <actionSFX>k__BackingField: {fileID: 0}

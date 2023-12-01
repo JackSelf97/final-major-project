@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6651c6830461bf4286d027530389546, type: 3}
+  m_Name: Confidential Memo to DI Henry Ward
+  m_EditorClassIdentifier: 
+  <IsStackable>k__BackingField: 0
+  <MaxStackSize>k__BackingField: 1
+  <ItemName>k__BackingField: ' Confidential Memo'
+  <ItemDescription>k__BackingField: "Ward,\r\n\r\nThe Tillers initially sought answers
+    through a private investigator, Samuel Staker, but his fate remains unknown.
+    The shadows of Horshaw House swallowed him whole.\r\n\n\rA word of caution, my
+    friend: Horshaw House hides malevolent secrets. As the sun sets, a darkness creeps,
+    birthing unspeakable horrors. Keep your wits about you, for what you face after
+    dark is far more terrifying than the shadows themselves.\r\n\r\nYours sincerely,\r\n\rDCI
+    Robert Marlowe"
+  <ItemImage>k__BackingField: {fileID: 21300000, guid: c0dee3c637e6ad54c9485029e5064742, type: 3}
+  <DefaultParametersList>k__BackingField: []
+  modifierData: []
+  <actionSFX>k__BackingField: {fileID: 0}
