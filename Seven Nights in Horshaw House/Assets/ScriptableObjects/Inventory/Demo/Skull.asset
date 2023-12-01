@@ -15,11 +15,11 @@ MonoBehaviour:
   <IsStackable>k__BackingField: 1
   <MaxStackSize>k__BackingField: 8
   <ItemName>k__BackingField: Horshaw House Skull
-  <ItemDescription>k__BackingField: This ancient human skull, found within Horshaw
-    House, exudes an aura of enigmatic history. Aged and weathered, it carries the
-    weight of time. Darkened with age, the eye sockets seem to hold whispered secrets.
+  <ItemDescription>k__BackingField: "This human skull, found within Horshaw House,
+    exudes an aura of enigmatic history. Aged and weathered, it carries the weight
+    of time. \n\nDarkened with age, the eye sockets seem to hold whispered secrets.
     Cracks trace the surface, like a web of mysteries. This relic is your key to
-    uncovering the truth behind the mansion's haunting.
+    uncovering the truth behind the mansion's haunting."
   <ItemImage>k__BackingField: {fileID: 21300000, guid: 3757153e1f8169f4db7a8ff8f9d3b125, type: 3}
   <DefaultParametersList>k__BackingField: []
   modifierData: []

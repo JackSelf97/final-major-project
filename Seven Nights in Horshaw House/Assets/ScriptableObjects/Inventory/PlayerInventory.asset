@@ -17,12 +17,30 @@ MonoBehaviour:
     itemSO: {fileID: 11400000, guid: a8054b7426b408f448fff5c25c75d35e, type: 2}
     itemState: []
   - count: 1
-    itemSO: {fileID: 11400000, guid: 7280599b28d8ccd4fb74b6bc50ab4772, type: 2}
+    itemSO: {fileID: 11400000, guid: 93f251b41f5b54b488edf1bb4667aa90, type: 2}
     itemState: []
   - count: 1
-    itemSO: {fileID: 11400000, guid: 93f251b41f5b54b488edf1bb4667aa90, type: 2}
+    itemSO: {fileID: 11400000, guid: 64a9ac28b3d93104390a97a4d3396f95, type: 2}
+    itemState: []
+  - count: 1
+    itemSO: {fileID: 11400000, guid: 87f6792f01b773b4a8a6b4c1739425b3, type: 2}
     itemState: []
   - count: 0
     itemSO: {fileID: 0}
     itemState: []
-  <Size>k__BackingField: 4
+  - count: 0
+    itemSO: {fileID: 0}
+    itemState: []
+  - count: 0
+    itemSO: {fileID: 0}
+    itemState: []
+  - count: 0
+    itemSO: {fileID: 0}
+    itemState: []
+  - count: 0
+    itemSO: {fileID: 0}
+    itemState: []
+  - count: 0
+    itemSO: {fileID: 0}
+    itemState: []
+  <Size>k__BackingField: 10

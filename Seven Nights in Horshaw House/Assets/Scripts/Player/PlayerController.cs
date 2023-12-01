@@ -620,7 +620,7 @@ public class PlayerController : MonoBehaviour, IEntityController
                     if (!grabbing)
                     {
                         sprite = interactionSprite[touchSpriteIndex];
-                        if (GameManager.gMan.HUDCheck) prompt = "Pick Up " + target.name + " [E]";
+                        if (GameManager.gMan.HUDCheck) prompt = "Pick Up " + target.tag + " [E]";
                     }
                     else sprite = interactionSprite[grabSpriteIndex];
                     break;

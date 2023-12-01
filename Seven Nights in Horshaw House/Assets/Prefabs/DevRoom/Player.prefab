@@ -364,6 +364,9 @@ MonoBehaviour:
   - count: 1
     itemSO: {fileID: 11400000, guid: 93f251b41f5b54b488edf1bb4667aa90, type: 2}
     itemState: []
+  - count: 1
+    itemSO: {fileID: 11400000, guid: 64a9ac28b3d93104390a97a4d3396f95, type: 2}
+    itemState: []
   dropClip: {fileID: 0}
   audioSource: {fileID: 6920557994342071836}
 --- !u!114 &6920557994342071838

@@ -10,26 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6651c6830461bf4286d027530389546, type: 3}
-  m_Name: Developer Message
+  m_Name: Caution!
   m_EditorClassIdentifier: 
   <IsStackable>k__BackingField: 0
   <MaxStackSize>k__BackingField: 1
-  <ItemName>k__BackingField: Developer Message
-  <ItemDescription>k__BackingField: 'Thank you for participating in the Seven Nights
-    in Horshaw House (V1.0) playtest.
-
-
-    Please visit the ''Info'' tab, located
-    in the ''Respite Mechanics'' screen, to learn more about the demo that you will
-    be evaluating. Additionally, I strongly advise familiarising yourself with the
-    game controls before diving in. Lastly, do not consume or drop any items in your
-    inventory.
-
-
-    Thank you once again for your engagement in this playtest!
-
-
-    Jack'
+  <ItemName>k__BackingField: Caution!
+  <ItemDescription>k__BackingField: "A word of caution: Horshaw House harbors a sinister
+    presence that emerges after dark. Keep the doors shut. Don't make the same mistake
+    I did. \n\nPI Staker"
   <ItemImage>k__BackingField: {fileID: 21300000, guid: c0dee3c637e6ad54c9485029e5064742, type: 3}
   <DefaultParametersList>k__BackingField: []
   modifierData: []
