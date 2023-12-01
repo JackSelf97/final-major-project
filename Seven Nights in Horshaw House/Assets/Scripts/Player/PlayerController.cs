@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour, IEntityController
 {
     // Player Components
     private CharacterController characterController = null;
-    private PlayerInventory playerInventory = null;
+    [HideInInspector] public PlayerInventory playerInventory = null;
     private PlayerStats playerStats = null;
     private PlayerControls playerControls = null;
 
@@ -445,7 +445,7 @@ public class PlayerController : MonoBehaviour, IEntityController
 
     public void Inventory(InputAction.CallbackContext callbackContext)
     {
-        if (isPaused || GameManager.gMan.mainMenu) { return; }
+        if (isPaused || GameManager.gMan.mainMenu || GameManager.gMan.isJumpScaring) { return; }
 
         isInventoryOpen = !isInventoryOpen;
         LockUser(isInventoryOpen);
@@ -578,6 +578,8 @@ public class PlayerController : MonoBehaviour, IEntityController
         }
     }
 
+    Outline targetOultine = null;
+
     private void InteractionUI()
     {
         RaycastHit hit;
@@ -615,12 +617,16 @@ public class PlayerController : MonoBehaviour, IEntityController
                     if (playerStats.spiritRealm) return;
                     sprite = interactionSprite[grabSpriteIndex];
                     if (GameManager.gMan.HUDCheck) prompt = "Take " + target.name + " [E]";
+                    if (target.GetComponent<Outline>())
+                        targetOultine = target.GetComponent<Outline>();
                     break;
                 case "Object":
                     if (!grabbing)
                     {
                         sprite = interactionSprite[touchSpriteIndex];
                         if (GameManager.gMan.HUDCheck) prompt = "Pick Up " + target.tag + " [E]";
+                        if (target.GetComponent<Outline>())
+                            targetOultine = target.GetComponent<Outline>();
                     }
                     else sprite = interactionSprite[grabSpriteIndex];
                     break;
@@ -637,6 +643,7 @@ public class PlayerController : MonoBehaviour, IEntityController
             interactionText.text = null;
             SpriteChange(false, null);
             interact = false;
+            targetOultine = null;
         }
     }
 
@@ -645,6 +652,11 @@ public class PlayerController : MonoBehaviour, IEntityController
         interactionImage.sprite = sprite;
         interactionImage.enabled = state;
         crosshair.enabled = !state;
+
+        if (targetOultine != null)
+        {
+            targetOultine.enabled = state;
+        }   
     }
 
     #endregion

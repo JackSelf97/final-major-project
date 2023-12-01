@@ -1,3 +1,4 @@
+using Inventory;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -300,6 +301,13 @@ public class GameManager : MonoBehaviour
         if (!playerController.isPaused)
             playerController.LockUser(state);
 
+        // Check for inventory
+        if (playerController.isInventoryOpen)
+        {
+            playerController.playerInventory.inventoryUI.Hide();
+            playerController.isInventoryOpen = false;
+        }
+            
         // Shake the player's Vcamera
         if (isJumpScaring)
         {
