@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 3262259032687500394}
   - component: {fileID: 2251276681371777926}
   - component: {fileID: 8933295535049458026}
+  - component: {fileID: 4514103416558572464}
   m_Layer: 6
   m_Name: Jack's Note
   m_TagString: Item
@@ -287,6 +288,18 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!114 &4514103416558572464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4586113034825116696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 910a8be9bb2502f4f80652bb09418a7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8421612519921309549
 GameObject:
   m_ObjectHideFlags: 0

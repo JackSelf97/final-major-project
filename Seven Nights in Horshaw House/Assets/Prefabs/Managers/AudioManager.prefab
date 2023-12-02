@@ -61,6 +61,14 @@ MonoBehaviour:
     loop: 0
     bypassListenerEffects: 0
     audioSource: {fileID: 0}
+  - name: Note Pick Up
+    clip: {fileID: 8300000, guid: f962b4b0755f61e4e8f186a26f6ff379, type: 3}
+    mixerGroup: {fileID: -6603422402590985172, guid: 94742c1e1be097b40bb2347cb06f053b, type: 2}
+    volume: 0.2
+    pitch: 1
+    loop: 0
+    bypassListenerEffects: 0
+    audioSource: {fileID: 0}
   - name: Horshaw Theme
     clip: {fileID: 8300000, guid: 033c2ab4053458d4bafd9a9847551515, type: 3}
     mixerGroup: {fileID: 3496108880833627761, guid: 94742c1e1be097b40bb2347cb06f053b, type: 2}

@@ -1,7 +1,5 @@
 using Inventory.Model;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Item : MonoBehaviour
@@ -14,7 +12,7 @@ public class Item : MonoBehaviour
     public void DestroyItem()
     {
         GetComponent<Collider>().enabled = false;
-        StartCoroutine(AnimateItemPickup());
+        Destroy(gameObject); // Replace with 'StartCoroutine(AnimateItemPickup());'
     }
 
     private IEnumerator AnimateItemPickup() // scale item down then destroy

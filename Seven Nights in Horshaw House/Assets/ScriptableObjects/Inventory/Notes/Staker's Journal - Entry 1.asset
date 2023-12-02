@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eb18a1d8926b254f876256ad8d336a6, type: 3}
+  m_Name: Staker's Journal - Entry 1
+  m_EditorClassIdentifier: 
+  <IsStackable>k__BackingField: 0
+  <MaxStackSize>k__BackingField: 1
+  <ItemName>k__BackingField: Staker's Journal - Entry 1
+  <ItemDescription>k__BackingField: "Tonight, I embark on a journey into the abyss\u2014Horshaw
+    House. The Tillers have summoned my skills to unravel the dance of shadows within
+    its walls. Lady Eleanor's demise is a haunting overture, hinting at a symphony
+    of mysteries yet concealed. \n\nThe House is more than brick and mortar; it's
+    a canvas painted with the shades of enigma, and I am the brush that will dance
+    upon it."
+  <ItemImage>k__BackingField: {fileID: 21300000, guid: 6276fcca20ed73e4392428cab94a6a04, type: 3}
+  <DefaultParametersList>k__BackingField: []
+  <actionSFX>k__BackingField: {fileID: 0}

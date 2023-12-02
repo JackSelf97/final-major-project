@@ -562,6 +562,10 @@ public class PlayerController : MonoBehaviour, IEntityController
                     {
                         item.GetComponent<Skull>().Interact();
                     }
+                    if (item.GetComponent<Note>() != null)
+                    {
+                        item.GetComponent<Note>().Interact();
+                    }
                     if (remainder == 0)
                     {
                         item.DestroyItem();
