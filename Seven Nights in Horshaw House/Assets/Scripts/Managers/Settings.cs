@@ -57,6 +57,14 @@ public class Settings : MonoBehaviour
         musicVolumeSlider.onValueChanged.AddListener(delegate { SetMusicVolume(musicVolumeSlider.value); });
         ambientVolumeSlider.onValueChanged.AddListener(delegate { SetAmbientVolume(ambientVolumeSlider.value); });
         SFXVolumeSlider.onValueChanged.AddListener(delegate { SetSFXVolume(SFXVolumeSlider.value); });
+
+        SetDefaultSettings();
+    }
+
+    private void SetDefaultSettings()
+    {
+        OnShadowResolutionChange(2);
+        shadowResolutionDropdown.value = 2;
     }
 
     #region Display (Logic)
@@ -133,7 +141,7 @@ public class Settings : MonoBehaviour
         switch (shadowResInts)
         {
             case 0:
-                QualitySettings.shadowResolution = ShadowResolution.VeryHigh; // default
+                QualitySettings.shadowResolution = ShadowResolution.VeryHigh;
                 break;
             case 1:
                 QualitySettings.shadowResolution = ShadowResolution.High;
