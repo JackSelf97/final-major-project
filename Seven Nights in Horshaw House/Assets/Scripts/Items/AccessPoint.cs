@@ -8,6 +8,7 @@ public class AccessPoint : MonoBehaviour, IInteractable
 
     UnityEvent IInteractable.onInteract { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
 
+    // Check Tag and Layer to enable interaction
     public void Interact()
     {
         isTimePaused = !isTimePaused;

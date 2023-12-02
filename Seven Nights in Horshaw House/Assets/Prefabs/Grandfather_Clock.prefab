@@ -492,9 +492,9 @@ GameObject:
   - component: {fileID: 2942895678979636283}
   - component: {fileID: 8660317027601803801}
   - component: {fileID: 5296777205727356184}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Grandfather_Clock
-  m_TagString: AccessPoint
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
