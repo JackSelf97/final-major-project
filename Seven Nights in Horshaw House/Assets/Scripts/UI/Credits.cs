@@ -7,8 +7,8 @@ public class Credits : MonoBehaviour
 
     [SerializeField] private GameObject creditsPanel = null;
     [SerializeField] private float animationDuration = 40f;
-    private float startPositionOffset = -1080f;
-    private float endPosition = 1080f;
+    private float startPositionOffset = -1140f;
+    private float endPosition = 1140f;
 
     private Coroutine creditsAnimationCoroutine;
 

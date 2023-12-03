@@ -289,6 +289,9 @@ public class GameManager : MonoBehaviour
 
     public void JumpScare(bool state)
     {
+        // Set the player's velocity to zero
+        playerController.direction = Vector3.zero;
+
         // Rotate the camera
         lastMonsterPos = enemy.transform.position;
 
@@ -306,8 +309,9 @@ public class GameManager : MonoBehaviour
         {
             playerController.playerInventory.inventoryUI.Hide();
             playerController.isInventoryOpen = false;
+            PlayerActionMap(true);
         }
-            
+
         // Shake the player's Vcamera
         if (isJumpScaring)
         {

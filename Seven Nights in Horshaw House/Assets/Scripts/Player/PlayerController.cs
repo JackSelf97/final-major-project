@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour, IEntityController
     [SerializeField] private float fallTimeout = 0.15f;
     [SerializeField] private float jumpTimeout = 0.1f;
     [SerializeField] private float jumpHeight = 1.2f;
-    [SerializeField] private Vector3 direction = Vector3.zero;
+    [HideInInspector] public Vector3 direction = Vector3.zero;
     [SerializeField] private GameObject candle = null;
     [SerializeField] private bool candleLit = false;
     private bool jump;
