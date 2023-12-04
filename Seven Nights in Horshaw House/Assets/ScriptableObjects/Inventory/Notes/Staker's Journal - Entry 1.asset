@@ -15,12 +15,12 @@ MonoBehaviour:
   <IsStackable>k__BackingField: 0
   <MaxStackSize>k__BackingField: 1
   <ItemName>k__BackingField: Staker's Journal - Entry 1
-  <ItemDescription>k__BackingField: "Tonight, I embark on a journey into the abyss\u2014Horshaw
-    House. The Tillers have summoned my skills to unravel the dance of shadows within
-    its walls. Lady Eleanor's demise is a haunting overture, hinting at a symphony
-    of mysteries yet concealed. \n\nThe House is more than brick and mortar; it's
-    a canvas painted with the shades of enigma, and I am the brush that will dance
-    upon it."
+  <ItemDescription>k__BackingField: "Tonight, I embark on a journey into the abyss
+    - Horshaw House. The Tillers have summoned my skills to unravel the dance of
+    shadows within its walls. Lady Eleanor's demise is a haunting overture, hinting
+    at a symphony of mysteries yet concealed. \n\nThe House is more than brick and
+    mortar; it's a canvas painted with the shades of enigma, and I am the brush that
+    will dance upon it."
   <ItemImage>k__BackingField: {fileID: 21300000, guid: 6276fcca20ed73e4392428cab94a6a04, type: 3}
   <DefaultParametersList>k__BackingField: []
   <actionSFX>k__BackingField: {fileID: 0}

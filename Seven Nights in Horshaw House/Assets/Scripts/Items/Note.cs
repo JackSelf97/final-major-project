@@ -15,6 +15,5 @@ public class Note : MonoBehaviour, IInteractable
     public void Interact()
     {
         audioManager.Play("Note Pick Up");
-        Debug.Log("BING");
     }
 }
