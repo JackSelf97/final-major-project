@@ -54,9 +54,6 @@ MonoBehaviour:
   timeManager: {fileID: 0}
   backButton: {fileID: 0}
   backButtonIndex: 0
-  disclaimerPanel: {fileID: 0}
-  disclaimerDuration: 10
-  isDisclaimerOn: 0
   pauseButtonPanel: {fileID: 0}
   settingPanel: {fileID: 0}
   gamePanel: {fileID: 0}
@@ -71,7 +68,6 @@ MonoBehaviour:
   promptPanel: {fileID: 0}
   promptText: {fileID: 0}
   promptYes: {fileID: 0}
-  credits: {fileID: 0}
 --- !u!114 &5748707141222579456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,6 +106,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   creditsPanel: {fileID: 0}
-  animationDuration: 40
-  startPositionOffset: -1080
-  endPosition: 1080
+  animationDuration: 50
