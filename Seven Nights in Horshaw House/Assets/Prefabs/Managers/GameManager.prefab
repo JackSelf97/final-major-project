@@ -45,20 +45,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  enemy: {fileID: 0}
+  playerStartPos: {fileID: 0}
   playerSpawnPointSO: {fileID: 11400000, guid: ea00238870f990e46b6d15f725d838ef, type: 2}
   enemySpawnPointSO: {fileID: 11400000, guid: 98eeee02eddae1d47a9a3f6bebef883f, type: 2}
-  startPos: {fileID: 0}
   mainMenu: 1
-  skulls: []
+  enemy: {fileID: 0}
+  enemyStartPos: {fileID: 0}
+  testingEnemy: 0
   skullSpawnPointSO: {fileID: 11400000, guid: 21865ec8b1008244fae1aa6981642410, type: 2}
   skullPrefab: {fileID: 1633148191495636234, guid: 1fc83e91a03ca0a4982c3e5d37dd7350, type: 3}
-  totalSkulls: 8
+  skulls: []
+  totalSkulls: 7
   collectedSkulls: 0
   kingOfTheHill: {fileID: 0}
   jumpScareMonster: {fileID: 0}
   rotationSpeed: 20
   isJumpScaring: 0
+  hasGameRestarted: 0
   endGameScreen: {fileID: 0}
   endGameSkullCount: {fileID: 0}
   endGameHillCheck: {fileID: 0}
@@ -66,8 +69,11 @@ MonoBehaviour:
   defeatPromptNoSkulls: {fileID: 0}
   defeatPromptNoHill: {fileID: 0}
   defeatPromptBoth: {fileID: 0}
+  defeatPromptLostSkull: {fileID: 0}
+  lostPlayerSkull: 0
   HUDPanel: {fileID: 0}
   loadLastCheckpointButton: {fileID: 0}
+  enemyMelee: {fileID: 0}
   cutsceneCheck: 0
   extraHealthCheck: 0
   HUDCheck: 0

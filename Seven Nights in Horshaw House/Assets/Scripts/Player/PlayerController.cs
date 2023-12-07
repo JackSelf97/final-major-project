@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour, IEntityController
     [HideInInspector] public PlayerInventory playerInventory = null;
     private PlayerStats playerStats = null;
     private PlayerControls playerControls = null;
+    private UIManager uiManager = null;
 
     [Header("Cinemachine")]
     [SerializeField] private Transform cam = null;
@@ -183,7 +184,9 @@ public class PlayerController : MonoBehaviour, IEntityController
         playerStats = GetComponent<PlayerStats>();
         audioSource = GetComponent<AudioSource>();
         footstepSwapper = GetComponent<FootstepSwapper>();
+
         audioManager = FindObjectOfType<AudioManager>();
+        uiManager = FindObjectOfType<UIManager>();
 
         cam = Camera.main.transform;
         pauseScreen.SetActive(false);
@@ -667,7 +670,7 @@ public class PlayerController : MonoBehaviour, IEntityController
 
     private void Pause(InputAction.CallbackContext callbackContext)
     {
-        if (isInventoryOpen) { return; }
+        if (isInventoryOpen || uiManager.backButtonIndex > 0) { return; }
         isPaused = !isPaused;
         if (isPaused)
         {
@@ -678,6 +681,10 @@ public class PlayerController : MonoBehaviour, IEntityController
         {
             // Handle unpause
             HandlePause(false);
+
+            // Check for prompt panel
+            if (uiManager.promptPanel.activeSelf)
+                uiManager.ShowPrompt(false);
         }
     }
 

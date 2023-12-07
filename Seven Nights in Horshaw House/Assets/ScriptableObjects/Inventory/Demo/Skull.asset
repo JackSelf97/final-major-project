@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Skull
   m_EditorClassIdentifier: 
   <IsStackable>k__BackingField: 1
-  <MaxStackSize>k__BackingField: 8
+  <MaxStackSize>k__BackingField: 7
   <ItemName>k__BackingField: Horshaw House Skull
   <ItemDescription>k__BackingField: "This human skull, found within Horshaw House,
     exudes an aura of enigmatic history. Aged and weathered, it carries the weight

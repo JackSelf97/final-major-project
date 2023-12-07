@@ -25,7 +25,7 @@ public class UIManager : MonoBehaviour
 
     [Header("General Menu Properties")]
     [SerializeField] private Button backButton = null;
-    [SerializeField] private int backButtonIndex = 0;
+    public int backButtonIndex = 0;
 
     [Header("Player Menu Properties")]
     [SerializeField] private GameObject pauseButtonPanel = null;
@@ -59,7 +59,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject infoPanel = null;
 
     [Header("Prompts")] 
-    [SerializeField] private GameObject promptPanel = null;
+    public GameObject promptPanel = null;
     [SerializeField] private Text promptText = null;
     [SerializeField] private Button promptYes = null;
 
@@ -298,7 +298,7 @@ public class UIManager : MonoBehaviour
 
     #region Functions w/ Prompts
 
-    private void ShowPrompt(bool state, string prompt = "")
+    public void ShowPrompt(bool state, string prompt = "")
     {
         promptPanel.SetActive(state);
         promptText.text = prompt;
