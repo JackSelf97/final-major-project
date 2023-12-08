@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b075e083d26ff3148b354ef7e85b346d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeMultiplier: 500
+  timeMultiplier: 300
   startHour: 12
   days: 0
   maxDays: 7

@@ -551,7 +551,7 @@ public class PlayerController : MonoBehaviour, IEntityController
             case "Corpse":
                 gameObject.transform.position = hit.transform.position;
                 Destroy(hit.transform.gameObject);
-                playerStats.ToggleSpiritRealm(false, -1);
+                playerStats.ToggleSpiritRealm(false, -20);
                 break;
             case "Door":
                 hit.transform.GetComponent<Door>()?.Interact();
@@ -722,7 +722,7 @@ public class PlayerController : MonoBehaviour, IEntityController
         else
         {
             Destroy(GameObject.Find("Player's Corpse"));
-            playerStats.ToggleSpiritRealm(false, -1);
+            playerStats.ToggleSpiritRealm(false, -20);
         }
     }
 

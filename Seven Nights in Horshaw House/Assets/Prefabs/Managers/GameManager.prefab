@@ -87,5 +87,5 @@ MonoBehaviour:
   staticInventoryCheck: 0
   tutorialCheck: 0
   disclaimerPanel: {fileID: 0}
-  disclaimerDuration: 5
+  disclaimerDuration: 10
   isDisclaimerOn: 0

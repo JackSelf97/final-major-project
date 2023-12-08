@@ -6,9 +6,9 @@ public class Credits : MonoBehaviour
     private UIManager UIManager = null;
 
     [SerializeField] private GameObject creditsPanel = null;
-    [SerializeField] private float animationDuration = 50f;
-    private float startPositionOffset = -1190f;
-    private float endPosition = 1190f;
+    [SerializeField] private float animationDuration = 60f;
+    private float startPositionOffset = -1215f;
+    private float endPosition = 1215f;
 
     private Coroutine creditsAnimationCoroutine;
 

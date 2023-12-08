@@ -79,7 +79,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.2
-  m_Text: 'House Occupied: No'
+  m_Text: 'House Occupied: False'
 --- !u!1 &102033758430365815
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,7 +200,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -1642.7269, y: -952.72}
+  m_SizeDelta: {x: -1640.2932, y: -952.72}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1677997766720387616
 CanvasRenderer:
@@ -1186,7 +1186,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.2
-  m_Text: Victory! You've collected all eight skulls from Horshaw House, banishing
+  m_Text: Victory! You've collected all seven skulls from Horshaw House, banishing
     the haunting and preserving the Tillers' legacy. Your courage shines, dispelling
     the darkness. Additionally, your resilience in staying within the house secures
     your triumph as a dedicated investigator.
@@ -1652,7 +1652,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: V1.0
+  m_Text: V1.1
 --- !u!1 &3937535269950355451
 GameObject:
   m_ObjectHideFlags: 0
@@ -1812,7 +1812,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.2
-  m_Text: Defeat! Despite successfully collecting all eight skulls from Horshaw House,
+  m_Text: Defeat! Despite successfully collecting all seven skulls from Horshaw House,
     your triumph is short-lived. The haunting intensifies as you venture outside,
     leaving the Tillers' legacy vulnerable. Your efforts within the house were commendable,
     but the true challenge lies in maintaining your resolve against the supernatural
@@ -2099,7 +2099,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.2
-  m_Text: 'Skulls Collected: 0/8'
+  m_Text: 'Skulls Collected: 0/7'
 --- !u!1 &7941534954694078255
 GameObject:
   m_ObjectHideFlags: 0
@@ -2263,7 +2263,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.2
-  m_Text: Defeat! Unable to collect all eight skulls from Horshaw House, the haunting
+  m_Text: Defeat! Unable to collect all seven skulls from Horshaw House, the haunting
     prevails, and the Tillers' legacy slips into obscurity. Moreover, your premature
     departure from the house hastens the encroaching darkness. It's a difficult lesson
     in the delicate balance required to face the supernatural. Reevaluate your strategy

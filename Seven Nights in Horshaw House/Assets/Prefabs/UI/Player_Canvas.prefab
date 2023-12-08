@@ -2997,7 +2997,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: V1.0
+  m_Text: V1.1
 --- !u!1 &6882688149834031876
 GameObject:
   m_ObjectHideFlags: 0
@@ -3811,7 +3811,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1737342587612906994, guid: 5c55e1e7e785a5f4092cb1fc5dda5dbb, type: 3}
       propertyPath: m_Value
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1737342587658156469, guid: 5c55e1e7e785a5f4092cb1fc5dda5dbb, type: 3}
       propertyPath: m_AnchorMax.y

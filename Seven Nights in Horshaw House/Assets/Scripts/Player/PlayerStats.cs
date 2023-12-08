@@ -7,11 +7,18 @@ public class PlayerStats : MonoBehaviour
 {
     [SerializeField] private GameObject playerCorpse = null;
     private PlayerController playerController = null;
+
+    // Time Control
     private TimeManager timeManager = null;
+    private float originalTimeMultiplier;
+
+    // Camera Properties
     private Vector3 originalCameraPosition;
     private Quaternion originalCameraRotation;
-    private int maxHP = 100;
     private CinemachineVirtualCamera virtualCamera = null;
+
+    [Header("Player State")]
+    private int maxHP = 100;
     public int currHP = 0;
     public bool isDead = false;
     public bool spiritRealm = false;
@@ -48,7 +55,7 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    #region Player Death & Spirit Realm
+    #region Spirit Realm
 
     private IEnumerator PlayerDeath()
     {
@@ -79,25 +86,41 @@ public class PlayerStats : MonoBehaviour
         corpseObj.name = "Player's Corpse";
 
         // Reset the player's position and toggle the spirit realm
-        Vector3 playerSpawnPosition;
-        Vector3 playerSpawnRotation;
-        GameManager.gMan.GetSpawnPoint(GameManager.gMan.playerSpawnPointSO, out playerSpawnPosition, out playerSpawnRotation);
-        transform.position = playerSpawnPosition;
-        transform.rotation = Quaternion.Euler(playerSpawnRotation.x, playerSpawnRotation.y, playerSpawnRotation.z);
-
-        ToggleSpiritRealm(true, 1);
+        SetRandomPositionAndRotation();
+        ToggleSpiritRealm(true, 20);
     }
 
-    public void ToggleSpiritRealm(bool state, float percentage)
+    public void ToggleSpiritRealm(bool state, float percentageIncrease)
     {
         spiritRealm = state;
         isDead = state;
         currHP = maxHP;
 
-        if (timeManager != null)
-            timeManager.timeMultiplier += (timeManager.timeScale / percentage); // Speed up time
+        Debug.Log("Time was: " + timeManager.timeMultiplier);
 
-        // Toggle the post processing layer on the player's VCam
+        if (timeManager != null)
+        {
+            if (state) // Entering spirit realm
+            {
+                // Store the original timeMultiplier
+                originalTimeMultiplier = timeManager.timeMultiplier;
+
+                // Calculate the increase based on the original timeMultiplier and the specified percentage increase
+                float increase = originalTimeMultiplier * (percentageIncrease / 100f);
+
+                // Apply the increase
+                timeManager.timeMultiplier += increase;
+            }
+            else // Exiting spirit realm
+            {
+                // Decrease back to the original timeMultiplier
+                timeManager.timeMultiplier = originalTimeMultiplier;
+            }
+        }
+
+        Debug.Log("Time is: " + timeManager.timeMultiplier);
+
+        // Toggle the post-processing layer on the player's VCam
         if (virtualCamera != null)
         {
             CinemachinePostProcessing postProcessing = virtualCamera.GetComponent<CinemachinePostProcessing>();
@@ -108,6 +131,15 @@ public class PlayerStats : MonoBehaviour
     }
 
     #endregion
+
+    public void SetRandomPositionAndRotation()
+    {
+        Vector3 playerSpawnPosition;
+        Vector3 playerSpawnRotation;
+        GameManager.gMan.GetSpawnPoint(GameManager.gMan.playerSpawnPointSO, out playerSpawnPosition, out playerSpawnRotation);
+        transform.position = playerSpawnPosition;
+        transform.rotation = Quaternion.Euler(playerSpawnRotation.x, playerSpawnRotation.y, playerSpawnRotation.z);
+    }
 
     public void StoreOriginalCameraTransform()
     {

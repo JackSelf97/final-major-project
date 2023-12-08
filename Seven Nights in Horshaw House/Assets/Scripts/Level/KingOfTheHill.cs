@@ -54,8 +54,6 @@ public class KingOfTheHill : MonoBehaviour
 
                 // Ensure the value doesn't exceed the maximum
                 controlPointSlider.value = Mathf.Clamp(controlPointSlider.value, 0f, maxCaptureValue);
-
-                Debug.Log("Going up!");
             }
         }
         else if (!playerInside && enemyInside || playerStats.spiritRealm)
@@ -67,8 +65,6 @@ public class KingOfTheHill : MonoBehaviour
 
                 // Ensure the value doesn't go below 0
                 controlPointSlider.value = Mathf.Clamp(controlPointSlider.value, 0f, maxCaptureValue);
-
-                Debug.Log("Going down!");
             }
         }
 
