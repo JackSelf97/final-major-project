@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour
     [Header("Managers")]
     [SerializeField] private TimeManager timeManager = null;
     private AudioManager audioManager = null;
+    private KingOfTheHill kingOfTheHill = null;
 
     [Header("General Menu Properties")]
     [SerializeField] private Button backButton = null;
@@ -81,11 +82,14 @@ public class UIManager : MonoBehaviour
         enemy = GameObject.FindWithTag("Enemy");
         playerController = player.GetComponent<PlayerController>();
         enemyController = enemy.GetComponent<EnemyController>();
+
+        // Find scripts
         timeManager = FindObjectOfType<TimeManager>();
         interactableObjects = FindObjectsOfType<InteractableObject>();
         interactableDoors = FindObjectsOfType<Door>();
-        credits = GetComponent<Credits>();
         audioManager = FindObjectOfType<AudioManager>();
+        kingOfTheHill = FindObjectOfType<KingOfTheHill>();
+        credits = GetComponent<Credits>();
 
         // Player setup
         playerController.LockUser(true);
@@ -381,6 +385,9 @@ public class UIManager : MonoBehaviour
         // Reset the Skulls
         GameManager.gMan.ClearSkulls();
 
+        // King of the Hill
+        kingOfTheHill.ResetControlPointSlider();
+
         ShowPrompt(false);
     }
 
@@ -408,6 +415,9 @@ public class UIManager : MonoBehaviour
 
         // Clear the Skulls
         GameManager.gMan.ClearSkulls();
+
+        // King of the Hill
+        kingOfTheHill.ResetControlPointSlider();
 
         ShowPrompt(false);
     }

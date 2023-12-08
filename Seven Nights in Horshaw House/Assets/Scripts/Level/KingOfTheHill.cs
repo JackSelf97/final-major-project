@@ -14,6 +14,11 @@ public class KingOfTheHill : MonoBehaviour
 
     [SerializeField] private PlayerStats playerStats;
 
+    public void ResetControlPointSlider()
+    {
+        controlPointSlider.value = 0f;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
